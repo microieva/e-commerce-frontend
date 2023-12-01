@@ -20,7 +20,7 @@ describe('products', () => {
   });
 
   it('Should get one product object by id = 8', async () => {
-    const id: number = 8;
+    const id: string = "8";
     await store.dispatch(productQueries.endpoints.getProductById.initiate(id));
     expect(store.getState().productReducer.queries[`getProductById(${id})`]?.data).toMatchObject(mockProducts[0]);
   });

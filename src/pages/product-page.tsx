@@ -6,17 +6,19 @@ import Header from '../components/header';
 import ProductView from '../components/product-view';
 import Footer from '../components/footer';
 import Loading from '../components/loading';
+import { Product } from '../@types/product';
 
 const ProductPage: FC = () => { 
     const { productId } = useParams();
-    const { data, isLoading } = useGetProductByIdQuery(Number(productId));
+    const { data: product, isLoading } = useGetProductByIdQuery(productId as string);
+    const data = product && 'data' in product ? product.data : {};
 
     return (
         <>
             <main>
                 <Header/>
                 {isLoading && <Loading />}
-                {data && <ProductView product={data}/>}
+                {product && <ProductView product={data as Product}/>}
             </main>
             <Footer />
         </>
