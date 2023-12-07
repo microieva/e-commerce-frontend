@@ -14,34 +14,21 @@ import FormSwitcher from './form-switcher';
 import { TypeForm } from '../@types/types';
 import { User } from '../@types/user';
 import { Link, Outlet } from 'react-router-dom';
-import { useLazyGetUserQuery } from '../redux/api-queries/auth-queries';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { clearUser, setUser } from '../redux/app-reducers/user';
+import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 
 
 const Header: FC = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
-    //const { data, refetch } = useGetUserQuery(token, {skip: !token});
-
-    const [ trigger, result ] = useLazyGetUserQuery();
-    //const user = useAppSelector((state) => state.user.data);
+    const { data } = useGetUserQuery(token);
     
     const [ admin, setAdmin ] = useState<boolean>(false);
-    const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(undefined);
+    const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(data);
     
     const [ open, setOpen ] = useState<boolean>(false);
     const [ form, setForm ] = useState<TypeForm>(null);
 
     const cart = useAppSelector(state => state.cart);
     const amount = cart.reduce((curr, item) => curr + item.quantity, 0);
-
-    //const dispatch = useAppDispatch();
-
-    /*PLAN:
-
-    - try const [ data, trigger ] = useLazyGetUserQuery();
-    call trigger in effect & handleclose ?
-    */
 
 
     const handleOpen = (form: TypeForm) => {
@@ -52,34 +39,30 @@ const Header: FC = () => {
     const handleClose = () => {
         setOpen(false);
         setToken(localStorage.getItem('token') || '');
-        //trigger(token);
-        /*trigger(token, false)
-            .unwrap()
-            .then(user => setLoggedInUser(user))
-            .catch(() => setLoggedInUser(undefined))
-            .finally(() => console.log('ON CLOSE loggedInUser : ', loggedInUser));*/
     }
 
     const onLogout = () => {
         localStorage.removeItem('token');
         setLoggedInUser(undefined);
-        //trigger('');
     }
 
     useEffect(() => {
-        // Retrieve user on startup
-        setToken(localStorage.getItem('token') || '');
-        trigger(token, false)
-            .unwrap()
-            .then(user => setLoggedInUser(user))
-            .catch(() => setLoggedInUser(undefined))
-            .finally(() => console.log('EFFECT loggedInUser : ', loggedInUser));
-        
+        const handleStorage = () => {
+            setToken(localStorage.getItem('token') || '');
+         }
+    
+            data && setLoggedInUser(data);
+            data && setAdmin(data.role === "ADMIN")
+       
+        window.addEventListener('storage', handleStorage)
+        return () => window.removeEventListener('storage', handleStorage)
+    }, [data]);
+
+    useEffect(()=> {
         if (loggedInUser && loggedInUser.role === "ADMIN") {
             setAdmin(true);
         }
-    }, [loggedInUser]);
-    console.log(' ------- result.data: ', result.data);
+    }, [loggedInUser])
 
     return (
         <header>

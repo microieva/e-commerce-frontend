@@ -10,7 +10,7 @@ import productQueries from '../redux/api-queries/product-queries';
 import userQueries from "../redux/api-queries/user-queries";
 import authQueries from "../redux/api-queries/auth-queries";
 import categoryQueries from "../redux/api-queries/category-queries";
-import userReducer from "../redux/app-reducers/user";
+
 
 const persistConfig: PersistConfig<any> = { 
     key: 'cart', 
@@ -18,7 +18,6 @@ const persistConfig: PersistConfig<any> = {
     whitelist: ['cart'] // For local storage 
 };
 const rootReducer = combineReducers({
-    user: userReducer,
     cart, 
     [productQueries.reducerPath]: productQueries.reducer,
     [userQueries.reducerPath]: userQueries.reducer,

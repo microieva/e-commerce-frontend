@@ -5,12 +5,10 @@ import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 
 import { useLoginMutation } from '../redux/api-queries/auth-queries';
-import { useAppDispatch } from '../hooks/useAppDispatch';
 import { FormContext } from '../contexts/form';
 
 import { LoginRequest } from '../@types/auth';
 import { TypeFormContext } from '../@types/types';
-import { useDispatch } from 'react-redux';
 
 
 const LoginForm = () => {
@@ -27,7 +25,6 @@ const LoginForm = () => {
     const { onClose } = useContext(FormContext) as TypeFormContext;
     const [ login, { error }] = useLoginMutation(); //implement api error with SnackBar
     const formRef = useRef<HTMLFormElement>(null);
-    //const dispatch = useAppDispatch();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -44,6 +41,7 @@ const LoginForm = () => {
                 try {
                     const token = request && await login(request).unwrap();
                     token && localStorage.setItem('token', JSON.stringify(token));
+                    window.dispatchEvent(new Event('storage'))
                 } catch (error){
                     setErr(true);
                     //formRef.current && formRef.current.reset();

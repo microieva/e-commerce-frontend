@@ -50,6 +50,7 @@ const SignupForm = () => {
                 try {
                     const token = user && await createUser(user).unwrap();
                     token && localStorage.setItem('token', JSON.stringify(token));
+                    window.dispatchEvent(new Event('storage'))
                 } catch (error: any) {
                     setErr(true);
                 }
@@ -90,9 +91,7 @@ const SignupForm = () => {
                 if (!user.avatar.match(avatarRegex)) {
                     setAvatarError(true);
                 }
-            } else {
-                setAvatarError(true);
-            }
+            } 
             setErr(nameError && emailError && passwordError && avatarError);
         }
     }
@@ -172,7 +171,7 @@ const SignupForm = () => {
                               transition: 'visibility 0.2s ease-in',
                             }
                         }}
-                        helperText="Avatar error"
+                        helperText="Avatar must be a valid internet link"
                         onFocus={()=> setAvatarError(false)}
                     />
                 </FormControl> 
