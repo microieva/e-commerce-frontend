@@ -290,9 +290,6 @@ footer {
   justify-content: space-between;
   align-items: center;
 }
-.view-container .view-details div {
-  width: 50%;
-}
 .view-container .view-details textarea {
   background-color: transparent;
   font-family: "Roboto", sans-serif;

@@ -10,15 +10,14 @@ import { Product } from '../@types/product';
 
 const ProductPage: FC = () => { 
     const { productId } = useParams();
-    const { data: product, isLoading } = useGetProductByIdQuery(productId as string);
-    const data = product && 'data' in product ? product.data : {};
+    const { data, isLoading } = useGetProductByIdQuery(productId as string);
 
     return (
         <>
             <main>
                 <Header/>
                 {isLoading && <Loading />}
-                {product && <ProductView product={data as Product}/>}
+                {data && <ProductView product={data as Product}/>}
             </main>
             <Footer />
         </>

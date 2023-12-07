@@ -14,24 +14,20 @@ import { useGetCategoriesQuery } from '../redux/api-queries/category-queries';
 
 import { Category, Product, ProductRequest } from '../@types/product';
 
-interface Props {
-    product?: Product,
-    admin?: boolean
-}
 
-const ProductForm: FC<Props> = ({ product, admin }) => {
+const CreateProductForm: FC = () => {
 
-    const [ formData, setFormData ] = useState<Product | undefined>(product);
+    const [ formData, setFormData ] = useState<Product | undefined>(undefined);
 
-    const [ title, setTitle ] = useState<string | undefined>(formData?.title);
-    const [ price, setPrice ] = useState<string | undefined>(formData?.price.toString());
-    const [ description, setDescription ] = useState<string | undefined>(formData?.description);
+    const [ title, setTitle ] = useState<string | undefined>(undefined);
+    const [ price, setPrice ] = useState<string | undefined>(undefined);
+    const [ description, setDescription ] = useState<string | undefined>(undefined);
     const [ image, setImage ] = useState<string | undefined>(formData?.images[0]);
-    const [ categoryName, setCategoryName ] = useState<string | undefined>(formData?.category.name);
-    const [ categoryId, setCategoryId ] = useState<string | undefined>(formData?.category._id);
+    const [ categoryName, setCategoryName ] = useState<string>("");
+    const [ categoryId, setCategoryId ] = useState<string | undefined>(undefined);
 
     const [ newProduct, setNewProduct ] = useState<Partial<Product>>({});
-    const { data } = useGetCategoriesQuery(localStorage.getItem('token') || '');
+    const { data: ctgrs } = useGetCategoriesQuery(localStorage.getItem('token') || '');
     const [ categories, setCategories ] = useState<Category[] | undefined>();
 
     const [ titleError, setTitleError ] = useState<boolean>(false);
@@ -39,11 +35,11 @@ const ProductForm: FC<Props> = ({ product, admin }) => {
     const [ descriptionError, setDescriptionError ] = useState<boolean>(false);
     const [ imageError, setImageError ] = useState<boolean>(false);
 
-    const [ createProduct, {data: addedProduct} ] = useCreateProductMutation();
-    const [ updateProduct ] = useUpdateProductMutation();
-    const [ err, setErr ] = useState<boolean>(true);
+    const [ createProduct, {data, error} ] = useCreateProductMutation();
+
+    const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
-    const [ disabled, setDisabled ] = useState<boolean>(Boolean(product));
+    const [ disabled, setDisabled ] = useState<boolean>(false);
     const [ isNewProduct, setIsNewProduct ] = useState<boolean | undefined>();
     const goBack = useNavigate();
 
@@ -60,24 +56,14 @@ const ProductForm: FC<Props> = ({ product, admin }) => {
         };
         setNewProduct(newProduct);
         //onClose();
-        console.log('HANDLE SUBMIT addedProduct: ', addedProduct);
+        console.log('HANDLE SUBMIT newProduct: ', newProduct);
     }
 
     useEffect(()=> {
-        // const handleStorage = () => {
-        //     setToken(localStorage.getItem('token') || '');
-        //  }
-        console.log('EFFECT [newProduct productdata] addedProduct: ', addedProduct);
-        data && setCategories(data);
-        product && setFormData(product);
-
-        //window.addEventListener('storage', handleStorage)
-        //return () => window.removeEventListener('storage', handleStorage)
-
-    }, [newProduct, product ]);
+        ctgrs && setCategories(ctgrs);
+    }, [newProduct]);
 
     useEffect(()=> {
-        console.log('EFFECT [categoryName categories] categories: ', categories);
         const categoryObj = categories && categories.find((c: Category) => c.name === categoryName);
         categoryObj && setCategoryId(categoryObj._id);
     }, [categories]);
@@ -86,25 +72,20 @@ const ProductForm: FC<Props> = ({ product, admin }) => {
         if (newProduct) {
             validate();
         }
+        //console.log('err after validate() ? ', err);
         const submit = async() => {
             if (!err) {
                 try {
-                    //if (newProduct !== null) {
-                        const addedProduct = await createProduct({ token: localStorage.getItem('token') || '', body: newProduct});
-                        console.log('ADDED PRODUCT : ', addedProduct)
-                        goBack('/');
-                    //}
+                    if (newProduct !== undefined) {
+                        console.log('newProduct: ', newProduct)
+                        await createProduct({ token: localStorage.getItem('token') || '', body: newProduct});
+                        console.log('error from api hook :', error);
+                        console.log('data from api hook :', data);
+                        //!error && goBack('/');
+                    }
                 } catch (error: any) {
                     setErr(true);
-                }
-            } else if (!err && !isNewProduct) {
-                try {
-                    const _id = product?._id;
-                    const payload = newProduct && await updateProduct({_id, ...newProduct}).unwrap();
-                    payload && setFormData(payload);  
-                    setDisabled(true);
-                } catch (error: any) {
-                    setErr(true);
+                    console.log('error from catch: ', error)
                 }
             } else {
                 setErr(true);
@@ -115,14 +96,14 @@ const ProductForm: FC<Props> = ({ product, admin }) => {
     }, [newProduct]);
 
     const validate = () => {
-        setErr(titleError && priceError && descriptionError);
+        //setErr(titleError && priceError && descriptionError);
     }
 
     const onEdit = () => {
         setDisabled(false);
     }
     const onCancel = () => {
-        if (!product) {
+        /*if (!product) {
             goBack('/');
         } else {
             formData && setTitle(formData.title);
@@ -132,7 +113,8 @@ const ProductForm: FC<Props> = ({ product, admin }) => {
             formData && setCategoryName(formData.category.name);
     
             setDisabled(true);
-        }
+        }*/
+        goBack("/");
     }
 
     return (
@@ -213,7 +195,7 @@ const ProductForm: FC<Props> = ({ product, admin }) => {
                 </FormControl>
                 <FormControl fullWidth>
                 </FormControl> 
-                { admin ? 
+              
                     <>
                         <FormControl fullWidth>
                             <TextField
@@ -255,40 +237,27 @@ const ProductForm: FC<Props> = ({ product, admin }) => {
                                 onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value as string)}
                                 label="Category"
                             >
-                                {data && data.map((ctgry: Category)=> {
+                                {ctgrs && ctgrs.map((ctgry: Category)=> {
                                     return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>
                     </> 
-                    :
-                    <>
-                        <FormLabel 
-                            style={{  
-                                color: "darkgrey",
-                                fontSize: "13px",
-                                marginBottom: "0.5rem"
-                            }}
-                        >
-                            Category
-                        </FormLabel>
-                        <div style={{color: "darkgrey"}}>{categoryName}</div>
-                    </>}
-                    { admin && 
+                    
                         <>
-                            { product && disabled && 
+                            { disabled && 
                                 <div className='btn-group'>
                                     <IconButton onClick={()=> onEdit()}>
                                         <EditNoteOutlinedIcon/>
                                     </IconButton>
                                 </div>
                             }
-                            { product && !disabled && 
+                            { !disabled && 
                                 <div className='btn-group'>    
                                     {/* <IconButton type="submit" onClick={()=> setIsNewProduct(true)}>
                                         <PlaylistAddOutlinedIcon />
                                     </IconButton> */}
-                                    <IconButton type ="submit" onClick={()=> setIsNewProduct(false)}>
+                                    <IconButton type ="submit" onClick={()=> setIsNewProduct(true)}>
                                         <PlaylistAddCheckOutlinedIcon />
                                     </IconButton>
                                     <IconButton onClick={()=> onCancel()}>
@@ -296,22 +265,12 @@ const ProductForm: FC<Props> = ({ product, admin }) => {
                                     </IconButton>
                                 </div> 
                             }
-                            { !product && 
-                                <div className="btn-group">
-                                    <IconButton type="submit" onClick={()=> setIsNewProduct(true)}>
-                                        <BackupOutlinedIcon />  
-                                    </IconButton>
-                                    <IconButton onClick={()=> onCancel()}>
-                                        <CancelOutlinedIcon/>
-                                    </IconButton>  
-                                </div>
-                            }
                         </> 
-                    }
+                    
             </form> 
         </div>
     
     );
 }
 
-export default ProductForm;
+export default CreateProductForm;

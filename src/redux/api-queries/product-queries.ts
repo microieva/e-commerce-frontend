@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Product } from '../../@types/product';
+import { Product, ProductRequest } from '../../@types/product';
 import { url } from '../../common/common';
 
 const productQueries  = createApi({
@@ -23,8 +23,15 @@ const productQueries  = createApi({
             query: (query) => ({url:`/search/?title=${query}`}),
             providesTags: ['Products']
         }),
-        addProduct: builder.mutation<Product, Partial<Product>>({
-            query: (body) => ({url: `/`, method: 'POST', body}),
+        createProduct: builder.mutation<Product, ProductRequest>({
+            query: (productRequest) => (productRequest && 
+                {
+                    url: `/`, 
+                    method: 'POST', 
+                    body: productRequest.body, 
+                    headers: { 'Authorization': `Bearer ${JSON.parse(productRequest.token)}`}
+                }
+            ),
             invalidatesTags: ['Products']
         }),
         updateProduct: builder.mutation<Product, Partial<Product>>({
@@ -43,7 +50,7 @@ export const {
     useGetFilteredProductsByTitleQuery, 
     useDeleteProductMutation, 
     useGetProductByIdQuery,
-    useAddProductMutation,
+    useCreateProductMutation,
     useUpdateProductMutation
 } = productQueries;
 export default productQueries;

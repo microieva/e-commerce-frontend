@@ -13,3 +13,8 @@ export interface Category {
   name: string,
   image: string,
 }
+
+export interface ProductRequest {
+  body: Partial<Product>,
+  token: string
+}

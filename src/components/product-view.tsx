@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import { IconButton, ThemeProvider } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
+import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDeleteProductMutation } from '../redux/api-queries/product-queries';
 import { orangeTheme } from '../shared/theme';
@@ -21,17 +22,15 @@ const ProductView: FC<Props> = ({ product }) => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data } = useGetUserQuery(token);
     
-    //const { user } = useContext(UserContext) as TypeUserContext;
     const [ admin, setAdmin ] = useState<boolean>(false);
     const [ deleteProduct ] = useDeleteProductMutation();
-    const goBack = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(()=> {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
          }
-    
-            //data && setLoggedInUser(data);
+
             data && setAdmin(data.role === "ADMIN")
        
         window.addEventListener('storage', handleStorage)
@@ -40,7 +39,7 @@ const ProductView: FC<Props> = ({ product }) => {
 
     const onDelete = () => {
         deleteProduct(product._id);
-        goBack('/');
+        navigate('/');
     }
 
     return (
@@ -50,18 +49,23 @@ const ProductView: FC<Props> = ({ product }) => {
                 <div className="icons">
                     {!admin && <CartActions product={product}/>}
                     {admin && 
-                        <IconButton onClick={()=> onDelete()} style={{padding: "0.8rem"}}>
-                            <DeleteForeverIcon/>
-                        </IconButton>
+                        <>
+                            <IconButton onClick={()=> onDelete()} style={{padding: "0.8rem"}}>
+                                <DeleteForeverIcon/>
+                            </IconButton>
+                            <IconButton onClick={()=> navigate("/products/new")}>
+                                <PlaylistAddOutlinedIcon />
+                            </IconButton> 
+                        </>
                     }
-                    <IconButton onClick={()=> goBack('/')} style={{padding: "0.8rem"}}>
+                    <IconButton onClick={()=> navigate('/')} style={{padding: "0.8rem"}}>
                         <DoorBackOutlinedIcon/>
                     </IconButton>
                 </div>
             </div>
             <div className='view-details'>
                 <ThemeProvider theme={orangeTheme}>
-                    {product && <ProductForm product={product}/>}
+                    {product && <ProductForm product={product} admin={admin}/>}
                 </ThemeProvider>
                 <div className="img-wrapper">
                     <img src={`${product.images[product.images.length-1]}`} alt="profile" />
