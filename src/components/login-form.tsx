@@ -5,52 +5,77 @@ import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 
 import { useLoginMutation } from '../redux/api-queries/auth-queries';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 import { FormContext } from '../contexts/form';
-import { UserContext } from '../contexts/user';
-import { LoginRequest, LoginResponse } from '../@types/auth';
-import { TypeFormContext, TypeUserContext } from '../@types/types';
+
+import { LoginRequest } from '../@types/auth';
+import { TypeFormContext } from '../@types/types';
+import { useDispatch } from 'react-redux';
 
 
 const LoginForm = () => {
-    const { onLogin } = useContext(UserContext) as TypeUserContext;
+
     const [ request, setRequest ] = useState<LoginRequest | undefined>();
 
     const [ email, setEmail ] = useState<string>();
     const [ password, setPassword ] = useState<string>();
 
+    const [ emailError, setEmailError ] = useState<boolean>(false);
+    const [ passwordError, setPasswordError ] = useState<boolean>(false);
+
     const [ err, setErr ] = useState<boolean>(false);
     const { onClose } = useContext(FormContext) as TypeFormContext;
-    const [ login, { error, data }] = useLoginMutation();
+    const [ login, { error }] = useLoginMutation(); //implement api error with SnackBar
     const formRef = useRef<HTMLFormElement>(null);
+    //const dispatch = useAppDispatch();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setRequest({email, password});
-    };
-
-    const handleInputFocus = () => {
-        setErr(false);
-    };
-
-    const saveToken = (token: string) => {
-        localStorage.setItem('token', JSON.stringify(token));
         onClose();
-    }
+    };
 
     useEffect(()=> {
+        if (request) {
+            validate();
+        }
         const initialLogin = async () => {
-            try {
-                const payload: LoginResponse | undefined = request && await login({email: request.email, password: request.password}).unwrap();
-                payload && saveToken(payload.access_token);
-                onLogin(); 
-            } catch (error){
-                error && setErr(true);
-                formRef.current && formRef.current.reset();
+            if (!err) {
+                try {
+                    const token = request && await login(request).unwrap();
+                    token && localStorage.setItem('token', JSON.stringify(token));
+                } catch (error){
+                    setErr(true);
+                    //formRef.current && formRef.current.reset();
+                }
             }
         }
         initialLogin();
-       
-    }, [request]);
+        console.log('error: ', error)
+    }, [request, err]);
+
+    const validate = () => {
+        const emailRegex = new RegExp('^(?:[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2})');
+        const passWordRegex = new RegExp('^[a-zA-Z0-9]{4,}');
+
+        if (request) {
+            if (request.email) {
+                if (!request.email.match(emailRegex)) {
+                    setEmailError(true);
+                }
+            } else {
+                setEmailError(true);
+            }
+            if (request.password) {
+                if (!request.password.match(passWordRegex)) {
+                    setPasswordError(true);
+                }
+            } else {
+                setPasswordError(true);
+            }
+            setErr(emailError && passwordError);
+        }
+    }
 
     return (
         <div className='form-container'>
@@ -59,8 +84,7 @@ const LoginForm = () => {
                 <FormControl fullWidth>
                     <TextField
                         fullWidth
-                        helperText="Incorrect email or password"
-                        id="standard-basic"
+                        helperText={ "Must be a valid email address"}
                         variant="standard"
                         label="Email"
                         name="email"
@@ -68,31 +92,31 @@ const LoginForm = () => {
                         required
                         sx={{
                             '& .MuiFormHelperText-root': {
-                              visibility: err ? 'visible' : 'hidden',
+                              //visibility: !emailError && !error ? 'hidden' : 'visible',
+                              visibility: error ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             }
                         }}
-                        onFocus={()=>handleInputFocus()}
+                        onFocus={()=>setEmailError(false)}
                     />
                 </FormControl>
                 <FormControl fullWidth>
                     <TextField
-                        helperText="Incorrect email or password"
                         fullWidth
-                        id="standard-basic"
                         variant="standard"
                         label="Password"
                         name="password"
                         type="password"
                         onChange={(e)=> setPassword(e.target.value)}
                         required
+                        helperText="Must be only letters and numbers, longer than 3 characters"
                         sx={{
                             '& .MuiFormHelperText-root': {
-                                visibility: err ? 'visible' : 'hidden',
+                                visibility: !passwordError && !error ? 'hidden' : 'visible',
                                 transition: 'visibility 0.2s ease-in',
                             }
                         }}
-                        onFocus={()=>handleInputFocus()}
+                        onFocus={()=>setPasswordError(false)}
                     />
                 </FormControl>
                 <div className="btn-group">

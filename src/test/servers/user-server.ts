@@ -17,7 +17,7 @@ export const handlers = [
   rest.put('https://api.escuelajs.co/api/v1/users/:id', async (req, res, ctx) => {
     const {id} = req.params;
     const body = await req.json();
-    const mockUserToUpdate = mockUsers.find(u => u.id === Number(id));
+    const mockUserToUpdate = mockUsers.find(u => u.id === id);
     return res(
       ctx.status(200),
       ctx.json({...mockUserToUpdate, password: body.password}),
@@ -25,7 +25,7 @@ export const handlers = [
   }),
   rest.delete('https://api.escuelajs.co/api/v1/users/:id', async (req, res, ctx)=>{
     const {id} = req.params;
-    if(mockUsers.find(u => u.id === Number(id))) {
+    if(mockUsers.find(u => u.id === id)) {
       return res(
         ctx.json(true)
       )

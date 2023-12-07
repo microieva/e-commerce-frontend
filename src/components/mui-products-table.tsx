@@ -75,7 +75,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
     }, [data, order, orderBy, handleSort]);
 
     useEffect(()=> {
-        user && user.role === 'admin' ? setAdmin(true) : setAdmin(false);
+        user && user.role === 'ADMIN' ? setAdmin(true) : setAdmin(false);
     }, [user])
     
     return (

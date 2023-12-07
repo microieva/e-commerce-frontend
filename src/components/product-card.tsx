@@ -10,11 +10,12 @@ interface CardProps {
 }
 
 const ProductCard: FC<CardProps> = ({ product }: CardProps) => {
-  const { user } = useContext(UserContext) as TypeUserContext;
+  //const { user } = useContext(UserContext) as TypeUserContext;
+  const user = null
   const [ admin, setAdmin ] = useState<boolean>(false);
 
   useEffect(()=> {
-    user && user.role === 'admin' ? setAdmin(true) : setAdmin(false);
+    //user && user.role === 'ADMIN' ? setAdmin(true) : setAdmin(false);
 }, [user]);
 
   return (

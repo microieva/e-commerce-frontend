@@ -23,7 +23,7 @@ const ProductView: FC<Props> = ({ product }) => {
     const goBack = useNavigate();
 
     useEffect(()=> {
-        user && user.role === 'admin' && setAdmin(true);
+        user && user.role === 'ADMIN' && setAdmin(true);
     }, [user]);
 
     const onDelete = () => {

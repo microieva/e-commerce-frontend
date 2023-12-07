@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import UserProvider from './contexts/user';
+//import UserProvider from './contexts/user';
 import HomePage from './pages/home-page';
 import ProfilePage from './pages/profile-page';
 import ProductPage from './pages/product-page';
@@ -11,7 +11,7 @@ import CartPage from './pages/cart-page';
 const App: FC = () => {
 
     return (
-        <UserProvider>
+        // <UserProvider>
             <div className='app-container'>
                 <BrowserRouter>
                     <Routes>
@@ -23,7 +23,7 @@ const App: FC = () => {
                     </Routes>
                 </BrowserRouter>
             </div>
-        </UserProvider>
+        // </UserProvider>
     )
 }
 

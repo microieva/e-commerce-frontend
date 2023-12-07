@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { IconButton, ThemeProvider, Backdrop, Dialog, Badge } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -8,22 +8,41 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { marineTheme } from '../shared/theme';
 import { useAppSelector } from '../hooks/useAppSelector';
 import FormProvider from '../contexts/form';
-import { UserContext } from '../contexts/user';
+
 import Button from './button';
 import FormSwitcher from './form-switcher';
-import { TypeForm, TypeUserContext } from '../@types/types';
+import { TypeForm } from '../@types/types';
 import { User } from '../@types/user';
 import { Link, Outlet } from 'react-router-dom';
+import { useLazyGetUserQuery } from '../redux/api-queries/auth-queries';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { clearUser, setUser } from '../redux/app-reducers/user';
+
 
 const Header: FC = () => {
-    const { user, onLogout, onLogin } = useContext(UserContext) as TypeUserContext;
-    const [ admin, setAdmin ] = useState<boolean>(false);
+    const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
+    //const { data, refetch } = useGetUserQuery(token, {skip: !token});
 
-    const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
+    const [ trigger, result ] = useLazyGetUserQuery();
+    //const user = useAppSelector((state) => state.user.data);
+    
+    const [ admin, setAdmin ] = useState<boolean>(false);
+    const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(undefined);
+    
     const [ open, setOpen ] = useState<boolean>(false);
     const [ form, setForm ] = useState<TypeForm>(null);
+
     const cart = useAppSelector(state => state.cart);
-    const amount = cart.reduce((curr, item) => curr+item.quantity, 0);
+    const amount = cart.reduce((curr, item) => curr + item.quantity, 0);
+
+    //const dispatch = useAppDispatch();
+
+    /*PLAN:
+
+    - try const [ data, trigger ] = useLazyGetUserQuery();
+    call trigger in effect & handleclose ?
+    */
+
 
     const handleOpen = (form: TypeForm) => {
         setOpen(true);
@@ -32,36 +51,51 @@ const Header: FC = () => {
 
     const handleClose = () => {
         setOpen(false);
+        setToken(localStorage.getItem('token') || '');
+        //trigger(token);
+        /*trigger(token, false)
+            .unwrap()
+            .then(user => setLoggedInUser(user))
+            .catch(() => setLoggedInUser(undefined))
+            .finally(() => console.log('ON CLOSE loggedInUser : ', loggedInUser));*/
     }
 
-    useEffect(()=> {
-        onLogin(); 
-        setLoggedInUser(user);
-        if (loggedInUser && loggedInUser.role !== 'admin' || !user) {
-            setAdmin(false);
-        }
-        user && user.role === 'admin' && setAdmin(true);
-    }, [user]);
+    const onLogout = () => {
+        localStorage.removeItem('token');
+        setLoggedInUser(undefined);
+        //trigger('');
+    }
 
-    useEffect(()=> {
-        user && user.role === 'admin' && setAdmin(true);
-    }, [user])
+    useEffect(() => {
+        // Retrieve user on startup
+        setToken(localStorage.getItem('token') || '');
+        trigger(token, false)
+            .unwrap()
+            .then(user => setLoggedInUser(user))
+            .catch(() => setLoggedInUser(undefined))
+            .finally(() => console.log('EFFECT loggedInUser : ', loggedInUser));
+        
+        if (loggedInUser && loggedInUser.role === "ADMIN") {
+            setAdmin(true);
+        }
+    }, [loggedInUser]);
+    console.log(' ------- result.data: ', result.data);
 
     return (
         <header>
-            { user ? <h2>Hello, {user.name}</h2> : <h2>products</h2>}
+            { loggedInUser ? <h2>Hello, {loggedInUser.name}</h2> : <h2>products</h2>}
             <div className='header-group'>
                 <div className='btn-group'>
-                    { !user ? 
+                    { !loggedInUser ? 
                         <>
                             <Button text="sign up" width="8rem" height="2rem" onClick={()=> handleOpen('signup')} />
                             <Button text="log in" width="8rem" height="2rem" onClick={()=>handleOpen('login')} />
                         </>
                         :
                         <>
-                            <IconButton onClick={()=> onLogout()}>
+                            <IconButton onClick={onLogout}>
                                 <LogoutOutlinedIcon />
-                            </IconButton>
+                            </IconButton> 
                             <Link to={`/auth/profile`}>
                                 <IconButton id="profile-icon">
                                     <AccountCircleOutlinedIcon />
@@ -89,7 +123,7 @@ const Header: FC = () => {
                     <Dialog fullWidth open={open} onClose={handleClose} >
                         <FormSwitcher />
                     </Dialog>
-                <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                    <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
                 </FormProvider>
             </ThemeProvider>
             <Outlet />

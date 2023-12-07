@@ -4,17 +4,14 @@ import { IconButton, TextField, FormControl } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 
-import { useAddUserMutation } from '../redux/api-queries/user-queries';
-import { useLoginMutation } from '../redux/api-queries/auth-queries';
+import { useCreateUserMutation } from '../redux/api-queries/auth-queries';
 import { FormContext } from '../contexts/form';
-import { UserContext } from '../contexts/user';
-import { TypeFormContext, TypeUserContext } from '../@types/types';
+import { TypeFormContext } from '../@types/types';
 import { User } from '../@types/user';
 
 
 const SignupForm = () => {
     // 'https://api.lorem.space/image/face?w=640&h=480&r=867' avatar
-    const { onLogin } = useContext(UserContext) as TypeUserContext;
     const [user, setUser] = useState<Partial<User>>();
      
     const [ name, setName ] = useState<string>();
@@ -28,8 +25,7 @@ const SignupForm = () => {
     const [ avatarError, setAvatarError ] = useState<boolean>(false);
 
     const { onClose } = useContext(FormContext) as TypeFormContext;
-    const [ addUser ] = useAddUserMutation();
-    const [ login, {data, error}] = useLoginMutation();
+    const [ createUser, { error }] = useCreateUserMutation(); //implement api error with SnackBar
     const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -42,16 +38,8 @@ const SignupForm = () => {
             avatar
         }
         setUser(user);
-    };
-
-    const loginSignupUser = async (email: string, password: string) => {
-        await login({email: email, password: password});
-        onLogin(); 
         onClose();
-    }
-    useEffect(()=> {
-        data && localStorage.setItem('token', JSON.stringify(data.access_token));
-    }, [data, error])
+    };
 
     useEffect(()=> {
         if (user) {
@@ -60,8 +48,8 @@ const SignupForm = () => {
         const signup = async () => {
             if (!err) {
                 try {
-                    const payload = user && await addUser(user).unwrap();
-                    payload && loginSignupUser(payload.email, payload.password);  
+                    const token = user && await createUser(user).unwrap();
+                    token && localStorage.setItem('token', JSON.stringify(token));
                 } catch (error: any) {
                     setErr(true);
                 }
@@ -203,3 +191,4 @@ const SignupForm = () => {
 }
 
 export default SignupForm;
+

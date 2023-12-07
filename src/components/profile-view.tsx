@@ -27,7 +27,7 @@ const ProfileView: FC<Props> = ({ user }) => {
                 <div className='view-header'>
                     <h2>profile</h2>
                     <div className='btn-group'>
-                            {user.role === 'admin' && 
+                            {user.role === 'ADMIN' && 
                             <Link to={`/products/new`}>
                                 <IconButton>
                                     <PlaylistAddOutlinedIcon/>  

@@ -65,7 +65,7 @@ const ProductForm: FC<Props> = ({ product }) => {
     }
 
     useEffect(()=> {
-        user && setAdmin(user.role === 'admin');
+        user && setAdmin(user.role === 'ADMIN');
         data && setCategories(data);
         product && setFormData(product);
     }, [user, data, product ]);

@@ -12,11 +12,11 @@ const mockResponse: LoginResponse = {
 }
 
 const mockUser: User = {
-  id: 1,
+  id: "1",
   email: 'ieva@email.com',
   password: 'admin',
   name: 'Ieva',
-  role: "admin",
+  role: "ADMIN",
   avatar: 'https://api.lorem.space/image/face?w=640&h=480&r=867',
 }
 
