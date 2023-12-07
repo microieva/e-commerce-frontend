@@ -290,6 +290,9 @@ footer {
   justify-content: space-between;
   align-items: center;
 }
+.view-container .view-details div {
+  width: 50%;
+}
 .view-container .view-details textarea {
   background-color: transparent;
   font-family: "Roboto", sans-serif;
@@ -313,7 +316,7 @@ footer {
   color: darkgrey;
 }
 .view-container .view-details .form-container {
-  max-width: 30rem;
+  max-width: 35rem;
 }
 .view-container .view-details .profile-details-text {
   margin: auto 0;
@@ -321,15 +324,10 @@ footer {
 .view-container .view-details .profile-details-text span {
   color: darkgrey;
 }
-.view-container .view-details .img-wrapper {
-  clip-path: circle(50% at center);
-  border-radius: 50%;
-  margin: 3rem;
-}
 .view-container .view-details .img-wrapper img {
-  width: 100%;
-  height: auto;
-  border-radius: 50rem;
+  width: 30rem;
+  height: 30rem;
+  border-radius: 50%;
 }
 .view-container .view-details .img-wrapper__empty {
   border: 1px lightgrey dashed;

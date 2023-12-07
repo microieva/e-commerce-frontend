@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconButton, ThemeProvider } from '@mui/material';
@@ -6,25 +6,37 @@ import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDeleteProductMutation } from '../redux/api-queries/product-queries';
 import { orangeTheme } from '../shared/theme';
-import { UserContext } from '../contexts/user';
+
 import ProductForm from './product-form';
 import CartActions from './cart-actions';
-import { TypeUserContext } from '../@types/types';
+
 import { Product } from '../@types/product';
+import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 
 interface Props {
     product: Product
 }
 
 const ProductView: FC<Props> = ({ product }) => {
-    const { user } = useContext(UserContext) as TypeUserContext;
+    const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
+    const { data } = useGetUserQuery(token);
+    
+    //const { user } = useContext(UserContext) as TypeUserContext;
     const [ admin, setAdmin ] = useState<boolean>(false);
     const [ deleteProduct ] = useDeleteProductMutation();
     const goBack = useNavigate();
 
     useEffect(()=> {
-        user && user.role === 'ADMIN' && setAdmin(true);
-    }, [user]);
+        const handleStorage = () => {
+            setToken(localStorage.getItem('token') || '');
+         }
+    
+            //data && setLoggedInUser(data);
+            data && setAdmin(data.role === "ADMIN")
+       
+        window.addEventListener('storage', handleStorage)
+        return () => window.removeEventListener('storage', handleStorage)
+    }, [data]);
 
     const onDelete = () => {
         deleteProduct(product._id);

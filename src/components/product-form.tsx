@@ -12,8 +12,7 @@ import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 
 import { useAddProductMutation, useUpdateProductMutation } from '../redux/api-queries/product-queries';
 import { useGetCategoriesQuery } from '../redux/api-queries/category-queries';
-import { UserContext } from '../contexts/user';
-import { TypeUserContext } from '../@types/types';
+
 import { Category, Product } from '../@types/product';
 
 interface Props {
@@ -21,9 +20,9 @@ interface Props {
 }
 
 const ProductForm: FC<Props> = ({ product }) => {
-
+    // doesnt need user cause its not being called from parent 
     const [ formData, setFormData ] = useState<Product | undefined>(product);
-    const { user } = useContext(UserContext) as TypeUserContext; 
+    //const { user } = useContext(UserContext) as TypeUserContext; 
     const [ admin, setAdmin ] = useState<boolean>(false);
 
     const [ title, setTitle ] = useState<string | undefined>(formData?.title);
@@ -65,10 +64,10 @@ const ProductForm: FC<Props> = ({ product }) => {
     }
 
     useEffect(()=> {
-        user && setAdmin(user.role === 'ADMIN');
+        //user && setAdmin(user.role === 'ADMIN');
         data && setCategories(data);
         product && setFormData(product);
-    }, [user, data, product ]);
+    }, [data, product ]);
 
     useEffect(()=> {
         const categoryObj = categories && categories.find((c: Category) => c.name === categoryName);

@@ -285,6 +285,9 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    div {
+      width: 50%;
+    }
     textarea {
       background-color: transparent;
       font-family: 'Roboto', sans-serif;
@@ -307,8 +310,8 @@ footer {
         color: darkgrey;
       }
     }
-    .form-container { // double declaration
-      max-width: 30rem;
+    .form-container { 
+      max-width: 35rem;
     }
     .profile-details-text {
       margin: auto 0;
@@ -317,13 +320,11 @@ footer {
       }
     }
     .img-wrapper {
-      clip-path: circle(50% at center);
-      border-radius: 50%;
-      margin: 3rem;
-      img {
-        width: 100%;
-        height: auto;
-        border-radius: 50rem;
+      & img {
+        //display: inline-block;
+        width: 30rem;
+        height: 30rem;
+        border-radius: 50%;
       }
       &__empty{
         border: 1px lightgrey dashed;
