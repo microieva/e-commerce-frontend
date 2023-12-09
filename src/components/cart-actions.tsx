@@ -11,7 +11,7 @@ import { useAppSelector } from '../hooks/useAppSelector';
 import { CartItem } from '../@types/cart';
 
 interface CartActionsProps {
-    product: Product
+    product: Omit<Product, "categoryId">
 }
 
 const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {

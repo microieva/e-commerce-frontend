@@ -12,7 +12,7 @@ const categoryQueries = createApi({
             query: (token) => (token && { url: '/', headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}}),
             providesTags: ['Categories']
         }),
-        getCategoryById: build.query<Category, number>({
+        getCategoryById: build.query<Category, string>({
             query: (categoryId) => `/${categoryId}`,
             providesTags: ['Category']
         }),

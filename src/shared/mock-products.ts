@@ -1,6 +1,6 @@
 import { Product } from "../@types/product";
 
-export const mockProducts: Product[] = [
+export const mockProducts: Omit<Product, "categoryId">[] = [
   {
       _id: "8",
       title: "nuevo title",

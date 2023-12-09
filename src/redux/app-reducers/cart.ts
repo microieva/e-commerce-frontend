@@ -8,7 +8,7 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addItem: (state, action: PayloadAction<Product>) => {
+        addItem: (state, action: PayloadAction<Omit<Product, "categoryId">>) => {
             const cartItem: CartItem = {...action.payload, quantity: 1};
             const index = state.findIndex(item => item._id === action.payload._id);
             if (index !== -1) {

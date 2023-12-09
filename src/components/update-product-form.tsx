@@ -19,7 +19,7 @@ interface Props {
     admin?: boolean
 }
 
-const UpdateProductForm: FC<Props> = ({ product }) => {
+const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     
     const [ title, setTitle ] = useState<string>(product.title);
     const [ price, setPrice ] = useState<number>(product.price);
@@ -100,7 +100,7 @@ const UpdateProductForm: FC<Props> = ({ product }) => {
     if (isLoading) {
         return <Loading />
     }
-
+    console.log('categoryName: ', product.category.name)
     return (
         <div className='form-container' style={{margin: "0"}}>
             <form onSubmit={handleSubmit} ref={formRef}>
@@ -201,7 +201,7 @@ const UpdateProductForm: FC<Props> = ({ product }) => {
                     <Select
                         required
                         disabled={disabled}
-                        onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value as string)}
+                        onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value)}
                         label="Category"
                         value={categoryName}
                     >
@@ -210,26 +210,31 @@ const UpdateProductForm: FC<Props> = ({ product }) => {
                         })}
                     </Select>
                 </FormControl>
-                <div className='btn-group'>   
-                    { disabled && 
-                        <IconButton type ="button" onClick={()=> setDisabled(false)}>
-                            <PlaylistAddCheckIcon />
-                        </IconButton>
-                    }
-                    {
-                        !disabled && 
+                <div className='btn-group'>  
+                    { admin && 
                         <>
-                             <IconButton 
-                            type ="submit" 
-                            disabled={err}
-                            >
-                                <BackupOutlinedIcon/>
-                            </IconButton> 
-                            <IconButton type ="button" onClick={()=> setDisabled(true)}>
-                                <HighlightOffIcon/>
-                            </IconButton> 
-                        </>
+                            { disabled && 
+                                <IconButton type ="button" onClick={()=> setDisabled(false)}>
+                                    <PlaylistAddCheckIcon />
+                                </IconButton>
+                            }
+                            {
+                            !disabled && 
+                                <>
+                                    <IconButton 
+                                    type ="submit" 
+                                    disabled={err}
+                                    >
+                                        <BackupOutlinedIcon/>
+                                    </IconButton> 
+                                    <IconButton type ="button" onClick={()=> setDisabled(true)}>
+                                        <HighlightOffIcon/>
+                                    </IconButton> 
+                                </>
+                            }
+                        </>   
                     }
+                    
                 </div>
             </form> 
         </div>

@@ -26,7 +26,6 @@ const CardsView = ({ searchWord }: ViewProps) => {
     	setCurrentPage(newPage);
 		setItemsPerPage(newItemsPerPage);
   	};
-
 	const startIndex = (currentPage - 1) * itemsPerPage;
   	const endIndex = startIndex + itemsPerPage;
   	const currentProducts = products.length > itemsPerPage ? products.slice(startIndex, endIndex) : products;

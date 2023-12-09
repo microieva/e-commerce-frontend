@@ -10,12 +10,11 @@ describe('cart', () => {
     }) 
     it('should add an item to the cart', () => {
         const initialState: CartItem[] = [];
-        const itemToAdd: Product = {  
+        const itemToAdd: Omit<Product, "categoryId"> = {  
             _id: "1",
             title: "XXX New Product",
             price: 10,
             description: "A description",
-            categoryId: "1",
             category: {
                 _id: "1",
                 name: 'category name',
@@ -33,7 +32,6 @@ describe('cart', () => {
                 title: "XXX New Product",
                 price: 10,
                 description: "A description",
-                categoryId: "1",
                 category: {
                     _id: "1",
                     name: 'category name',
@@ -53,7 +51,6 @@ describe('cart', () => {
                 title: "XXX New Product",
                 price: 10,
                 description: "A description",
-                categoryId: "1",
                 category: {
                     _id: "1",
                     name: 'category name',
