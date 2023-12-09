@@ -1,7 +1,7 @@
 import { 	useEffect, useState } from 'react';
 
 import { Link, Outlet } from 'react-router-dom';
-import { useGetFilteredProductsByTitleQuery, useGetProductsQuery } from '../redux/api-queries/product-queries';
+import { useGetFilteredProductsByTitleQuery } from '../redux/api-queries/product-queries';
 import ProductCard from './product-card';
 import Pagination from './pagination';
 import { Product } from '../@types/product';
@@ -12,16 +12,15 @@ interface ViewProps {
 }
 
 const CardsView = ({ searchWord }: ViewProps) => {
-	const { data: filteredD, isLoading } = useGetFilteredProductsByTitleQuery(searchWord);
+	const { data, isLoading } = useGetFilteredProductsByTitleQuery(searchWord);
 	const [ products, setProducts] = useState<Product[]>([]);
-	const filteredData = filteredD && 'data' in filteredD ? filteredD.data : [];
 
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [itemsPerPage, setItemsPerPage] = useState<number>(20);
 
 	useEffect(()=>{	
-		filteredData && setProducts(filteredData as Product[]);
-	}, [searchWord, filteredD])
+		data && setProducts(data);
+	}, [searchWord, data])
 
 	const handlePageChange = (newPage: number, newItemsPerPage: number) => {
     	setCurrentPage(newPage);

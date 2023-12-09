@@ -12,14 +12,14 @@ import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import { useCreateProductMutation, useUpdateProductMutation } from '../redux/api-queries/product-queries';
 import { useGetCategoriesQuery } from '../redux/api-queries/category-queries';
 
-import { Category, Product, ProductRequest } from '../@types/product';
+import { Category, Product } from '../@types/product';
 
 interface Props {
     product?: Product,
     admin?: boolean
 }
 
-const ProductForm: FC<Props> = ({ product, admin }) => {
+const ProductForm: FC<Props> = ({ product, admin }) => { // UpdateProductForm
 
     const [ formData, setFormData ] = useState<Product | undefined>(product);
 

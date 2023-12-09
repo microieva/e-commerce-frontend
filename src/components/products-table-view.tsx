@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import MuiProductsTable from './mui-products-table';
-import { useGetFilteredProductsByTitleQuery, useGetProductsQuery } from '../redux/api-queries/product-queries';
+import { useGetFilteredProductsByTitleQuery } from '../redux/api-queries/product-queries';
 import { Product } from '../@types/product';
 import Loading from './loading';
 

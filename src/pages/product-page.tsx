@@ -17,7 +17,7 @@ const ProductPage: FC = () => {
             <main>
                 <Header/>
                 {isLoading && <Loading />}
-                {data && <ProductView product={data as Product}/>}
+                {data && <ProductView product={data}/>}
             </main>
             <Footer />
         </>

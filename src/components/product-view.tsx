@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { IconButton, ThemeProvider } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
@@ -53,7 +53,7 @@ const ProductView: FC<Props> = ({ product }) => {
                             <IconButton onClick={()=> onDelete()} style={{padding: "0.8rem"}}>
                                 <DeleteForeverIcon/>
                             </IconButton>
-                            <IconButton onClick={()=> navigate("/products/new")}>
+                            <IconButton onClick={()=> navigate("/products/new")} style={{padding: "0.8rem"}}>
                                 <PlaylistAddOutlinedIcon />
                             </IconButton> 
                         </>
