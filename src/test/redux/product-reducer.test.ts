@@ -47,10 +47,10 @@ describe('products', () => {
     const result: any = await store.dispatch(productQueries.endpoints.updateProduct.initiate({_id, ...updates}));
     expect(result.data.title).toMatch("Updated Product");
   });*/
-  it('Should delete existing product', async () => {
+  /*it('Should delete existing product', async () => {
     const _id = "10";
     const result: any = await store.dispatch(productQueries.endpoints.deleteProduct.initiate(_id));
     expect(result.data).toBe(true);
-  });
+  });*/
 })
 

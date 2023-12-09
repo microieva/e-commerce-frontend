@@ -20,26 +20,30 @@ interface Props {
 
 const ProductView: FC<Props> = ({ product }) => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
-    const { data } = useGetUserQuery(token);
+    const { data: user } = useGetUserQuery(token);
     
     const [ admin, setAdmin ] = useState<boolean>(false);
-    const [ deleteProduct ] = useDeleteProductMutation();
+    const [ deleteProduct, { data, error, isLoading } ] = useDeleteProductMutation();
     const navigate = useNavigate();
 
     useEffect(()=> {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
-         }
-
-            data && setAdmin(data.role === "ADMIN")
+        }
+        user && setAdmin(user.role === "ADMIN")
        
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
-    }, [data]);
+    }, [user]);
+
+    useEffect(()=> {
+        if (data && !error && !isLoading) {
+            navigate('/');
+        }
+    }, [data, error, isLoading])
 
     const onDelete = () => {
-        deleteProduct(product._id);
-        navigate('/');
+        deleteProduct({ _id: product._id, token: token});
     }
 
     return (
