@@ -6,7 +6,6 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { TextareaAutosize } from '@mui/base';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 
 import { useCreateProductMutation, useUpdateProductMutation } from '../redux/api-queries/product-queries';
@@ -19,7 +18,7 @@ interface Props {
     admin?: boolean
 }
 
-const ProductForm: FC<Props> = ({ product, admin }) => { // UpdateProductForm
+const UpdateProductForm: FC<Props> = ({ product, admin }) => {
 
     const [ formData, setFormData ] = useState<Product | undefined>(product);
 
@@ -89,11 +88,9 @@ const ProductForm: FC<Props> = ({ product, admin }) => { // UpdateProductForm
         const submit = async() => {
             if (!err) {
                 try {
-                    //if (newProduct !== null) {
                         const addedProduct = await createProduct({ token: localStorage.getItem('token') || '', body: newProduct});
                         console.log('ADDED PRODUCT : ', addedProduct)
                         goBack('/');
-                    //}
                 } catch (error: any) {
                     setErr(true);
                 }
@@ -285,11 +282,14 @@ const ProductForm: FC<Props> = ({ product, admin }) => { // UpdateProductForm
                             }
                             { product && !disabled && 
                                 <div className='btn-group'>    
-                                    {/* <IconButton type="submit" onClick={()=> setIsNewProduct(true)}>
-                                        <PlaylistAddOutlinedIcon />
-                                    </IconButton> */}
-                                    <IconButton type ="submit" onClick={()=> setIsNewProduct(false)}>
+                                    {/* <IconButton type ="submit" onClick={()=> setIsNewProduct(false)}>
                                         <PlaylistAddCheckOutlinedIcon />
+                                    </IconButton> */}
+                                    <IconButton 
+                                        type ="submit" 
+                                        //disabled={err}
+                                    >
+                                        <BackupOutlinedIcon/>
                                     </IconButton>
                                     <IconButton onClick={()=> onCancel()}>
                                         <CancelOutlinedIcon/>
@@ -314,4 +314,4 @@ const ProductForm: FC<Props> = ({ product, admin }) => { // UpdateProductForm
     );
 }
 
-export default ProductForm;
+export default UpdateProductForm;

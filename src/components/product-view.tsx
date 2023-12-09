@@ -8,7 +8,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDeleteProductMutation } from '../redux/api-queries/product-queries';
 import { orangeTheme } from '../shared/theme';
 
-import ProductForm from './product-form';
+import UpdateProductForm from './update-product-form';
 import CartActions from './cart-actions';
 
 import { Product } from '../@types/product';
@@ -65,7 +65,7 @@ const ProductView: FC<Props> = ({ product }) => {
             </div>
             <div className='view-details'>
                 <ThemeProvider theme={orangeTheme}>
-                    {product && <ProductForm product={product} admin={admin}/>}
+                    {product && <UpdateProductForm product={product} admin={admin}/>}
                 </ThemeProvider>
                 <div className="img-wrapper">
                     <img src={`${product.images[product.images.length-1]}`} alt="profile" />

@@ -1,12 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { User } from '../@types/user';
-import { IconButton, ThemeProvider, Backdrop, Dialog } from '@mui/material';
+import { IconButton } from '@mui/material';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
-import FormProvider from '../contexts/form';
-import { orangeTheme } from '../shared/theme';
-import ProductForm from './product-form';
+
 
 interface Props {
     user: User
