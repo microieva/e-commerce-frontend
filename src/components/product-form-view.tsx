@@ -2,12 +2,14 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconButton, ThemeProvider } from '@mui/material';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import CreateProductForm from './create-product-form';
 import { orangeTheme } from '../shared/theme';
 
 const ProductFormView: FC = () => {  
     const navigate = useNavigate();
+    //const history = useHistory();
 
     return (
         <>
@@ -15,6 +17,9 @@ const ProductFormView: FC = () => {
                 <div className='view-header'>
                     <h2>new product</h2>
                     <div className="icons">
+                        {/* <IconButton type ="button" onClick={()=>history.goBack()} style={{padding: "0.8rem"}}>
+                            <HighlightOffIcon/>
+                        </IconButton>  */}
                         <IconButton onClick={()=> navigate('/')} style={{padding: "0.8rem"}}>
                             <DoorBackOutlinedIcon/>
                         </IconButton>

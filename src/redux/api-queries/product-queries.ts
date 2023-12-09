@@ -34,8 +34,15 @@ const productQueries  = createApi({
             ),
             invalidatesTags: ['Products']
         }),
-        updateProduct: builder.mutation<Product, Partial<Product>>({
-            query: ({_id, ...updates}) =>  ({url: `/${_id}`, method: 'PUT', body: updates}),
+        updateProduct: builder.mutation<Product, ProductRequest>({
+            query: (productRequest) =>  (
+                {
+                    url: `/${productRequest._id}`, 
+                    method: 'PUT', 
+                    body: productRequest.body,
+                    headers: { 'Authorization': `Bearer ${JSON.parse(productRequest.token)}`}
+                }
+            ),
             invalidatesTags: ['Products']
         }),
         deleteProduct: builder.mutation<boolean, string>({

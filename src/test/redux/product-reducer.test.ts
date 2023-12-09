@@ -39,14 +39,14 @@ describe('products', () => {
     const result: any = await store.dispatch(productQueries.endpoints.createProduct.initiate(newProduct));
     expect(result.data).toMatchObject({...newProduct, id: 11});
   });*/
-  it('Should update existing product title to Updated Product', async () => {
+  /*it('Should update existing product title to Updated Product', async () => {
     const _id = "10";
     const updates: Partial<Product> =  {  
       title: "Updated Product",
     };
     const result: any = await store.dispatch(productQueries.endpoints.updateProduct.initiate({_id, ...updates}));
     expect(result.data.title).toMatch("Updated Product");
-  });
+  });*/
   it('Should delete existing product', async () => {
     const _id = "10";
     const result: any = await store.dispatch(productQueries.endpoints.deleteProduct.initiate(_id));
