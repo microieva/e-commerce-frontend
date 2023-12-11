@@ -30,14 +30,22 @@ const orderQueries  = createApi({
             ),
             invalidatesTags: ['Orders']
         }),
-        
+        getOrdersByUserId: builder.query<Order[], {token: string, userId: string}>({
+            query: ({token, userId}) => ({
+                url: `/user/${userId}`,
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
+
+            }),
+            providesTags: ['Orders']
+        })
     })
 })
 
 export const {
     useGetOrdersQuery,
     useCreateOrderMutation,
-    //useGetOrderByUserIdQuery,
+    useGetOrdersByUserIdQuery,
     //useDeleteOrderMutation, 
     //useGetOrderByIdQuery,
     //useUpdateOrderMutation

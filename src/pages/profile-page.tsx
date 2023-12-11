@@ -1,37 +1,44 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
-import { UserContext } from '../contexts/user';
 import Header from '../components/header';
 import Footer from '../components/footer';
 
-import { TypeUserContext } from '../@types/types';
 import ProfileView from '../components/profile-view';
 import { User } from '../@types/user';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserQuery } from '../redux/api-queries/auth-queries';
+import { useGetOrdersByUserIdQuery } from '../redux/api-queries/order-queries';
 
 
 const ProfilePage: FC = () => {
-    const { user, onLogin } = useContext(UserContext) as TypeUserContext;
-    const [ profile, setProfile ] = useState<User | undefined>(user);
-    const goBack = useNavigate();
+    const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
+    const { data: user } = useGetUserQuery(token);
+    //const [ profile, setProfile ] = useState<User>();
+    const { data: orders } = useGetOrdersByUserIdQuery({token, userId: user._id})
+    const navigate = useNavigate();
 
-    useEffect(()=> {
-        onLogin();
-        setProfile(user)
+    useEffect(() => {
+        const handleStorage = () => {
+            setToken(localStorage.getItem('token') || '');
+         }
+        //user && setProfile(user);
+       
+        window.addEventListener('storage', handleStorage)
+        return () => window.removeEventListener('storage', handleStorage)
     }, [user]);
 
     return (
         <>
-            {profile ? 
+            {user ? 
                 <>
                     <main>
                         <Header/>
-                        <ProfileView user={profile}/>
+                        <ProfileView user={user} orders={orders}/>
                     </main>
                     <Footer />
                 </>
             :
-            goBack('/')
+            navigate('/')
             }
         </>
     ) 
