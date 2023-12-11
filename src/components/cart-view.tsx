@@ -7,32 +7,35 @@ import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlin
 import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCartOutlined';
 
 import MuiCartTable from './mui-cart-table';
-import { CartItem } from '../@types/cart';
 import { emptyCart } from '../redux/app-reducers/cart';
 import { useAppDispatch } from '../hooks/useAppDispatch';
-import { useCreateOrderMutation } from '../redux/api-queries/order-queries';
+import { useCreateOrderMutation, useUpdateOrderMutation } from '../redux/api-queries/order-queries';
 import OrderComponent from './order';
-import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { Error } from '../@types/error'
+import { User } from '../@types/user';
 
 interface Props {
-  cart?: CartItem[]
+    user?: User
 }
 
-const CartView: FC<Props> = () => {
+const CartView = ({user}: Props) => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
-    const { data: user } = useGetUserQuery(token);
+
     const [userId, setUserId] = useState<string | undefined>(undefined);
     const [ disabled, setDisabled ] = useState<boolean>(Boolean(!localStorage.getItem('token')));
     const [ order, setOrder ] = useState<boolean>(false);
+
     const [ orderRequestBody, setOrderRequestBody ] = useState<{ id: string, quantity: number}[] | undefined>(undefined);
-    const [ createOrder, { data, error, isLoading }] = useCreateOrderMutation();
+    const [ createOrder, { data: newOrder, error: newOrderError }] = useCreateOrderMutation();
+    const [ updateOrder, { data: updatedOrder, error: updatedOrderError }] = useUpdateOrderMutation();
     const [ err, setErr ] = useState<Error | undefined>(undefined);
     const dispatch = useAppDispatch();
     const cart = useAppSelector(state => state.cart); 
 
-    
+    const numberOfItems = cart.reduce((total, cartItem) => {
+        return total + cartItem.quantity;
+    }, 0)
     const totalAmount = cart.reduce((total, cartItem) => {
         return total + cartItem.price * cartItem.quantity;
     }, 0);
@@ -42,6 +45,19 @@ const CartView: FC<Props> = () => {
     const onEmptyCart = () => {
         dispatch(emptyCart());
     }
+    const handleCheckout = async () => {
+        if (newOrder) {
+            const updates = { paid: true }
+            await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id})
+        }
+    }
+    useEffect(() => {
+        if (updatedOrder) {
+            dispatch(emptyCart());
+        }
+    }, [updatedOrder]);
+
+
     useEffect(() => {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
@@ -82,11 +98,10 @@ const CartView: FC<Props> = () => {
             }
         }
         checkout();
-        if (error) {
-            setErr(error as Error);
+        if (newOrderError) {
+            setErr(newOrderError as Error);
         }
     }, [orderRequestBody]);
-
     return (
         <div className="cart-container">
             <div className="view-header">
@@ -114,10 +129,22 @@ const CartView: FC<Props> = () => {
                     total amount: {totalAmount} $
                 </h2>
             }
-            {data && <OrderComponent data={data}/>}  
+            {newOrder && 
+                <div style={{visibility: updatedOrder ? 'hidden' : 'visible'}}>
+                    <OrderComponent data={newOrder} handleCheckout={handleCheckout}>
+                        <div>
+                            <h2>your order <span style={{color: "darkgrey"}}>/ {numberOfItems} {numberOfItems>1 ? 'items' : 'item'}</span> </h2>
+                            
+                        </div> 
+                    </OrderComponent>
+                </div>
+            }
+    
             {/* {err && <div><span>ERROR for snackbar api</span></div>}     */}
         </div>    
     )
 }
 
 export default CartView;
+
+// 

@@ -38,6 +38,16 @@ const orderQueries  = createApi({
 
             }),
             providesTags: ['Orders']
+        }),
+        updateOrder: builder.mutation<Order, OrderRequest>({
+            query: (orderRequest) =>  (
+                {
+                    url: `/order/${orderRequest.orderId}`, 
+                    method: 'PUT', 
+                    body: orderRequest.body,
+                    headers: { 'Authorization': `Bearer ${JSON.parse(orderRequest.token)}`}
+                }
+            ),
         })
     })
 })
@@ -46,9 +56,9 @@ export const {
     useGetOrdersQuery,
     useCreateOrderMutation,
     useGetOrdersByUserIdQuery,
+    useUpdateOrderMutation
     //useDeleteOrderMutation, 
     //useGetOrderByIdQuery,
-    //useUpdateOrderMutation
 } = orderQueries;
 export default orderQueries;
 
