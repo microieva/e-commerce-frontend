@@ -44,6 +44,7 @@ const Header: FC = () => {
     const onLogout = () => {
         localStorage.removeItem('token');
         setLoggedInUser(undefined);
+        window.dispatchEvent(new Event('storage'))
     }
 
     useEffect(() => {

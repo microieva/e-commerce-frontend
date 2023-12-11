@@ -20,16 +20,16 @@ describe('users', () => {
     expect(store.getState().userReducer.queries['getUsers(undefined)']?.data).toMatchObject(mockUsers);
   });
   it('Should update existing User title to Updated User', async () => {
-    const id = "2";
+    const _id = "2";
     const updates: Partial<User> =  {  
       password: "newPassword",
     };
-    const result: any = await store.dispatch(userQueries.endpoints.updateUser.initiate({id, ...updates}));
+    const result: any = await store.dispatch(userQueries.endpoints.updateUser.initiate({_id, ...updates}));
     expect(result.data.password).toMatch("newPassword");
   });
   it('Should delete existing User', async () => {
-    const id = "3";
-    const result: any = await store.dispatch(userQueries.endpoints.deleteUser.initiate(id));
+    const _id = "3";
+    const result: any = await store.dispatch(userQueries.endpoints.deleteUser.initiate(_id));
     expect(result.data).toBe(true);
   });
 })

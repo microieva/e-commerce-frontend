@@ -18,9 +18,10 @@ import { CartItem } from '../@types/cart';
 
 interface Props {
     data: CartItem[],
+    disabled: boolean
 }
 
-const MuiTable = ({ data }: Props) => {
+const MuiTable = ({ data, disabled }: Props) => {
     const [prevCart, setPrevCart] = useState(data);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -75,22 +76,22 @@ const MuiTable = ({ data }: Props) => {
                 <Table stickyHeader aria-label="sticky table">
                     <CustomCartTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
                         <TableRow>
-                            {columns.map((column: CartColumn) => (
+                            {columns.map((column: CartColumn, i) => (
                                 <TableCell
-                                    key={column.id}
+                                    key={`${i}-${column.id}`} 
                                     align={column.align}
                                     style={{ minWidth: column.minWidth }} 
                                 > 
                                     {column.label}  
                                 </TableCell>
-                                ))}
-                                 <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
+                            ))}
+                                <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
                             </TableRow>
                         </CustomCartTableHead>
                         <TableBody sx={{ "& tbody": {height: ""}}}>
                         { rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row: CartItem) => {
+                            .map((row: CartItem, i) => {
                                 return (  
                                     <>
                                         {row.quantity > 0 && 
@@ -98,7 +99,7 @@ const MuiTable = ({ data }: Props) => {
                                                 hover
                                                 role="checkbox" 
                                                 tabIndex={-1} 
-                                                key={row._id} 
+                                                key={`${i}-${row._id}`} 
                                                 sx={{
                                                     "& td": {padding: "0 1rem"},
                                                     "& td:hover": {
@@ -106,18 +107,22 @@ const MuiTable = ({ data }: Props) => {
                                                     }
                                                 }}
                                             >    
-                                            {columns.map((column: CartColumn, index) => {
+                                            {columns.map((column: CartColumn, i) => {
                                                 const value = column.render ? column.render(row) : row[column.id].toString();
                                                 return (
-                                                    <TableCell key={column.id} align={column.align}>
-                                                        <Link key={column.id} style={{textDecoration: "none", color: "black"}} to={`/products/${row._id}`}>
+                                                    <TableCell  key={`${i}`} align={column.align}>
+                                                        <Link  
+                                                            key={`${i}-${column.id}`}  
+                                                            style={{textDecoration: "none", color: "black"}} 
+                                                            to={`/products/${row._id}`}
+                                                        >
                                                             { value }
                                                         </Link>
                                                     </TableCell>      
                                                     );
                                                 })}
                                                 <TableCell>
-                                                    <CartActions product={row}/>
+                                                    <CartActions product={row} cartDisabled={disabled}/>
                                                 </TableCell>
                                             </TableRow>
                                         }
@@ -128,6 +133,7 @@ const MuiTable = ({ data }: Props) => {
                     </Table>
                 </TableContainer>
                 <TablePagination
+                    disabled={disabled}
                     rowsPerPageOptions={[10, 20, 100]}
                     component="div"
                     count={data.length}

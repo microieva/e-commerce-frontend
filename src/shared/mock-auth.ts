@@ -12,7 +12,7 @@ const mockResponse: LoginResponse = {
 }
 
 const mockUser: User = {
-  id: "1",
+  _id: "1",
   email: 'ieva@email.com',
   password: 'admin',
   name: 'Ieva',

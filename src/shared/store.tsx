@@ -10,7 +10,7 @@ import productQueries from '../redux/api-queries/product-queries';
 import userQueries from "../redux/api-queries/user-queries";
 import authQueries from "../redux/api-queries/auth-queries";
 import categoryQueries from "../redux/api-queries/category-queries";
-
+import orderQueries from "../redux/api-queries/order-queries";
 
 const persistConfig: PersistConfig<any> = { 
     key: 'cart', 
@@ -22,7 +22,8 @@ const rootReducer = combineReducers({
     [productQueries.reducerPath]: productQueries.reducer,
     [userQueries.reducerPath]: userQueries.reducer,
     [authQueries.reducerPath]: authQueries.reducer,
-    [categoryQueries.reducerPath]: categoryQueries.reducer
+    [categoryQueries.reducerPath]: categoryQueries.reducer,
+    [orderQueries.reducerPath]: orderQueries.reducer
 });
 
 const persistedReducer: Reducer<AppState, AnyAction> = persistReducer(persistConfig, rootReducer);
@@ -36,7 +37,12 @@ export const store = configureStore({
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
         }
-    ).concat(productQueries.middleware, userQueries.middleware, authQueries.middleware, categoryQueries.middleware),
+    ).concat(
+        productQueries.middleware, 
+        userQueries.middleware, 
+        authQueries.middleware, 
+        categoryQueries.middleware,
+        orderQueries.middleware)
   });
 
 export type AppDispatch = typeof store.dispatch;

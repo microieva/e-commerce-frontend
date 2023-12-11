@@ -13,7 +13,7 @@ const userQueries  = createApi({
             providesTags: ['Users', 'User']
         }),
         updateUser: builder.mutation<User, Partial<User>>({
-            query: ({id, ...updates}) =>  ({url: `/${id}`, method: 'PUT', body: updates}),
+            query: ({_id, ...updates}) =>  ({url: `/${_id}`, method: 'PUT', body: updates}),
             invalidatesTags: ['Users']
         }),
         deleteUser: builder.mutation<boolean, string>({

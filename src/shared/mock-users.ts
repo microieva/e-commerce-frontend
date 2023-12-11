@@ -2,7 +2,7 @@ import { User } from "../@types/user";
 
 export const mockUsers: User[] = [
   {
-    id: "1",
+    _id: "1",
     email: "email",
     password: "password1",
     name: "Ieva",
@@ -10,7 +10,7 @@ export const mockUsers: User[] = [
     avatar: ""
   },
   {
-    id: "2",
+    _id: "2",
     email: "email",
     password: "password2",
     name: "Adam",
@@ -18,7 +18,7 @@ export const mockUsers: User[] = [
     avatar: ""
   },
   {
-    id: "3",
+    _id: "3",
     email: "email",
     password: "password3",
     name: "Eve",

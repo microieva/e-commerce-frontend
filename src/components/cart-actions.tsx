@@ -12,9 +12,10 @@ import { CartItem } from '../@types/cart';
 
 interface CartActionsProps {
     product: Omit<Product, "categoryId">
+    cartDisabled?: boolean
 }
 
-const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
+const CartActions: FC<CartActionsProps> = ({product, cartDisabled}: CartActionsProps) => {
     const cart = useAppSelector(state => state.cart); 
     const [isInCart, setIsInCart] = useState<boolean>(cart.some((item: CartItem) => item._id === product._id))
     const dispatch = useAppDispatch();
@@ -39,10 +40,16 @@ const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
     }, [isInCart, removeFromCart, product._id, cart]);
 
     return (
-        <div className='btn-group' style={{float: "right", position: "relative", zIndex:"0"}}>
+        <div className='btn-group' 
+            style={{
+                float: "right", 
+                position: "relative", 
+                zIndex:"0"
+            } && cartDisabled ? {cursor:'default'} : {}}>
             <IconButton 
                 aria-label="add" 
                 size="large" 
+                disabled={cartDisabled}
                 onClick={(e)=>addToCart(e)}
             >
                 <AddCircleOutlineIcon/>
@@ -51,7 +58,7 @@ const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
                 aria-label="delete" 
                 size="large" 
                 onClick={removeFromCart} 
-                disabled={!isInCart} 
+                disabled={!isInCart || cartDisabled} 
             >
                 <DeleteOutlineIcon />
             </IconButton>
