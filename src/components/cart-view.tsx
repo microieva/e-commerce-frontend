@@ -9,7 +9,7 @@ import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCa
 import MuiCartTable from './mui-cart-table';
 import { emptyCart } from '../redux/app-reducers/cart';
 import { useAppDispatch } from '../hooks/useAppDispatch';
-import { useCreateOrderMutation, useUpdateOrderMutation } from '../redux/api-queries/order-queries';
+import { useCreateOrderMutation, useDeleteOrderMutation, useUpdateOrderMutation } from '../redux/api-queries/order-queries';
 import OrderComponent from './order';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { Error } from '../@types/error'
@@ -29,6 +29,7 @@ const CartView = ({user}: Props) => {
     const [ orderRequestBody, setOrderRequestBody ] = useState<{ id: string, quantity: number}[] | undefined>(undefined);
     const [ createOrder, { data: newOrder, error: newOrderError }] = useCreateOrderMutation();
     const [ updateOrder, { data: updatedOrder, error: updatedOrderError }] = useUpdateOrderMutation();
+    const [ deleteOrder, { data: deletedOrder, error: deletingError }] = useDeleteOrderMutation()
     const [ err, setErr ] = useState<Error | undefined>(undefined);
     const dispatch = useAppDispatch();
     const cart = useAppSelector(state => state.cart); 
@@ -45,18 +46,34 @@ const CartView = ({user}: Props) => {
     const onEmptyCart = () => {
         dispatch(emptyCart());
     }
+
     const handleCheckout = async () => {
         if (newOrder) {
             const updates = { paid: true }
             await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id})
         }
     }
+
+    const handleDeleteOrder = async () => {
+        if (newOrder) {
+            await deleteOrder({orderId: newOrder._id, token})
+            setOrder(false);
+        }
+    }
+
+    useEffect(() => {
+        console.log('deletedOrder: ', deletedOrder)
+        if (deletedOrder) {
+            //snackbar deletedOrder.msg
+            dispatch(emptyCart());
+        }  
+    }, [deletedOrder]);
+
     useEffect(() => {
         if (updatedOrder) {
             dispatch(emptyCart());
-        }
+        }  
     }, [updatedOrder]);
-
 
     useEffect(() => {
         const handleStorage = () => {
@@ -130,8 +147,11 @@ const CartView = ({user}: Props) => {
                 </h2>
             }
             {newOrder && 
-                <div style={{visibility: updatedOrder ? 'hidden' : 'visible'}}>
-                    <OrderComponent data={newOrder} handleCheckout={handleCheckout}>
+                <div style={{visibility: updatedOrder || deletedOrder ? 'hidden' : 'visible'}}>
+                    <OrderComponent 
+                        data={newOrder} 
+                        handleCheckout={handleCheckout}
+                        handleDeleteOrder={handleDeleteOrder}>
                         <div>
                             <h2>your order <span style={{color: "darkgrey"}}>/ {numberOfItems} {numberOfItems>1 ? 'items' : 'item'}</span> </h2>
                             

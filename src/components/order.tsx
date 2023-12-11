@@ -12,25 +12,11 @@ import { useUpdateOrderMutation } from '../redux/api-queries/order-queries';
 interface Props {
     data: Order,
     children: React.JSX.Element,
-    handleCheckout?: () => void
+    handleCheckout?: () => void,
+    handleDeleteOrder?: () => void;
 }
 
-const OrderComponent = ({ data, children, handleCheckout }: Props) => {
-    const dispatch = useAppDispatch();
-    const [ updateOrder, { data: updatedOrder, error, isLoading}] = useUpdateOrderMutation();
-    // const numberOfItems = cart.reduce((total, cartItem) => {
-    //     return total + cartItem.quantity;
-    // }, 0);
-
-    // const onCheckout = async () => {
-    //     const updates = { paid: true }
-    //     await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: data._id})
-    // }
-    // useEffect(() => {
-    //     if (updatedOrder && !error) {
-    //         dispatch(emptyCart());
-    //     }
-    // }, [updatedOrder])
+const OrderComponent = ({ data, children, handleCheckout, handleDeleteOrder }: Props) => {
 
         return (
             <div className='order-container'>
@@ -49,11 +35,11 @@ const OrderComponent = ({ data, children, handleCheckout }: Props) => {
                             <IconButton  onClick={()=> console.log('snackbar update')}>
                                 <PlaylistAddCheckIcon/>
                             </IconButton>
-                            <IconButton  onClick={()=> console.log('snackbar cancel === deleteOrder')}>
+                            <IconButton  onClick={handleDeleteOrder}>
                                 <RemoveShoppingCartIcon/>
                             </IconButton>
                         </>}
-                        {data.paid && <IconButton  onClick={()=> console.log('snackbar cancel === deleteOrder')}>
+                        {data.paid && <IconButton  onClick={handleDeleteOrder}>
                             <RemoveShoppingCartIcon/>
                         </IconButton>}
                     </div>

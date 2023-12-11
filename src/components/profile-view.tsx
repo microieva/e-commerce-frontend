@@ -7,6 +7,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
 import OrderComponent from './order';
 import { Order } from '../@types/cart';
+import { useDeleteOrderMutation } from '../redux/api-queries/order-queries';
 
 
 interface Props {
@@ -15,7 +16,10 @@ interface Props {
 }
 
 const ProfileView: FC<Props> = ({ user, orders }) => {
+    //const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
+    const [ order, setOrder ] = useState<Order>();
     const [ loggedInUser, setLoggedInUser ] = useState<User>(user);
+    const [ deleteOrder, { data, error, isLoading}] = useDeleteOrderMutation();
     // delete all users orders api call
     // will get number of imtes from order, from a click to open items:fetch orderItems from api !!!
     // const numberOfItems = orders && orders.reduce((total, item) => {
@@ -23,9 +27,25 @@ const ProfileView: FC<Props> = ({ user, orders }) => {
     // }, 0);
     const goBack = useNavigate();
 
+    const handleDeleteOrder = async () => {
+        if (order) {
+            await deleteOrder({orderId: order._id, token: localStorage.getItem('token') || ''})
+        }
+    }
+
+    useEffect(()=> {
+        if (data && data.msg) {
+            console.log('msg :', data.msg)
+        }
+    }, [data])
+
     useEffect(()=> {
         setLoggedInUser(user)
     }, [user])
+
+    if (!loggedInUser) {
+        goBack('/');
+    }
 
     return (
         <>
@@ -72,13 +92,18 @@ const ProfileView: FC<Props> = ({ user, orders }) => {
                         </div>
                         <div className="orders">
                             {orders.map(order => {
-                                return  order.paid && 
-                                    <OrderComponent data={order}>
-                                        <div>
-                                            <h2>your order</h2>
-                                            <h2><span style={{color: "darkgrey"}}>created: date</span></h2>        
-                                        </div> 
-                                    </OrderComponent>
+                                setOrder(order);
+                                if (order.paid) {
+                                    return <OrderComponent 
+                                                data={order} 
+                                                handleDeleteOrder={handleDeleteOrder}
+                                            >
+                                                <div>
+                                                    <h2>your order</h2>
+                                                    <h2><span style={{color: "darkgrey"}}>created: date</span></h2>        
+                                                </div> 
+                                            </OrderComponent>
+                                }
                             })}
                         </div>
                     </>
