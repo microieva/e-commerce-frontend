@@ -20,8 +20,6 @@ import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 const Header: FC = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data } = useGetUserQuery(token);
-    
-    const [ admin, setAdmin ] = useState<boolean>(false);
     const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(data);
     
     const [ open, setOpen ] = useState<boolean>(false);
@@ -50,20 +48,12 @@ const Header: FC = () => {
     useEffect(() => {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
-         }
-    
-            data && setLoggedInUser(data);
-            data && setAdmin(data.role === "ADMIN")
-       
+        }
+        data && setLoggedInUser(data);
+
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
     }, [data]);
-
-    useEffect(()=> {
-        if (loggedInUser && loggedInUser.role === "ADMIN") {
-            setAdmin(true);
-        }
-    }, [loggedInUser])
 
     return (
         <header>
@@ -87,19 +77,21 @@ const Header: FC = () => {
                             </Link>    
                         </>
                     }
-                    {!admin && <Link to='/cart'>
-                        <IconButton>
-                            <Badge 
-                                overlap="circular" 
-                                badgeContent={amount}
-                                sx={{
-                                    "&.css-z5pebr-MuiBadge-badge": {backgroundColor: "orange"}
-                                }}
-                            >
-                                <ShoppingCartOutlinedIcon />
-                            </Badge>
-                        </IconButton>
-                    </Link>}
+                    {loggedInUser?.role !== "ADMIN" && 
+                        <Link to='/cart'>
+                            <IconButton>
+                                <Badge 
+                                    overlap="circular" 
+                                    badgeContent={amount}
+                                    sx={{
+                                        "&.css-z5pebr-MuiBadge-badge": {backgroundColor: "orange"}
+                                    }}
+                                >
+                                    <ShoppingCartOutlinedIcon />
+                                </Badge>
+                            </IconButton>
+                        </Link>
+                    }
                 </div>
             </div>
             <ThemeProvider theme={marineTheme}>

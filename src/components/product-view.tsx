@@ -36,6 +36,12 @@ const ProductView: FC<Props> = ({ product }) => {
         return () => window.removeEventListener('storage', handleStorage)
     }, [user]);
 
+    useEffect(()=>{
+		if (!token) {
+			setAdmin(false);
+		}
+	}, [token])
+
     useEffect(()=> {
         if (data && !error && !isLoading) {
             navigate('/');

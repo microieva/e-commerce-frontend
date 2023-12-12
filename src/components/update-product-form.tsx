@@ -88,7 +88,13 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
             setDisabled(true);
         }
         error && setErr(Boolean(error));
-    }, [data, error])
+    }, [data, error]);
+
+    useEffect(()=> {
+        if (!admin) {
+            setDisabled(true);
+        }
+    }, [admin])
 
     const validate = (obj: any) => {
         //setErr(titleError && priceError && descriptionError);

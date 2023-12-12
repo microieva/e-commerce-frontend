@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconButton, ThemeProvider } from '@mui/material';
@@ -8,8 +8,21 @@ import CreateProductForm from './create-product-form';
 import { orangeTheme } from '../shared/theme';
 
 const ProductFormView: FC = () => {  
+    const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const navigate = useNavigate();
     //const history = useHistory();
+
+    useEffect(()=> {
+        const handleStorage = () => {
+            setToken(localStorage.getItem('token') || '');
+        }
+        if (!token) {
+            navigate('/');
+        }
+       
+        window.addEventListener('storage', handleStorage)
+        return () => window.removeEventListener('storage', handleStorage)
+    }, [token]);
 
     return (
         <>

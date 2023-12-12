@@ -6,17 +6,44 @@ import ProductCard from './product-card';
 import Pagination from './pagination';
 import { Product } from '../@types/product';
 import Loading from './loading';
+import { useGetUserQuery } from '../redux/api-queries/auth-queries';
+import { User } from '../@types/user';
 
 interface ViewProps {
   searchWord: string
 }
 
 const CardsView = ({ searchWord }: ViewProps) => {
+	const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
+    const { data: user } = useGetUserQuery(token);
+
+	const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
+	const [ admin, setAdmin ] = useState<boolean>(false);
+
 	const { data, isLoading } = useGetFilteredProductsByTitleQuery(searchWord);
 	const [ products, setProducts] = useState<Product[]>([]);
 
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [itemsPerPage, setItemsPerPage] = useState<number>(20);
+
+	useEffect(() => {
+        const handleStorage = () => {
+            setToken(localStorage.getItem('token') || '');
+        }
+        user && setLoggedInUser(user);
+		if (user && user.role === 'ADMIN') {
+			setAdmin(true);
+		}
+       
+        window.addEventListener('storage', handleStorage)
+        return () => window.removeEventListener('storage', handleStorage)
+    }, [user]);
+
+	useEffect(()=>{
+		if (!token) {
+			setAdmin(false);
+		}
+	}, [token])
 
 	useEffect(()=>{	
 		data && setProducts(data);
@@ -38,7 +65,7 @@ const CardsView = ({ searchWord }: ViewProps) => {
 						{currentProducts.length > 0 && currentProducts.map((product: Product, i) => {
 							return (
 								<Link key={i} style={{textDecoration: "none", color: "black"}} to={`/products/${product._id}`}>
-									<ProductCard key={product._id} product={product}/>
+									<ProductCard key={product._id} product={product} admin={admin}/>
 								</Link>
 							);
 						})}
