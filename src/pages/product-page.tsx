@@ -6,7 +6,6 @@ import Header from '../components/header';
 import ProductView from '../components/product-view';
 import Footer from '../components/footer';
 import Loading from '../components/loading';
-import { Product } from '../@types/product';
 
 const ProductPage: FC = () => { 
     const { productId } = useParams();
