@@ -11,7 +11,6 @@ interface Props {
     user: User
 }
 
-
 const UserDetails = ({ user }: Props) => {
     const navigate = useNavigate();
 
@@ -32,15 +31,6 @@ const UserDetails = ({ user }: Props) => {
                         </IconButton>
                     </div>
                 </div>
-                {/* <div className='view-details'>
-                    <div className="profile-details-text">
-                        <p><span>account name:</span> {user.name}</p>
-                        <p><span>account email:</span> {user.email}</p>
-                    </div>
-                    <div className="img-wrapper">
-                        <img src={`${user.avatar}`} alt="profile picture" />
-                    </div>
-                </div>  */}
                 <div className='view-details'>
                     <ThemeProvider theme={marineTheme}>
                         {user && <UpdateUserForm user={user}/>}

@@ -20,12 +20,14 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
     const [ email, setEmail ] = useState<string>(user.email);
     const [ name, setName ] = useState<string>(user.name);
     const [ avatar, setAvatar ] = useState<string>(user.avatar);
+    const [ password, setPassword ] = useState<string | undefined>(undefined);
     
     const [ updates, setUpdates ] = useState<Partial<User>>();
 
     const [ nameError, setNameError ] = useState<boolean>(false);
     const [ emailError, setEmailError ] = useState<boolean>(false);
     const [ avatarError, setAvatarError ] = useState<boolean>(false);
+    const [ passwordError, setPasswordError ] = useState<boolean>(false);
 
     const [ updateUser, {data, error, isLoading} ] = useUpdateUserMutation();
 
@@ -39,10 +41,16 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
         const obj = {
             name,
             email,
-            avatar: avatar ? avatar : "https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg"
+            avatar: avatar ? avatar : "https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg",
         };
         validate(obj);
-        !err && setUpdates(obj);
+        if (!err) {
+            if (password !== undefined) {
+                setUpdates({...obj, password});
+            } else {
+                setUpdates(obj);
+            }
+        }
     }
 
     useEffect(() => {
@@ -59,6 +67,9 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
         const submit = async() => {
             if (updates) {
                 await updateUser({ token: localStorage.getItem('token') || '', body: updates, _id: user?._id});
+                if (updates.password !== undefined) {
+                    localStorage.removeItem('token');
+                }
             }
         }
         submit();
@@ -70,6 +81,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
             setDisabled(true);
         }
         error && setErr(Boolean(error));
+        console.log('data, error : ', data, error)
     }, [data, error]);
 
     useEffect(()=> {
@@ -159,6 +171,29 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                             }
                         }}
                         onFocus={()=> setAvatarError(false)}
+                    />
+                </FormControl> 
+                <FormControl fullWidth>
+                    <TextField
+                        fullWidth
+                        variant="standard"
+                        label="Password"
+                        name="password"
+                        type="text"
+                        placeholder="**********"
+                        disabled={disabled}
+                        helperText="Password is required"
+                        onChange={(e) => setPassword(e.target.value)}
+                        sx={{
+                            '& .MuiFormHelperText-root': {
+                            visibility: passwordError ? 'visible' : 'hidden',
+                            transition: 'visibility 0.2s ease-in',
+                            },
+                            '& .MuiInputBase-root.MuiInput-root:before': { 
+                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                            }
+                        }}
+                        onFocus={()=> setPasswordError(false)}
                     />
                 </FormControl> 
                 <div className='btn-group'>  
