@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { url } from '../../common/common';
-import { User } from '../../@types/user';
+import { User, UserRequest } from '../../@types/user';
 
 const userQueries  = createApi({
 
@@ -12,8 +12,15 @@ const userQueries  = createApi({
             query: () => '',
             providesTags: ['Users', 'User']
         }),
-        updateUser: builder.mutation<User, Partial<User>>({
-            query: ({_id, ...updates}) =>  ({url: `/${_id}`, method: 'PUT', body: updates}),
+        updateUser: builder.mutation<User, UserRequest>({
+            query: (userRequest) =>  (
+                {
+                    url: `/${userRequest._id}`, 
+                    method: 'PUT', 
+                    body: userRequest.body,
+                    headers: { 'Authorization': `Bearer ${JSON.parse(userRequest.token)}`}
+                }
+            ),
             invalidatesTags: ['Users']
         }),
         deleteUser: builder.mutation<boolean, string>({

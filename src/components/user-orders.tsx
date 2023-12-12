@@ -1,6 +1,5 @@
 
 import { IconButton } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Order } from '../@types/cart';
 import OrderComponent from './order';
@@ -16,7 +15,6 @@ const UserDetails = ({ orders }: Props) => {
     const [ deleteOrder, { data: deletedOrder, error: deletingError }] = useDeleteOrderMutation();
     const [ deleteUserOrders, {data: deletedOrders, error, isLoading }] = useDeleteUserOrdersMutation();
     const [ order, setOrder ] = useState<boolean>(Boolean(deletedOrder));
-    const navigate = useNavigate();
 
     const handleDeleteOrder = async (orderId: string) => {
         if (orderId) {
