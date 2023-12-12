@@ -13,7 +13,7 @@ interface Props {
     data: Order,
     children: React.JSX.Element,
     handleCheckout?: () => void,
-    handleDeleteOrder?: () => void;
+    handleDeleteOrder: () => Promise<void>;
 }
 
 const OrderComponent = ({ data, children, handleCheckout, handleDeleteOrder }: Props) => {
