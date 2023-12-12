@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconButton } from '@mui/material';
@@ -13,12 +13,7 @@ import { useCreateOrderMutation, useDeleteOrderMutation, useUpdateOrderMutation 
 import OrderComponent from './order';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { Error } from '../@types/error'
-import { User } from '../@types/user';
 import { useGetUserQuery } from '../redux/api-queries/auth-queries';
-
-interface Props {
-    user?: User
-}
 
 const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
@@ -64,7 +59,6 @@ const CartView = () => {
     }
 
     useEffect(() => {
-        console.log('deletedOrder: ', deletedOrder)
         if (deletedOrder) {
             //snackbar deletedOrder.msg
             dispatch(emptyCart());
@@ -96,7 +90,6 @@ const CartView = () => {
     }, [user])
 
     useEffect(()=> {
-
         if (order) {
             if (cart.length !== 0) {
                 const arr: { id: string, quantity: number}[] = cart
@@ -107,10 +100,9 @@ const CartView = () => {
                 arr && setOrderRequestBody(arr)
             }
         }
-    }, [order, cart])
+    }, [order, cart]);
 
     useEffect(() => {
-
         const checkout = async() => {   
             if (user && orderRequestBody) {
                 await createOrder(
@@ -128,6 +120,7 @@ const CartView = () => {
             setErr(newOrderError as Error);
         }
     }, [orderRequestBody]);
+
     return (
         <div className="cart-container">
             <div className="view-header">

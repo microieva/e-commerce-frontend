@@ -1,6 +1,6 @@
 
 import { IconButton } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Order } from '../@types/cart';
 import OrderComponent from './order';
@@ -35,12 +35,6 @@ const UserDetails = ({ orders }: Props) => {
                 <div className='view-header'>
                     <h2>orders</h2>
                     <div className='btn-group'>
-                        {/* {user.role === 'ADMIN' && 
-                        <Link to={`/products/new`}>
-                            <IconButton>
-                                <PlaylistAddOutlinedIcon/>  
-                            </IconButton>
-                        </Link>} */}
                         <IconButton onClick={()=> console.log('setDeleteAllOrders(true)')}>
                             <DeleteForeverIcon/>
                         </IconButton>
