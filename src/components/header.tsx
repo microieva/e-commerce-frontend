@@ -20,8 +20,6 @@ import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 const Header: FC = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data } = useGetUserQuery(token);
-    
-    const [ admin, setAdmin ] = useState<boolean>(false);
     const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(data);
     
     const [ open, setOpen ] = useState<boolean>(false);
@@ -53,17 +51,10 @@ const Header: FC = () => {
          }
     
             data && setLoggedInUser(data);
-            data && setAdmin(data.role === "ADMIN")
        
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
     }, [data]);
-
-    useEffect(()=> {
-        if (loggedInUser && loggedInUser.role === "ADMIN") {
-            setAdmin(true);
-        }
-    }, [loggedInUser])
 
     return (
         <header>
@@ -87,7 +78,7 @@ const Header: FC = () => {
                             </Link>    
                         </>
                     }
-                    {!admin && <Link to='/cart'>
+                    {loggedInUser?.role !== "ADMIN" && <Link to='/cart'>
                         <IconButton>
                             <Badge 
                                 overlap="circular" 
