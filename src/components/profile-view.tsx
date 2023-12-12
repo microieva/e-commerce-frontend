@@ -6,26 +6,35 @@ import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
 import OrderComponent from './order';
-import { Order } from '../@types/cart';
+import { useGetUserQuery } from '../redux/api-queries/auth-queries';
+import { useGetOrdersByUserIdQuery } from '../redux/api-queries/order-queries';
 
+const ProfileView: FC = () => {
+    const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
+    const { data: user } = useGetUserQuery(token);
+    const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
+    const { data: orders, error, isLoading } = useGetOrdersByUserIdQuery({token, userId: user?._id || ""})
+    const navigate = useNavigate();
 
-interface Props {
-    user: User,
-    orders?: Order[]
-}
-
-const ProfileView: FC<Props> = ({ user, orders }) => {
-    const [ loggedInUser, setLoggedInUser ] = useState<User>(user);
     // delete all users orders api call
-    // will get number of imtes from order, from a click to open items:fetch orderItems from api !!!
     // const numberOfItems = orders && orders.reduce((total, item) => {
     //     return total + item.quantity;
     // }, 0);
     const goBack = useNavigate();
 
     useEffect(()=> {
-        setLoggedInUser(user)
-    }, [user])
+        const handleStorage = () => {
+            setToken(localStorage.getItem('token') || '');
+        }  
+        if (!token) {
+            navigate('/');
+        }
+        user && setLoggedInUser(user);
+
+        window.addEventListener('storage', handleStorage)
+        return () => window.removeEventListener('storage', handleStorage)
+        
+    }, [token]);
 
     return (
         <>
@@ -34,7 +43,7 @@ const ProfileView: FC<Props> = ({ user, orders }) => {
                 <div className='view-header'>
                     <h2>profile</h2>
                     <div className='btn-group'>
-                            {user.role === 'ADMIN' && 
+                            {loggedInUser.role === 'ADMIN' && 
                             <Link to={`/products/new`}>
                                 <IconButton>
                                     <PlaylistAddOutlinedIcon/>  
@@ -47,11 +56,11 @@ const ProfileView: FC<Props> = ({ user, orders }) => {
                 </div>
                 <div className='view-details'>
                     <div className="profile-details-text">
-                        <p><span>account name:</span> {user.name}</p>
-                        <p><span>account email:</span> {user.email}</p>
+                        <p><span>account name:</span> {loggedInUser.name}</p>
+                        <p><span>account email:</span> {loggedInUser.email}</p>
                     </div>
                     <div className="img-wrapper">
-                        <img src={`${user.avatar}`} alt="profile picture" />
+                        <img src={`${loggedInUser.avatar}`} alt="profile picture" />
                     </div>
                 </div>
                 { orders && 
