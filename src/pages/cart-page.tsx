@@ -22,7 +22,7 @@ const CartPage: FC = () => {
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
     }, [user]);
-
+    // fetch user in CartView
     return (
         <>
             <main>
