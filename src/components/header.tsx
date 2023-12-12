@@ -48,10 +48,9 @@ const Header: FC = () => {
     useEffect(() => {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
-         }
-    
-            data && setLoggedInUser(data);
-       
+        }
+        data && setLoggedInUser(data);
+
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
     }, [data]);
@@ -78,19 +77,21 @@ const Header: FC = () => {
                             </Link>    
                         </>
                     }
-                    {loggedInUser?.role !== "ADMIN" && <Link to='/cart'>
-                        <IconButton>
-                            <Badge 
-                                overlap="circular" 
-                                badgeContent={amount}
-                                sx={{
-                                    "&.css-z5pebr-MuiBadge-badge": {backgroundColor: "orange"}
-                                }}
-                            >
-                                <ShoppingCartOutlinedIcon />
-                            </Badge>
-                        </IconButton>
-                    </Link>}
+                    {loggedInUser?.role !== "ADMIN" && 
+                        <Link to='/cart'>
+                            <IconButton>
+                                <Badge 
+                                    overlap="circular" 
+                                    badgeContent={amount}
+                                    sx={{
+                                        "&.css-z5pebr-MuiBadge-badge": {backgroundColor: "orange"}
+                                    }}
+                                >
+                                    <ShoppingCartOutlinedIcon />
+                                </Badge>
+                            </IconButton>
+                        </Link>
+                    }
                 </div>
             </div>
             <ThemeProvider theme={marineTheme}>

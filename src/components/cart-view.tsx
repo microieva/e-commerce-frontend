@@ -14,13 +14,15 @@ import OrderComponent from './order';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { Error } from '../@types/error'
 import { User } from '../@types/user';
+import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 
 interface Props {
     user?: User
 }
 
-const CartView = ({user}: Props) => {
+const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
+    const { data: user } = useGetUserQuery(token);
 
     const [userId, setUserId] = useState<string | undefined>(undefined);
     const [ disabled, setDisabled ] = useState<boolean>(Boolean(!localStorage.getItem('token')));
@@ -61,13 +63,20 @@ const CartView = ({user}: Props) => {
     useEffect(() => {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
-        }   
+        }  
         user && setUserId(user._id); 
         setDisabled(Boolean(!token));
+
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
        
     }, [token]);
+
+    useEffect(()=> {
+        if (user?.role === "ADMIN") {
+            navigate('/');
+        } 
+    }, [user])
 
     useEffect(()=> {
 
