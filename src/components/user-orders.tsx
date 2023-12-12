@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Order } from '../@types/cart';
 import OrderComponent from './order';
-import { useDeleteOrderMutation } from '../redux/api-queries/order-queries';
+import { useDeleteOrderMutation, useDeleteUserOrdersMutation } from '../redux/api-queries/order-queries';
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -13,8 +13,9 @@ interface Props {
 
 
 const UserDetails = ({ orders }: Props) => {
-    const [ deleteOrder, { data, error: deletingError }] = useDeleteOrderMutation();
-    const [ order, setOrder ] = useState<boolean>(Boolean(data));
+    const [ deleteOrder, { data: deletedOrder, error: deletingError }] = useDeleteOrderMutation();
+    const [ deleteUserOrders, {data: deletedOrders, error, isLoading }] = useDeleteUserOrdersMutation();
+    const [ order, setOrder ] = useState<boolean>(Boolean(deletedOrder));
     const navigate = useNavigate();
 
     const handleDeleteOrder = async (orderId: string) => {
@@ -23,19 +24,22 @@ const UserDetails = ({ orders }: Props) => {
             setOrder(false);
         }
     }
+    const handleDeleteAllOrders = async () => {
+        await deleteUserOrders({ token: localStorage.getItem('token') || '', userId: orders[0].userId});
+    }
 
     useEffect(()=> {
-        if (data && data.msg) {
-            console.log('msg :', data.msg) // snackbar
+        if (deletedOrder && deletedOrder.msg) {
+            //console.log('msg :', deletedOrder.msg) // snackbar
         }
-    }, [data]);
+    }, [deletedOrder]);
 
         return (
             <>
                 <div className='view-header'>
                     <h2>orders</h2>
                     <div className='btn-group'>
-                        <IconButton onClick={()=> console.log('setDeleteAllOrders(true)')}>
+                        <IconButton onClick={handleDeleteAllOrders}>
                             <DeleteForeverIcon/>
                         </IconButton>
                     </div> 
