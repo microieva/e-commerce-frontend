@@ -13,6 +13,9 @@
   display: flex;
   flex-direction: column;
   margin: 4rem 0;
+  .btn-group {
+    float: right;
+  }
 }
 
 .cards-view-wrapper {

@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState, MouseEvent } from 'react';
+import { FC, useEffect } from 'react';
 
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -10,7 +10,6 @@ import { useDeleteProductMutation } from '../redux/api-queries/product-queries';
 
 interface Props {
     product: Omit<Product, "categoryId">
-    //cartDisabled?: boolean
 }
 
 const AdminActions: FC<Props> = ({ product }: Props) => {
@@ -35,7 +34,8 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
                 float: "right", 
                 position: "relative", 
                 zIndex:"0"
-            }}>
+            }}
+        >
             <IconButton 
                 aria-label="add" 
                 size="large" 

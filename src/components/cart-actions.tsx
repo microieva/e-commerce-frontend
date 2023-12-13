@@ -45,7 +45,8 @@ const CartActions: FC<CartActionsProps> = ({product, cartDisabled}: CartActionsP
                 float: "right", 
                 position: "relative", 
                 zIndex:"0"
-            } && cartDisabled ? {cursor:'default'} : {}}>
+            } && cartDisabled ? {cursor:'default'} : {}}
+        >
             <IconButton 
                 aria-label="add" 
                 size="large" 

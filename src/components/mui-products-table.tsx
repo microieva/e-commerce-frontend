@@ -19,15 +19,17 @@ import { getSorted } from '../redux/selectors/getSorted';
 import CartActions from './cart-actions';
 import { Product } from '../@types/product';
 import { TableColumn } from '../@types/table';
-import { TypeUserContext } from '../@types/types';
-import { UserContext } from '../contexts/user';
+import { useGetUserQuery } from '../redux/api-queries/auth-queries';
+import AdminActions from './admin-actions';
 
 interface TableProps {
     data: Product[],
 }
 
 const MuiProductsTable = ({ data }: TableProps) => {
-    const { user } = useContext(UserContext) as TypeUserContext;
+
+    const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
+    const { data: user } = useGetUserQuery(token);
     const [ admin, setAdmin ] = useState<boolean>(false);
     
     const [page, setPage] = useState(0);
@@ -74,9 +76,24 @@ const MuiProductsTable = ({ data }: TableProps) => {
         setRows(sorted);
     }, [data, order, orderBy, handleSort]);
 
-    useEffect(()=> {
-        user && user.role === 'ADMIN' ? setAdmin(true) : setAdmin(false);
-    }, [user])
+
+    useEffect(() => {
+        const handleStorage = () => {
+            setToken(localStorage.getItem('token') || '');
+        }   
+		if (user && user.role === 'ADMIN') {
+			setAdmin(true);
+		}
+       
+        window.addEventListener('storage', handleStorage)
+        return () => window.removeEventListener('storage', handleStorage)
+    }, [user]);
+
+    useEffect(()=>{
+		if (!token) {
+			setAdmin(false);
+		}
+	}, [token])
     
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -105,7 +122,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                     </TableSortLabel>
                                 </TableCell>
                                 ))}
-                                {(!user || !admin) && <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>}
+                                <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
                             </TableRow>
                         </CustomProductsTableHead>
                         <TableBody sx={{ "& tbody": {height: ""}}}>
@@ -119,7 +136,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                         tabIndex={-1} 
                                         key={row._id} 
                                         sx={{
-                                            "& td": {padding: admin ? "1rem 1rem" : "0 1rem"},
+                                            "& td": {padding: "0 1rem"},
                                             "& td:hover": {
                                                 cursor: "pointer"
                                             }
@@ -136,10 +153,15 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                             </TableCell>    
                                             );
                                         })}
-                                        {(!user || !admin) && 
-                                        <TableCell>
-                                            <CartActions product={row}/>
-                                        </TableCell>}
+                                        { admin ?
+                                            <TableCell>
+                                                <AdminActions product={row}/>
+                                            </TableCell>
+                                        :
+                                            <TableCell>
+                                                <CartActions product={row}/>
+                                            </TableCell>
+                                        }
                                     </TableRow>
                                 );
                             })}
