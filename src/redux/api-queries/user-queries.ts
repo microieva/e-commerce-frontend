@@ -23,8 +23,12 @@ const userQueries  = createApi({
             ),
             invalidatesTags: ['Users']
         }),
-        deleteUser: builder.mutation<boolean, string>({
-            query: (userId) =>  ({url: `/${userId}`, method: 'DELETE'}),
+        deleteUser: builder.mutation<{ msg: string }, UserRequest>({
+            query: (userRequest) =>  ({
+                url: `/${userRequest._id}`, 
+                method: 'DELETE', 
+                headers: { 'Authorization': `Bearer ${JSON.parse(userRequest.token)}`}
+            }),
             invalidatesTags: ['Users']
         })
     })

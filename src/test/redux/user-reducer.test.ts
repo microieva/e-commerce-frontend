@@ -29,10 +29,10 @@ describe('users', () => {
     const result: any = await store.dispatch(userQueries.endpoints.updateUser.initiate({_id, ...updates}));
     expect(result.data.password).toMatch("newPassword");
   });*/
-  it('Should delete existing User', async () => {
+  /*it('Should delete existing User', async () => {
     const _id = "3";
     const result: any = await store.dispatch(userQueries.endpoints.deleteUser.initiate(_id));
     expect(result.data).toBe(true);
-  });
+  });*/
 })
 

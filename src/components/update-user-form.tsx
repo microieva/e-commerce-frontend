@@ -81,7 +81,6 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
             setDisabled(true);
         }
         error && setErr(Boolean(error));
-        console.log('data, error : ', data, error)
     }, [data, error]);
 
     useEffect(()=> {

@@ -385,3 +385,15 @@ footer {
     width: 4rem;
   }
 }
+
+.alert-container {
+  padding: 4rem;
+  h2 {
+    color: rgb(121, 121, 121);
+    margin-bottom: 6rem;
+  }
+  .btn-group {
+    float: right;
+    display: flex;
+  }
+}
