@@ -76,7 +76,7 @@ const CardsView = ({ searchWord }: ViewProps) => {
 							totalItems={products.length}
 							onPageChange={handlePageChange}
 							startIndex={startIndex}
-							endIndex={currentProducts.length < itemsPerPage ? currentProducts.length : endIndex}
+							endIndex={currentProducts.length < itemsPerPage ? products.length : endIndex}
 						/>
 					</div>
 					<Outlet />
