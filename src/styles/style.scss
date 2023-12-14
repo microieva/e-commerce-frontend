@@ -203,20 +203,7 @@ footer {
   .btn-group {
     align-self: flex-end;
     margin-top: 5rem;
-    color: darkgray;
-    .icon-disable-div {
-      position: absolute;
-      top: 0;
-      left: 48px;
-      width: 50%;
-      height: 100%;
-      background: transparent;
-      z-index: 2;
-      //pointer-events: 'none'; 
-      &:hover {
-        cursor: default;
-      }
-    }
+    color: darkgray; 
   }
   .product-price {
     align-self: flex-end;

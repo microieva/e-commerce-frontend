@@ -40,12 +40,13 @@ const CartActions: FC<CartActionsProps> = ({product, cartDisabled}: CartActionsP
     }, [isInCart, removeFromCart, product._id, cart]);
 
     return (
-        <div className='btn-group' 
+        <div className='btn-group'
             style={{
                 float: "right", 
                 position: "relative", 
-                zIndex:"0"
-            } && cartDisabled ? {cursor:'default'} : {}}
+                zIndex:"0",
+                cursor: cartDisabled || !isInCart ? 'default' : 'pointer'
+            }}
         >
             <IconButton 
                 aria-label="add" 
@@ -63,9 +64,6 @@ const CartActions: FC<CartActionsProps> = ({product, cartDisabled}: CartActionsP
             >
                 <DeleteOutlineIcon />
             </IconButton>
-            {!isInCart && (
-                <div className="icon-disable-div"/>
-            )}
         </div>
   )
 }
