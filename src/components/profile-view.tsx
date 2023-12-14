@@ -2,8 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 import AccountDetails from './account-details';
-import UserView from './user-view';
-import AdminView from './admin-view';
+import UserProfileView from './user-profile-view';
+import AdminProfileView from './admin-profile-view';
 
 
 const ProfileView: FC = () => {
@@ -30,14 +30,14 @@ const ProfileView: FC = () => {
             navigate('/')
         }
     }, [token])
-    console.log('profile-view')
+
     return (
         <div className="view-container">
             {user && <AccountDetails user={user}/>}
             { admin ? 
-                <AdminView />
+                <AdminProfileView />
             :
-                <UserView userId={userId}/>
+                <UserProfileView userId={userId}/>
             }
             <Outlet />
         </div>

@@ -49,7 +49,7 @@ const ProductView: FC<Props> = ({ product }) => {
     }, [data, error, isLoading])
 
     const onDelete = () => {
-        deleteProduct({ _id: product._id, token: token});
+        deleteProduct({ productId: product._id, token: token});
     }
 
     return (

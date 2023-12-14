@@ -76,7 +76,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     useEffect(()=> {
         const submit = async() => {
             if (updates) {
-                await updateProduct({ token: localStorage.getItem('token') || '', body: updates, _id: product?._id});
+                await updateProduct({ token: localStorage.getItem('token') || '', body: updates, productId: product?._id});
             }
         }
         submit();

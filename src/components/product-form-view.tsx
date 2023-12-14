@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconButton, ThemeProvider } from '@mui/material';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import CreateProductForm from './create-product-form';
 import { orangeTheme } from '../shared/theme';

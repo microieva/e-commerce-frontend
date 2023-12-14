@@ -37,7 +37,7 @@ const productQueries  = createApi({
         updateProduct: builder.mutation<Product, ProductRequest>({
             query: (productRequest) =>  (
                 {
-                    url: `/${productRequest._id}`, 
+                    url: `/${productRequest.productId}`, 
                     method: 'PUT', 
                     body: productRequest.body,
                     headers: { 'Authorization': `Bearer ${JSON.parse(productRequest.token)}`}
@@ -48,7 +48,7 @@ const productQueries  = createApi({
         deleteProduct: builder.mutation<Product, ProductRequest>({
             query: (productRequest) => (
                 {
-                    url: `${productRequest._id}`, 
+                    url: `${productRequest.productId}`, 
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${JSON.parse(productRequest.token)}`}
                 }

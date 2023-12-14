@@ -15,7 +15,13 @@ export interface Category {
 }
 
 export interface ProductRequest {
-  _id?: string,
+  productId?: string,
+  body?: Partial<Product>,
+  token: string
+}
+
+export interface CategoryRequest {
+  categoryId?: string,
   body?: Partial<Product>,
   token: string
 }

@@ -21,7 +21,7 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
     }
 
     const handleDelete = async () => {
-        await deleteProduct({token: localStorage.getItem('token') || '', _id: product._id});
+        await deleteProduct({token: localStorage.getItem('token') || '', productId: product._id});
     }
     
     useEffect(()=>{

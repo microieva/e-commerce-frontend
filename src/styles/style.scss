@@ -386,3 +386,25 @@ footer {
     display: flex;
   }
 }
+
+.category-container {
+  border-radius: 7px;
+  margin: auto;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.2);
+  align-items: center;
+  & div {
+    margin: 0.5rem 2rem;
+  }
+  h2 {
+    color: darkgray;
+  }
+  img, button {
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+  }
+}

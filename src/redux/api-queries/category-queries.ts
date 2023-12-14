@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { url } from '../../common/common';
-import { Category, Product } from '../../@types/product';
+import { Category, CategoryRequest, Product } from '../../@types/product';
 
 
 const categoryQueries = createApi({
@@ -19,6 +19,16 @@ const categoryQueries = createApi({
         getProductsByCategory: build.query<Product[], number>({
             query: (categoryId) => `/${categoryId}/products`,
             providesTags: ['Products'],
+        }),
+        deleteCategory: build.mutation<{ msg: string}, CategoryRequest>({
+            query: (categoryRequest) =>  (
+                {
+                    url: `/${categoryRequest.categoryId}`, 
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${JSON.parse(categoryRequest.token)}`}
+                }
+            ),
+            invalidatesTags: ['Categories']
         })
     }),
 });
@@ -26,6 +36,7 @@ const categoryQueries = createApi({
 export const { 
     useGetCategoriesQuery,
     useGetCategoryByIdQuery,
-    useGetProductsByCategoryQuery
+    useGetProductsByCategoryQuery,
+    useDeleteCategoryMutation
  } = categoryQueries;
 export default categoryQueries;
