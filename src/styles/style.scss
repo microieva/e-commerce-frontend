@@ -262,6 +262,7 @@ footer {
   width: 80%;
   .view-header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 3rem;
@@ -270,6 +271,10 @@ footer {
     }
     .btn-group {
       float: none;
+      button {
+        height: 4rem;
+        width: 4rem;
+      }
     }
   }
   .view-details{
@@ -343,7 +348,7 @@ footer {
     align-items: center;
     margin-bottom: 3rem;
   }
-  .orders {
+  .profile-section {
     margin: 0 2rem;
   }
 }
@@ -407,4 +412,10 @@ footer {
     width: 4rem;
     border-radius: 50%;
   }
+}
+.view-header-wrapper {
+  display: flex;
+  //flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
 }

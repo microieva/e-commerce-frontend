@@ -1,16 +1,16 @@
 import { IconButton } from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import CreateCategoryForm from './create-category-form';
 import { Category } from "../@types/product";
 
 interface Props {
     category: Category,
-    handleCreate: () => Promise<void>,
     handleDelete: (categoryId: string) => Promise<void>
 }
 
-const CategoryComponent = ({category, handleCreate, handleDelete}: Props) => {
+const CategoryComponent = ({category, handleDelete}: Props) => {
+
     return (
         <div className="category-container">
             <div style={{display: "flex", alignItems: 'center'}}>
@@ -18,9 +18,6 @@ const CategoryComponent = ({category, handleCreate, handleDelete}: Props) => {
                 <h2>{category.name}</h2> 
             </div>
             <div className="btn-group">
-                <IconButton  onClick={handleCreate}>
-                    <PlaylistAddIcon/>
-                </IconButton>
                 <IconButton  onClick={()=> console.log('snackbar update')}>
                     <EditNoteIcon/>
                 </IconButton>

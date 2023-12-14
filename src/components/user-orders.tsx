@@ -34,7 +34,7 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
             <>
                 {!lastOrder &&<>
                     <Divider />
-                    <div className='view-header' style={{marginTop: "1rem"}}>
+                    <div className='view-header' style={{marginTop: "6rem"}}>
                         <h2>orders</h2>
                         <div className='btn-group'>
                             <IconButton onClick={()=>handleDeleteOrders()}>
@@ -42,7 +42,7 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
                             </IconButton>
                         </div> 
                     </div> 
-                    <div className="orders">
+                    <div className="profile-section">
                             {orders.map(order => {
                                 if (order.paid) {
                                     return <OrderComponent 

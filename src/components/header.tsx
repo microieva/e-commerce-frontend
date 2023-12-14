@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 
 import { IconButton, ThemeProvider, Backdrop, Dialog, Badge } from '@mui/material';
+import RoofingIcon from '@mui/icons-material/Roofing';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
@@ -92,6 +93,11 @@ const Header: FC = () => {
                             </IconButton>
                         </Link>
                     }
+                    <Link to={`/`}>
+                        <IconButton>
+                            <RoofingIcon />
+                        </IconButton>
+                    </Link>   
                 </div>
             </div>
             <ThemeProvider theme={marineTheme}>
