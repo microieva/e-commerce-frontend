@@ -68,9 +68,11 @@ const ProductView: FC<Props> = ({ product }) => {
                             </IconButton> 
                         </>
                     }
-                    <IconButton onClick={()=> navigate('/')} style={{padding: "0.8rem"}}>
-                        <DoorBackOutlinedIcon/>
-                    </IconButton>
+                    <div className='btn-group'>
+                        <IconButton onClick={()=> navigate('/')}>
+                            <DoorBackOutlinedIcon/>
+                        </IconButton>
+                    </div>
                 </div>
             </div>
             <div className='view-details'>
