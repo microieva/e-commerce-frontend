@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
-import Header from '../components/header';
-import CartView from '../components/cart-view';
-import Footer from '../components/footer';
+import Header from '../components/shared/header';
+import CartView from '../components/views/cart-view';
+import Footer from '../components/shared/footer';
 
 const CartPage: FC = () => { 
     //const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');

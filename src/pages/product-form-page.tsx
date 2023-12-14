@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
-import Footer from '../components/footer';
-import Header from '../components/header';
-import ProductFormView from '../components/product-form-view';
+import Footer from '../components/shared/footer';
+import Header from '../components/shared/header';
+import ProductFormView from '../components/views/product-form-view';
 
 const ProductFormPage: FC = () => { 
     return (

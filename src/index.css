@@ -267,6 +267,7 @@ footer {
 }
 .view-container .view-header {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3rem;
@@ -276,6 +277,10 @@ footer {
 }
 .view-container .view-header .btn-group {
   float: none;
+}
+.view-container .view-header .btn-group button {
+  height: 4rem;
+  width: 4rem;
 }
 .view-container .view-details {
   display: flex;
@@ -346,7 +351,7 @@ footer {
   align-items: center;
   margin-bottom: 3rem;
 }
-.cart-container .orders {
+.cart-container .profile-section {
   margin: 0 2rem;
 }
 
@@ -407,6 +412,13 @@ footer {
   height: 4rem;
   width: 4rem;
   border-radius: 50%;
+}
+
+.view-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
 }
 
 /*# sourceMappingURL=index.css.map */

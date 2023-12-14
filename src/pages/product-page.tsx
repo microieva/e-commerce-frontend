@@ -2,10 +2,10 @@ import { FC } from 'react'
 import { useParams } from 'react-router-dom';
 
 import { useGetProductByIdQuery } from '../redux/api-queries/product-queries';
-import Header from '../components/header';
-import ProductView from '../components/product-view';
-import Footer from '../components/footer';
-import Loading from '../components/loading';
+import Header from '../components/shared/header';
+import ProductView from '../components/views/product-view';
+import Footer from '../components/shared/footer';
+import Loading from '../components/shared/loading';
 
 const ProductPage: FC = () => { 
     const { productId } = useParams();

@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import Header from '../components/header';
-import ProfileView from '../components/profile-view';
-import Footer from '../components/footer';
+import Header from '../components/shared/header';
+import ProfileView from '../components/views/profile-view';
+import Footer from '../components/shared/footer';
 
 const ProfilePage: FC = () => {
 
