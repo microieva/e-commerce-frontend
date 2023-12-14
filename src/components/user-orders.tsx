@@ -1,62 +1,63 @@
 
-import { IconButton } from '@mui/material';
+import { Divider, IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Order } from '../@types/cart';
 import OrderComponent from './order';
-import { useDeleteOrderMutation, useDeleteUserOrdersMutation } from '../redux/api-queries/order-queries';
+import { useDeleteOrderMutation } from '../redux/api-queries/order-queries';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
-    orders: Order[]
+    orders: Order[],
+    handleDeleteOrders: ()=>Promise<void>
 }
 
 
-const UserDetails = ({ orders }: Props) => {
-    const [ deleteOrder, { data: deletedOrder, error: deletingError }] = useDeleteOrderMutation();
-    const [ deleteUserOrders, {data: deletedOrders, error, isLoading }] = useDeleteUserOrdersMutation();
-    const [ order, setOrder ] = useState<boolean>(Boolean(deletedOrder));
+const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
+    const [ deleteOrder, { data, error }] = useDeleteOrderMutation();
+    const [ lastOrder, setLastOrder ] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const handleDeleteOrder = async (orderId: string) => {
-        if (orderId) {
+        if (orderId) {       
             await deleteOrder({orderId, token: localStorage.getItem('token') || ''});
-            setOrder(false);
+            if (orders.length === 1) {
+                setLastOrder(true);
+            }  
         }
     }
-    const handleDeleteAllOrders = async () => {
-        await deleteUserOrders({ token: localStorage.getItem('token') || '', userId: orders[0].userId});
-    }
-
     useEffect(()=> {
-        if (deletedOrder && deletedOrder.msg) {
-            //console.log('msg :', deletedOrder.msg) // snackbar
-        }
-    }, [deletedOrder]);
+        navigate('/auth/profile');
+    }, [data])
 
         return (
             <>
-                <div className='view-header'>
-                    <h2>orders</h2>
-                    <div className='btn-group'>
-                        <IconButton onClick={handleDeleteAllOrders}>
-                            <DeleteForeverIcon/>
-                        </IconButton>
+                {!lastOrder &&<>
+                    <Divider />
+                    <div className='view-header' style={{marginTop: "1rem"}}>
+                        <h2>orders</h2>
+                        <div className='btn-group'>
+                            <IconButton onClick={()=>handleDeleteOrders()}>
+                                <DeleteForeverIcon/>
+                            </IconButton>
+                        </div> 
                     </div> 
-                </div> 
-                <div className="orders">
-                        {orders.map(order => {
-                            if (order.paid) {
-                                return <OrderComponent 
-                                            data={order} 
-                                            handleDeleteOrder={()=>handleDeleteOrder(order._id)}
-                                        >
-                                            <div>
-                                                <h2>your order</h2>
-                                                <h2><span style={{color: "darkgrey"}}>created: date</span></h2>        
-                                            </div> 
-                                        </OrderComponent>
-                        }
-                        })}
-                    </div>    
+                    <div className="orders">
+                            {orders.map(order => {
+                                if (order.paid) {
+                                    return <OrderComponent 
+                                                data={order} 
+                                                handleDeleteOrder={()=>handleDeleteOrder(order._id)}
+                                            >
+                                                <div>
+                                                    <h2>your order</h2>
+                                                    <h2><span style={{color: "darkgrey"}}>created: date</span></h2>        
+                                                </div> 
+                                            </OrderComponent>
+                            }
+                            })}
+                        </div>    
+                </>}
             </>
         )
     }  

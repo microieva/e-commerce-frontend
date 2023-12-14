@@ -1,13 +1,14 @@
 import { 	useEffect, useState } from 'react';
-
 import { Link, Outlet } from 'react-router-dom';
+
+import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 import { useGetFilteredProductsByTitleQuery } from '../redux/api-queries/product-queries';
+
 import ProductCard from './product-card';
 import Pagination from './pagination';
-import { Product } from '../@types/product';
 import Loading from './loading';
-import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 import { User } from '../@types/user';
+import { Product } from '../@types/product';
 
 interface ViewProps {
   searchWord: string

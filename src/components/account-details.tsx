@@ -15,7 +15,7 @@ interface Props {
     user: User
 }
 
-const UserDetails = ({ user }: Props) => {
+const AccountDetails = ({ user }: Props) => {
     const [ deleteUser, { data, error, isLoading }] = useDeleteUserMutation();
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -87,5 +87,5 @@ const UserDetails = ({ user }: Props) => {
     }  
 
 
-export default UserDetails;
+export default AccountDetails;
 

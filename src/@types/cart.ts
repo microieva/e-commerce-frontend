@@ -5,7 +5,7 @@ export interface CartItem extends Omit<Product, "categoryId"> {
 }
 
 export interface OrderRequest {
-    body: {
+    body?: {
       id: string,
       quantity: number
     }[] | Partial<Order>,

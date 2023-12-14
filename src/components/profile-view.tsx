@@ -1,32 +1,44 @@
 import { FC, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useGetOrdersByUserIdQuery } from '../redux/api-queries/order-queries';
 import { useGetUserQuery } from '../redux/api-queries/auth-queries';
-import UserDetails from './user-details';
-import UserOrders from './user-orders';
+import AccountDetails from './account-details';
+import UserView from './user-view';
+import AdminView from './admin-view';
+
 
 const ProfileView: FC = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data: user } = useGetUserQuery(token);
-    const { data: orders, error } = useGetOrdersByUserIdQuery({token: token, userId: user?._id || ""});
+    const [ admin, setAdmin ] = useState<boolean>(Boolean(user?.role === "ADMIN"));
+    const [ userId, setUserId ] = useState<string>(user?._id || '');   
+    
     const navigate = useNavigate();
 
     useEffect(()=> {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
         }
+        user && setAdmin(user.role === "ADMIN");
+        user && setUserId(user._id);
+
+        window.addEventListener('storage', handleStorage);
+        return () => window.removeEventListener('storage', handleStorage);
+    }, [user]);
+
+    useEffect(()=> {
         if (!token) {
             navigate('/')
         }
-
-        window.addEventListener('storage', handleStorage)
-        return () => window.removeEventListener('storage', handleStorage)
     }, [token])
-
+    console.log('profile-view')
     return (
         <div className="view-container">
-            {user && <UserDetails user={user}/>}
-            {!error && orders && <UserOrders orders={orders} />}    
+            {user && <AccountDetails user={user}/>}
+            { admin ? 
+                <AdminView />
+            :
+                <UserView userId={userId}/>
+            }
             <Outlet />
         </div>
     )

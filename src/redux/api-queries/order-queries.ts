@@ -68,6 +68,16 @@ const orderQueries  = createApi({
                 }
             ),
             invalidatesTags: ['Orders']
+        }),
+        deleteOrders:  builder.mutation<{ msg: string }, {token: string}>({
+            query: ({token}) =>  (
+                {
+                    url: `/orders`, 
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
+                }
+            ),
+            invalidatesTags: ['Orders']
         })
     })
 })
@@ -78,8 +88,8 @@ export const {
     useGetOrdersByUserIdQuery,
     useUpdateOrderMutation,
     useDeleteOrderMutation,
-    useDeleteUserOrdersMutation
-    //useGetOrderByIdQuery,
+    useDeleteUserOrdersMutation,
+    useDeleteOrdersMutation
 } = orderQueries;
 export default orderQueries;
 

@@ -149,7 +149,7 @@ const CartView = () => {
                 </h2>
             }
             {newOrder && 
-                <div style={{visibility: updatedOrder || deletedOrder ? 'hidden' : 'visible'}}>
+                <div style={{visibility: updatedOrder || deletedOrder ? 'hidden' : 'visible', marginTop: "4rem"}}>
                     <OrderComponent 
                         data={newOrder} 
                         handleCheckout={handleCheckout}
