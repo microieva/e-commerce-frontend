@@ -10,13 +10,6 @@ interface CardProps {
 }
 
 const ProductCard: FC<CardProps> = ({ product, admin }: CardProps) => {
-  //const [ admin, setAdmin ] = useState<boolean>(user?.role === "ADMIN");
-
-//   useEffect(()=> {
-//     if (user && user.role !== "ADMIN"){
-//       setAdmin(false);
-//     }
-// }, [user]);
 
   return (
     <div className="card-wrapper">
