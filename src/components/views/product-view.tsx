@@ -57,20 +57,26 @@ const ProductView: FC<Props> = ({ product }) => {
             <div className='view-header'>
                 <h2>product</h2>
                 <div className="btn-group">
-                    {!admin && <CartActions product={product}/>}
-                    {admin && 
-                        <>
-                            <IconButton onClick={()=> onDelete()} style={{padding: "0.8rem"}}>
-                                <DeleteForeverIcon/>
-                            </IconButton>
-                            <IconButton onClick={()=> navigate("/products/new")} style={{padding: "0.8rem"}}>
-                                <PlaylistAddOutlinedIcon />
-                            </IconButton> 
-                        </>
+                    { admin ? 
+                    <>
+                        <IconButton onClick={()=> onDelete()} style={{padding: "0.8rem"}}>
+                        <DeleteForeverIcon/>
+                        </IconButton>
+                        <IconButton onClick={()=> navigate("/products/new")} style={{padding: "0.8rem"}}>
+                            <PlaylistAddOutlinedIcon />
+                        </IconButton> 
+                        <IconButton onClick={()=> navigate('/')}>
+                            <DoorBackOutlinedIcon/>
+                        </IconButton>
+                    </>
+                    :
+                    <>
+                        <CartActions product={product}/>
+                        <IconButton onClick={()=> navigate('/')}>
+                            <DoorBackOutlinedIcon/>
+                        </IconButton>
+                    </>
                     }
-                    <IconButton onClick={()=> navigate('/')}>
-                        <DoorBackOutlinedIcon/>
-                    </IconButton>
                 </div>
             </div>
             <div className='view-details'>
