@@ -5,6 +5,12 @@
 
 [e-commerce](https://tinyurl.com/w6a8fymf)
 
+### Credentials
+
+admin: 
+- password: admin123
+- email: admin@email.com
+
 ## Instructions to start the project
 
 In the project directory, you can run:
