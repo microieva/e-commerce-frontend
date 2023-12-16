@@ -56,7 +56,7 @@ const ProductView: FC<Props> = ({ product }) => {
         <div className="view-container">
             <div className='view-header'>
                 <h2>product</h2>
-                <div className="icons">
+                <div className="btn-group">
                     {!admin && <CartActions product={product}/>}
                     {admin && 
                         <>
@@ -68,11 +68,9 @@ const ProductView: FC<Props> = ({ product }) => {
                             </IconButton> 
                         </>
                     }
-                    <div className='btn-group'>
-                        <IconButton onClick={()=> navigate('/')}>
-                            <DoorBackOutlinedIcon/>
-                        </IconButton>
-                    </div>
+                    <IconButton onClick={()=> navigate('/')}>
+                        <DoorBackOutlinedIcon/>
+                    </IconButton>
                 </div>
             </div>
             <div className='view-details'>

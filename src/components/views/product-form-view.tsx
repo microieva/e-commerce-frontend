@@ -28,10 +28,7 @@ const ProductFormView: FC = () => {
             <div className="view-container">
                 <div className='view-header'>
                     <h2>new product</h2>
-                    <div className="icons">
-                        {/* <IconButton type ="button" onClick={()=>history.goBack()} style={{padding: "0.8rem"}}>
-                            <HighlightOffIcon/>
-                        </IconButton>  */}
+                    <div className="btn-group">
                         <IconButton onClick={()=> navigate('/')} style={{padding: "0.8rem"}}>
                             <DoorBackOutlinedIcon/>
                         </IconButton>
