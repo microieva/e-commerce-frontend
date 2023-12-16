@@ -11,6 +11,14 @@ admin:
 - password: admin123
 - email: "admin@email.com"
 
+user:
+- password: user123,
+- email: "user@email.com"
+
+### Additional Notes
+
+For convenience at this moment, all forms can be submitted without "image" inputs. Signining up new user, creating product or, creating category has default value implemented.
+
 ## Instructions to start the project
 
 In the project directory, you can run:
