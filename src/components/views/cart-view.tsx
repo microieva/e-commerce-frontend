@@ -84,12 +84,14 @@ const CartView = () => {
     }, [token]);
 
     useEffect(()=> {
+        cart.length === 0 && setDisabled(true);
         if (user?.role === "ADMIN") {
             navigate('/');
         } 
     }, [user])
 
     useEffect(()=> {
+        cart.length === 0 && setDisabled(true);
         if (order) {
             if (cart.length !== 0) {
                 const arr: { id: string, quantity: number}[] = cart
@@ -133,7 +135,7 @@ const CartView = () => {
                     <IconButton disabled={disabled} onClick={()=> setOrder(true)}>
                         <ShoppingBasketOutlinedIcon />
                     </IconButton>
-                    <IconButton onClick={()=> onEmptyCart()} >
+                    <IconButton disabled={disabled} onClick={()=> onEmptyCart()} >
                         <RemoveShoppingCartOutlinedIcon />
                     </IconButton>
                     <IconButton  onClick={()=> navigate('/')}>

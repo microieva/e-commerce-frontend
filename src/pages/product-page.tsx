@@ -6,6 +6,7 @@ import Header from '../components/shared/header';
 import ProductView from '../components/views/product-view';
 import Footer from '../components/shared/footer';
 import Loading from '../components/shared/loading';
+import { Divider } from '@mui/material';
 
 const ProductPage: FC = () => { 
     const { productId } = useParams();
@@ -15,8 +16,18 @@ const ProductPage: FC = () => {
         <>
             <main>
                 <Header/>
+                <div className='divider'>
+                    <Divider />
+                </div>
                 {isLoading && <Loading />}
-                {data && <ProductView product={data}/>}
+                {data && 
+                    <>
+                        <ProductView product={data}/>
+                        <div className='divider'>
+                            <Divider />
+                        </div>
+                    </>
+                }
             </main>
             <Footer />
         </>
