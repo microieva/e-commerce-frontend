@@ -3,7 +3,7 @@
 
 ## Demo
 
-[e-commerce](https://tinyurl.com/w6a8fymf)
+[e-commerce](https://e-commerce-frontend-2dpvjbalf-microieva.vercel.app/)
 
 ### Credentials
 
