@@ -9,7 +9,7 @@
 
 admin: 
 - password: admin123
-- email: "admin@email.com"
+- email: admin@email.com
 
 ## Instructions to start the project
 
