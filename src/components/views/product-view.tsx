@@ -46,7 +46,7 @@ const ProductView: FC<Props> = ({ product }) => {
         if (data && !error && !isLoading) {
             navigate('/');
         }
-    }, [data, error, isLoading])
+    }, [data])
 
     const onDelete = () => {
         deleteProduct({ productId: product._id, token: token});
