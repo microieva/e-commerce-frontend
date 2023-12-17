@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react';
 
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 
 import { Product } from '../../@types/product';
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +41,7 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
                 size="large" 
                 onClick={handleUpdate}
             >
-                <PlaylistAddCheckIcon/>
+                <EditNoteIcon/>
             </IconButton>
             <IconButton 
                 aria-label="delete" 

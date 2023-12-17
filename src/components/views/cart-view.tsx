@@ -10,23 +10,25 @@ import MuiCartTable from '../tables/mui-cart-table';
 import { emptyCart } from '../../redux/app-reducers/cart';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useCreateOrderMutation, useDeleteOrderMutation, useUpdateOrderMutation } from '../../redux/api-queries/order-queries';
-import OrderComponent from './inner-components/order';
+import OrderComponent from '../shared/order';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { Error } from '../../@types/error'
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
+import Loading from '../shared/loading';
 
 const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
-    const { data: user } = useGetUserQuery(token);
+    const { data: user, isLoading: isLoadingUser } = useGetUserQuery(token);
 
     const [userId, setUserId] = useState<string | undefined>(undefined);
     const [ disabled, setDisabled ] = useState<boolean>(Boolean(!localStorage.getItem('token')));
     const [ order, setOrder ] = useState<boolean>(false);
 
     const [ orderRequestBody, setOrderRequestBody ] = useState<{ id: string, quantity: number}[] | undefined>(undefined);
-    const [ createOrder, { data: newOrder, error: newOrderError }] = useCreateOrderMutation();
-    const [ updateOrder, { data: updatedOrder, error: updatedOrderError }] = useUpdateOrderMutation();
-    const [ deleteOrder, { data: deletedOrder, error: deletingError }] = useDeleteOrderMutation()
+    const [ createOrder, { data: newOrder, error: newOrderError, isLoading: isLoadingNewOrder }] = useCreateOrderMutation();
+    const [ updateOrder, { data: updatedOrder, error: updatedOrderError, isLoading: isLoadingUpdatedOrder }] = useUpdateOrderMutation();
+    const [ deleteOrder, { data: deletedOrder, error: deletingError, isLoading: isDeletingOrder }] = useDeleteOrderMutation();
+    const [loading, setLoading] = useState<boolean>(isLoadingUser || isLoadingNewOrder || isLoadingUpdatedOrder || isDeletingOrder);
     const [ err, setErr ] = useState<Error | undefined>(undefined);
     const dispatch = useAppDispatch();
     const cart = useAppSelector(state => state.cart); 
@@ -47,7 +49,8 @@ const CartView = () => {
     const handleCheckout = async () => {
         if (newOrder) {
             const updates = { paid: true }
-            await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id})
+            await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id});
+            setLoading(isLoadingNewOrder);
         }
     }
 
@@ -55,6 +58,7 @@ const CartView = () => {
         if (newOrder) {
             await deleteOrder({orderId: newOrder._id, token})
             setOrder(false);
+            setLoading(isDeletingOrder);
         }
     }
 
@@ -84,6 +88,7 @@ const CartView = () => {
     }, [token]);
 
     useEffect(()=> {
+        setLoading(isLoadingUser);
         cart.length === 0 && setDisabled(true);
         if (user?.role === "ADMIN") {
             navigate('/');
@@ -115,6 +120,7 @@ const CartView = () => {
                     }
                 );
                 setDisabled(true);
+                setLoading(isLoadingNewOrder);
             }
         }
         checkout();
@@ -122,6 +128,10 @@ const CartView = () => {
             setErr(newOrderError as Error);
         }
     }, [orderRequestBody]);
+
+    if (loading) {
+        return <Loading />
+    }
 
     return (
         <div className="cart-container">

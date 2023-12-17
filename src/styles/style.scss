@@ -432,3 +432,8 @@ footer {
 .divider {
   margin: 6rem 0;
 }
+.loading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { IconButton, TextField, FormControl } from '@mui/material';
 
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 import Loading from '../shared/loading';
@@ -200,7 +200,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                         <>
                             { disabled && 
                                 <IconButton type ="button" onClick={()=> setDisabled(false)}>
-                                    <PlaylistAddCheckIcon />
+                                    <EditNoteIcon />
                                 </IconButton>
                             }
                             {

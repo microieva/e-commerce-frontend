@@ -3,11 +3,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 const Loading: FC = () => {
-  return (
-    <Box sx={{ display: 'flex', margin: 'auto', '& .MuiCircularProgress-root': {color: 'darkgrey'} }}>
-      <CircularProgress />
-    </Box>
-  );
+    return (
+        <div>
+            <Box className='loading' sx={{
+                '& .MuiCircularProgress-root': {color: 'darkgrey'},
+                '& .MuiCircularProgress-svg': {margin: 'auto'}
+            }}
+                >
+                    <CircularProgress />
+            </Box>
+        </div>
+    );
 }
 
 export default Loading;

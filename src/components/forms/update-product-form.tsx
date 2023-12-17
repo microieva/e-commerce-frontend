@@ -5,7 +5,7 @@ import { IconButton, TextField, FormControl, MenuItem, InputLabel } from '@mui/m
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 import { useUpdateProductMutation } from '../../redux/api-queries/product-queries';
@@ -220,7 +220,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                         <>
                             { disabled && 
                                 <IconButton type ="button" onClick={()=> setDisabled(false)}>
-                                    <PlaylistAddCheckIcon />
+                                    <EditNoteIcon />
                                 </IconButton>
                             }
                             {

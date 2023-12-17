@@ -16,7 +16,7 @@ interface ViewProps {
 
 const CardsView = ({ searchWord }: ViewProps) => {
 	const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
-    const { data: user } = useGetUserQuery(token);
+    const { data: user, isLoading: isLoadingUser } = useGetUserQuery(token);
 
 	const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
 	const [ admin, setAdmin ] = useState<boolean>(false);
@@ -60,7 +60,7 @@ const CardsView = ({ searchWord }: ViewProps) => {
 
 	return (
 		<>
-			{ isLoading ? <Loading /> :
+			{ isLoading || isLoadingUser ? <Loading /> :
 				<div className="cards-container">
 					<div className="cards-view-wrapper">
 						{currentProducts.length > 0 && currentProducts.map((product: Product, i) => {

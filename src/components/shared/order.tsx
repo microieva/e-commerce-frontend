@@ -1,13 +1,8 @@
-import { FC, useEffect, useState } from 'react';
-import { Order } from '../../../@types/cart';
-import { useAppSelector } from '../../../hooks/useAppSelector';
 import PaymentIcon from '@mui/icons-material/Payment';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { IconButton } from '@mui/material';
-import { emptyCart } from '../../../redux/app-reducers/cart';
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
-import { useUpdateOrderMutation } from '../../../redux/api-queries/order-queries';
+import { Order } from '../../@types/cart';
 
 interface Props {
     data: Order,
@@ -33,7 +28,7 @@ const OrderComponent = ({ data, children, handleCheckout, handleDeleteOrder }: P
                                 <PaymentIcon/>
                             </IconButton>
                             <IconButton  onClick={()=> console.log('snackbar update')}>
-                                <PlaylistAddCheckIcon/>
+                                <EditNoteIcon/>
                             </IconButton>
                             <IconButton  onClick={handleDeleteOrder}>
                                 <RemoveShoppingCartIcon/>

@@ -21,6 +21,7 @@ import { Product } from '../../@types/product';
 import { TableColumn } from '../../@types/table';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import AdminActions from '../shared/admin-actions';
+import Loading from '../shared/loading';
 
 interface TableProps {
     data: Product[],
@@ -29,7 +30,7 @@ interface TableProps {
 const MuiProductsTable = ({ data }: TableProps) => {
 
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
-    const { data: user } = useGetUserQuery(token);
+    const { data: user, isLoading } = useGetUserQuery(token);
     const [ admin, setAdmin ] = useState<boolean>(false);
     
     const [page, setPage] = useState(0);
@@ -94,6 +95,10 @@ const MuiProductsTable = ({ data }: TableProps) => {
 			setAdmin(false);
 		}
 	}, [token])
+
+    if (isLoading) {
+        return <Loading />
+    }
     
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>

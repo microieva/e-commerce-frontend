@@ -4,11 +4,12 @@ import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import AccountDetails from './inner-components/account-details';
 import UserProfileView from './user-profile-view';
 import AdminProfileView from './admin-profile-view';
+import Loading from '../shared/loading';
 
 
 const ProfileView: FC = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
-    const { data: user } = useGetUserQuery(token);
+    const { data: user, isLoading } = useGetUserQuery(token);
     const [ admin, setAdmin ] = useState<boolean>(Boolean(user?.role === "ADMIN"));
     const [ userId, setUserId ] = useState<string>(user?._id || '');   
     
@@ -33,13 +34,17 @@ const ProfileView: FC = () => {
 
     return (
         <div className="view-container">
-            {user && <AccountDetails user={user}/>}
-            { admin ? 
-                <AdminProfileView />
-            :
-                <UserProfileView userId={userId}/>
+            { isLoading ? <Loading /> :
+                <>
+                    {user && <AccountDetails user={user}/>}
+                    { admin ? 
+                        <AdminProfileView />
+                    :
+                        <UserProfileView userId={userId}/>
+                    }
+                    <Outlet />
+                </>
             }
-            <Outlet />
         </div>
     )
 }

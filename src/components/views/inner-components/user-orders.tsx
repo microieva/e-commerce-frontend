@@ -2,7 +2,7 @@
 import { Divider, IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Order } from '../../../@types/cart';
-import OrderComponent from './order';
+import OrderComponent from '../../shared/order';
 import { useDeleteOrderMutation } from '../../../redux/api-queries/order-queries';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
