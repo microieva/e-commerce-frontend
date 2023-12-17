@@ -367,9 +367,30 @@ footer {
   margin: auto;
   margin-bottom: 2rem;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
   border: 1px solid rgba(0,0,0,0.2);
+  .order-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .order-items-wrapper {
+    width: 94%;
+    margin: 1rem auto auto auto;
+    .btn-group {
+      float: right;
+      padding: 0;
+      button {
+        height: 4rem;
+        width: 4rem;
+      }
+    }
+  }
+  & :hover {
+    cursor: pointer;
+  }
   & h2{
     padding: 0 4rem;
   }

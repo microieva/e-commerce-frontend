@@ -26,6 +26,7 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
             }  
         }
     }
+
     useEffect(()=> {
         navigate('/auth/profile');
     }, [data])
@@ -46,7 +47,7 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
                             {orders.map(order => {
                                 if (order.paid) {
                                     return <OrderComponent 
-                                                data={order} 
+                                                order={order} 
                                                 handleDeleteOrder={()=>handleDeleteOrder(order._id)}
                                             >
                                                 <div>

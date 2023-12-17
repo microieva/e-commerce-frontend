@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Order, OrderRequest } from '../../@types/cart';
+import { CartItem, Order, OrderRequest } from '../../@types/cart';
 import { url } from '../../common/common';
 
 const orderQueries  = createApi({
@@ -19,6 +19,24 @@ const orderQueries  = createApi({
             }),
             providesTags: ['Orders']
         }),
+        getOrdersByUserId: builder.query<Order[], {token: string, userId: string}>({
+            query: ({token, userId}) => ({
+                url: `/user/${userId}`,
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
+                
+            }),
+            providesTags: ['Orders']
+        }),
+        getOrderItems: builder.query<CartItem[], OrderRequest>({
+            query: ({token, orderId}) => ({
+                url: `/items/${orderId}`,
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
+                
+            }),
+            providesTags: ['Orders']
+        }),
         createOrder: builder.mutation<Order, OrderRequest>({
             query: (orderRequest) => (orderRequest && 
                 {
@@ -29,15 +47,6 @@ const orderQueries  = createApi({
                 }
             ),
             invalidatesTags: ['Orders']
-        }),
-        getOrdersByUserId: builder.query<Order[], {token: string, userId: string}>({
-            query: ({token, userId}) => ({
-                url: `/user/${userId}`,
-                method: 'GET',
-                headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
-
-            }),
-            providesTags: ['Orders']
         }),
         updateOrder: builder.mutation<Order, OrderRequest>({
             query: (orderRequest) =>  (
@@ -84,8 +93,9 @@ const orderQueries  = createApi({
 
 export const {
     useGetOrdersQuery,
-    useCreateOrderMutation,
     useGetOrdersByUserIdQuery,
+    useGetOrderItemsQuery,
+    useCreateOrderMutation,
     useUpdateOrderMutation,
     useDeleteOrderMutation,
     useDeleteUserOrdersMutation,

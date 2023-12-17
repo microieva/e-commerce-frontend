@@ -1,12 +1,8 @@
 import { FC, FormEvent, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
 import { IconButton, TextField, FormControl } from '@mui/material';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-
 import { useCreateCategoryMutation } from '../../redux/api-queries/category-queries';
-
 import { Category } from '../../@types/product';
 import Loading from '../shared/loading';
 
@@ -14,7 +10,7 @@ interface Props {
     handleCancel: ()=>void
 }
 
-const CreateCategoryForm: FC<Props> = ({handleCancel}: Props) => {
+const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
 
     const [ name, setName ] = useState<string | undefined>(undefined);
     const [ image, setImage ] = useState<string | undefined>(undefined);
@@ -30,7 +26,6 @@ const CreateCategoryForm: FC<Props> = ({handleCancel}: Props) => {
     const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(true);
-    const navigate = useNavigate();
 
     
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

@@ -49,7 +49,9 @@ const Categories = ({ categories, handleDeleteCategories }: Props) => {
             <>
                 {!lastCategory &&
                     <>
-                        <Divider />
+                        <div className='devider'>
+                            <Divider />
+                        </div>
                         <div className='view-header' style={{marginTop: "6rem", flexDirection:"column"}}>
                             <div className="view-header-wrapper">
                                 <h2>categories</h2>

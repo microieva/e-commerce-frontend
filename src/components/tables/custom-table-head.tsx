@@ -17,4 +17,12 @@ const CustomCartTableHead = styled(TableHead)(({ theme }) => ({
   },
 }));
 
-export { CustomProductsTableHead, CustomCartTableHead };
+const CustomOrderItemsTableHead = styled(TableHead)(({ theme }) => ({
+  "& th": {
+    backgroundColor: '#e0e0e0',
+    fontSize: "16px",
+    borderBottom: "1px solid black",
+  },
+}));
+
+export { CustomProductsTableHead, CustomCartTableHead, CustomOrderItemsTableHead };

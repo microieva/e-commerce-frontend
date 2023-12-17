@@ -9,7 +9,11 @@ import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCa
 import MuiCartTable from '../tables/mui-cart-table';
 import { emptyCart } from '../../redux/app-reducers/cart';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useCreateOrderMutation, useDeleteOrderMutation, useUpdateOrderMutation } from '../../redux/api-queries/order-queries';
+import { 
+    useCreateOrderMutation, 
+    useDeleteOrderMutation, 
+    useUpdateOrderMutation 
+} from '../../redux/api-queries/order-queries';
 import OrderComponent from '../shared/order';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { Error } from '../../@types/error'
@@ -163,22 +167,17 @@ const CartView = () => {
             {newOrder && 
                 <div style={{visibility: updatedOrder || deletedOrder ? 'hidden' : 'visible', marginTop: "4rem"}}>
                     <OrderComponent 
-                        data={newOrder} 
+                        order={newOrder} 
                         handleCheckout={handleCheckout}
                         handleDeleteOrder={handleDeleteOrder}>
                         <div>
-                            <h2>your order <span style={{color: "darkgrey"}}>/ {numberOfItems} {numberOfItems>1 ? 'items' : 'item'}</span> </h2>
-                            
+                            <h2>your order <span style={{color: "darkgrey"}}>/ {numberOfItems} {numberOfItems>1 ? 'items' : 'item'}</span> </h2>   
                         </div> 
                     </OrderComponent>
                 </div>
             }
-    
-            {/* {err && <div><span>ERROR for snackbar api</span></div>}     */}
         </div>    
     )
 }
 
 export default CartView;
-
-// 
