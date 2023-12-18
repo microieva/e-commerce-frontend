@@ -1,11 +1,9 @@
 import { FC } from 'react';
-
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-
 import { SearchBarProps } from '../../@types/types';
 
 
@@ -20,7 +18,6 @@ const SearchBar: FC<SearchBarProps> = ({ onSearchInputChange }: SearchBarProps) 
                 sx={{ ml: 1, flex: 1 }}
                 placeholder="Search Products"
                 inputProps={{ 'aria-label': 'search products by name' }}
-                //value={searchTerm}
                 onChange={onSearchInputChange}
                 type="text"
             />
@@ -29,7 +26,6 @@ const SearchBar: FC<SearchBarProps> = ({ onSearchInputChange }: SearchBarProps) 
                 type="button" 
                 sx={{ p: '10px' }} 
                 aria-label="search" 
-                //onClick={() => handleClick()}
             >
                 <SearchIcon />
             </IconButton>

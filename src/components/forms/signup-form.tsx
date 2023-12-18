@@ -11,7 +11,6 @@ import { User } from '../../@types/user';
 
 
 const SignupForm = () => {
-    // 'https://api.lorem.space/image/face?w=640&h=480&r=867' avatar
     const [user, setUser] = useState<Partial<User>>();
      
     const [ name, setName ] = useState<string>();
@@ -25,7 +24,7 @@ const SignupForm = () => {
     const [ avatarError, setAvatarError ] = useState<boolean>(false);
 
     const { onClose } = useContext(FormContext) as TypeFormContext;
-    const [ createUser, { error }] = useCreateUserMutation(); //implement api error with SnackBar
+    const [ createUser, { error }] = useCreateUserMutation();
     const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
 

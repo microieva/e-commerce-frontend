@@ -23,7 +23,7 @@ const LoginForm = () => {
 
     const [ err, setErr ] = useState<boolean>(false);
     const { onClose } = useContext(FormContext) as TypeFormContext;
-    const [ login, { error }] = useLoginMutation(); //implement api error with SnackBar
+    const [ login, { error }] = useLoginMutation();
     const formRef = useRef<HTMLFormElement>(null);
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -90,7 +90,6 @@ const LoginForm = () => {
                         required
                         sx={{
                             '& .MuiFormHelperText-root': {
-                              //visibility: !emailError && !error ? 'hidden' : 'visible',
                               visibility: error ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             }
