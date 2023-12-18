@@ -5,10 +5,10 @@ import {mockCategories} from '../../shared/mock-categories';
 import { mockProducts } from '../../shared/mock-products';
 
 export const handlers = [
-  rest.get('https://api.escuelajs.co/api/v1/categories', (req, res, ctx) =>{
+  rest.get('https://e-commerce-api-atbv.onrender.com/api/v1/categories', (req, res, ctx) =>{
     return res(ctx.json(mockCategories));
   }),
-  rest.get(`https://api.escuelajs.co/api/v1/categories/:categoryId`, (req, res, ctx) =>{
+  rest.get(`https://e-commerce-api-atbv.onrender.com/api/v1/categories/:categoryId`, (req, res, ctx) =>{
     const { categoryId } = req.params;
     const mockCategory = mockCategories.find(c=> c._id === categoryId);
 

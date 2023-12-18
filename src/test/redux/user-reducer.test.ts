@@ -4,6 +4,7 @@ import userQueries from '../../redux/api-queries/user-queries';
 import { mockUsers } from '../../shared/mock-users';
 import { mockUser, mockResponse } from '../../shared/mock-auth';
 import { User } from '../../@types/user';
+import { token } from '../../shared/mock-auth';
 
 describe('users', () => {
 
@@ -16,23 +17,23 @@ describe('users', () => {
   afterEach(() => server.resetHandlers())
 
   it('Should get all Users', async () => {
-    await store.dispatch(userQueries.endpoints.getUsers.initiate(undefined));
-    expect(store.getState().userReducer.queries['getUsers(undefined)']?.data).toMatchObject(mockUsers);
+    const response = await store.dispatch(userQueries.endpoints.getUsers.initiate(token));
+    expect(response.data).toMatchObject(mockUsers);
   });
-  /*
-  MISSING TOKEN
+
   it('Should update existing User title to Updated User', async () => {
     const _id = "2";
     const updates: Partial<User> =  {  
       password: "newPassword",
     };
-    const result: any = await store.dispatch(userQueries.endpoints.updateUser.initiate({_id, ...updates}));
-    expect(result.data.password).toMatch("newPassword");
-  });*/
-  /*it('Should delete existing User', async () => {
+    const response = await store.dispatch(userQueries.endpoints.updateUser.initiate({_id, body: updates, token}));
+    expect(response).data.password.toMatch("newPassword");
+  });
+
+  it('Should delete existing User', async () => {
     const _id = "3";
-    const result: any = await store.dispatch(userQueries.endpoints.deleteUser.initiate(_id));
-    expect(result.data).toBe(true);
-  });*/
+    const response = await store.dispatch(userQueries.endpoints.deleteUser.initiate({_id, token}));
+    expect(response).toBe(true);
+  });
 })
 
