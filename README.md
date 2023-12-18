@@ -3,7 +3,7 @@
 
 ## Demo
 
-[e-commerce](https://e-commerce-frontend-dusky-ten.vercel.app/)
+[e-commerce](e-commerce-frontend-dusky-ten.vercel.app)
 
 ### Credentials
 
@@ -17,7 +17,9 @@ user:
 
 ### Additional Notes
 
-For convenience at this moment, all forms can be submitted without "image" inputs. Signining up new user, creating product or, creating category has default value implemented.
+- For convenience at this moment, all forms can be submitted without "image" inputs. Signining up new user, creating product or, creating category has default value implemented.
+
+- While testing out the application as admin, avoid deleting categories "Sports" and "Garments".
 
 ## Instructions to start the project
 
