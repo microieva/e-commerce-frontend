@@ -57,10 +57,6 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
     }, [newCategory]);
 
     useEffect(()=> {
-        if (data) {
-            //!isLoading && navigate(`/products/${data._id}`);
-            console.log('created?')
-        }
         error && setErr(Boolean(error));
     }, [data, error])
 
