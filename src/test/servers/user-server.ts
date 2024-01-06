@@ -11,7 +11,7 @@ export const handlers = [
     const body = await req.json();
     return res(
       ctx.status(200),
-      ctx.json({ ...body, id: 4 }),
+      ctx.json({ ...body, _id: "4" }),
     );
   }),
   rest.put('https://e-commerce-api-atbv.onrender.com/api/v1/users/:id', async (req, res, ctx) => {
@@ -20,7 +20,7 @@ export const handlers = [
     const mockUserToUpdate = mockUsers.find(u => u._id === id);
     return res(
       ctx.status(200),
-      ctx.json({...mockUserToUpdate, password: body.password}),
+      ctx.json({...mockUserToUpdate, name: body.name}),
     );
   }),
   rest.delete('https://e-commerce-api-atbv.onrender.com/api/v1/users/:id', async (req, res, ctx)=>{

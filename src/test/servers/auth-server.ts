@@ -1,7 +1,7 @@
 import {rest} from 'msw';
 import {setupServer} from 'msw/node';
 
-import { mockRequest, mockResponse, mockUser } from '../../shared/mock-auth';
+import { mockRequest, mockResponse, mockUser, token } from '../../shared/mock-auth';
 
 export const handlers = [
   rest.post('https://e-commerce-api-atbv.onrender.com/api/v1/auth/login', async (req, res, ctx)=>{
@@ -9,11 +9,11 @@ export const handlers = [
 
     if (mockRequest.email === email && mockRequest.password === password) {
       return res(
-        ctx.json({token : mockResponse.token})
+        ctx.json(token)
       )
     } else {
       return res(
-        ctx.status(401)
+        ctx.json("Incorrect user details")
       );
     }
   }),
@@ -24,6 +24,19 @@ export const handlers = [
         return res(
             ctx.json(mockUser)
         );
+    } else {
+        return res(
+            ctx.status(401)
+        );
+    }
+  }),
+  rest.post('https://e-commerce-api-atbv.onrender.com/api/v1/auth/signup', async (req, res, ctx) => {
+    const newUser = await req.json();; 
+
+    if (newUser) {
+      return res(
+        ctx.json(token)
+      )
     } else {
         return res(
             ctx.status(401)

@@ -6,17 +6,21 @@ import { User } from '../../@types/user';
 const authQueries = createApi({
   reducerPath: 'authReducer',
   baseQuery: fetchBaseQuery({ baseUrl: `${url}/auth` }),
+  tagTypes: ['User'],
   refetchOnMountOrArgChange: true,
   endpoints: (build) => ({
     login: build.mutation<string, LoginRequest>({
       query: (body) => ({ url: '/login', method: 'POST', body }),
+      invalidatesTags: ['User']
       }),
 
     createUser: build.mutation<string, Partial<User>>({ 
       query: (body) => ({url: `/signup`, method: 'POST', body}),
+      invalidatesTags: ['User']
     }),
     getUser: build.query<User, string>({
       query: (token) => (token && { url: '/profile', headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}}),
+      providesTags: ['User']
   })
 }) })
 

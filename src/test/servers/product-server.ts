@@ -1,18 +1,16 @@
 import {rest} from 'msw';
 import {setupServer} from 'msw/node';
 import {mockProducts} from '../../shared/mock-products';
-import { Product } from '../../@types/product';
-
 
 export const handlers = [
   rest.get('https://e-commerce-api-atbv.onrender.com/api/v1/products', (req, res, ctx) =>{
     return res(ctx.json(mockProducts))
   }),
-  rest.get(`https://e-commerce-api-atbv.onrender.com/api/v1/products/:id`, (req, res, ctx) =>{
-    const { id } = req.params;
-    const mockProduct = mockProducts.find(p=> p._id === id)
+  rest.get(`https://e-commerce-api-atbv.onrender.com/api/v1/products/:productId`, (req, res, ctx) =>{
+    const { productId } = req.params;
+    const mockProduct = mockProducts.find(p=> p._id === productId)
 
-    if(mockProduct) {
+    if (mockProduct) {
       return res(
         ctx.json(mockProduct)
         )
@@ -22,24 +20,16 @@ export const handlers = [
         )
       }
     }), 
-    rest.get(`https://e-commerce-api-atbv.onrender.com/api/v1/products/title=:title`, (req, res, ctx) =>{
-      const urlSearchParams = new URLSearchParams(req.url.search); 
-      const title = urlSearchParams.get('title'); 
-      let queryResult: Omit<Product, "categoryId">[] = []
+    rest.get(`https://e-commerce-api-atbv.onrender.com/api/v1/products/search/`, (req, res, ctx) =>{
+      const title = req.url.searchParams.get('title');
+      let queryResult = [...mockProducts]
 
       if (title) {
-        queryResult = mockProducts.filter(p =>p.title.toLowerCase().includes(title?.toString()));
+        queryResult = queryResult.filter((p) => p.title.toLowerCase().includes(title.toString().toLowerCase()));
       }
-      
-      if(title && queryResult.length>0) {
-        return res(
-          ctx.json(queryResult)
-        )
-      } else {
-        return res(
-          ctx.json("Product Not Found")
-        )
-      }
+      return res(
+        ctx.json(queryResult)
+      )
     }),
     rest.post('https://e-commerce-api-atbv.onrender.com/api/v1/products', async (req, res, ctx) => {
       const body = await req.json();

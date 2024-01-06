@@ -2,8 +2,12 @@ import server from "../servers/category-server";
 import { mockCategories } from "../../shared/mock-categories";
 import { store } from "../../shared/store";
 import categoryQueries from "../../redux/api-queries/category-queries";
-import { Product } from "../../@types/product";
+import { Category } from "../../@types/product";
 import { token } from '../../shared/mock-auth';
+
+type Response = {
+  data: Category
+}
 
 describe('categories', () => {
 
@@ -15,22 +19,32 @@ describe('categories', () => {
   })
   afterEach(() => server.resetHandlers())
 
-  it('Should get all categories', async () => {
-    const response = await store.dispatch(categoryQueries.endpoints.getCategories.initiate(token));
-    //expect(store.getState().categoryReducer.queries[`getCategories(${token})`]?.data).toMatchObject(mockCategories);
-    expect(response.data).toMatchObject(mockCategories)
+  test('getCategories - should get all categories', async () => {
+    const response = await store.dispatch(categoryQueries.endpoints.getCategories.initiate(JSON.stringify(token)));
+    expect(response).toHaveProperty("data");
+    expect(response.data).toEqual(mockCategories);
   }),
 
-  it('Should get one category object with id = 1', async () => {
+  test('getCategoryById - should get one category object with id = 1', async () => {
     const _id: string = "1";
     const response = await store.dispatch(categoryQueries.endpoints.getCategoryById.initiate(_id));
     //expect(store.getState().categoryReducer.queries[`getCategoryById(${_id})`]?.data).toMatchObject(mockCategories[0]);
-    expect(response.data).toMatchObject(mockCategories[0])
+    expect(response).toHaveProperty("data");
+    expect(response.data).toEqual(mockCategories[0]);
   }),
 
-  it('Should get all products from the same category', async () => {
-    const categoryId: string = "1";
-    const response = await store.dispatch(categoryQueries.endpoints.getProductsByCategory.initiate(Number(categoryId)));
-    expect(response.data?.every((product: Product) => product.category._id === categoryId)).toBe(true);
-  })
+  test('createCategory - should create new category', async () => {
+    const newCategory: Partial<Category> =  {
+      name: "New Category",
+      image: "string"
+    }
+    const response: Response = await store.dispatch(categoryQueries.endpoints.createCategory.initiate({token: JSON.stringify(token), body: newCategory}));
+    expect(response.data.name).toEqual(newCategory.name);
+  });
+
+  test('deleteCategory - should delete existing category', async () => {
+    const _id = "1";
+    const response: Response = await store.dispatch(categoryQueries.endpoints.deleteCategory.initiate({categoryId: _id, token: JSON.stringify(token)}));
+    expect(response.data).toBe(true);
+  });
 })

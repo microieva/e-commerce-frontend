@@ -2,9 +2,12 @@ import { store } from '../../shared/store';
 import server from '../servers/user-server';
 import userQueries from '../../redux/api-queries/user-queries';
 import { mockUsers } from '../../shared/mock-users';
-import { mockUser, mockResponse } from '../../shared/mock-auth';
 import { User } from '../../@types/user';
 import { token } from '../../shared/mock-auth';
+
+type Response = {
+  data: {msg : string} | User | User[]
+}
 
 describe('users', () => {
 
@@ -16,24 +19,24 @@ describe('users', () => {
   })
   afterEach(() => server.resetHandlers())
 
-  it('Should get all Users', async () => {
-    const response = await store.dispatch(userQueries.endpoints.getUsers.initiate(token));
+  it('getUsers - should get all Users', async () => {
+    const response: Response = await store.dispatch(userQueries.endpoints.getUsers.initiate(JSON.stringify(token)));
     expect(response.data).toMatchObject(mockUsers);
   });
 
-  it('Should update existing User title to Updated User', async () => {
+  test('updateUser - should update existing User name to Updated User', async () => {
     const _id = "2";
     const updates: Partial<User> =  {  
-      password: "newPassword",
+      name: "Updated User",
     };
-    const response = await store.dispatch(userQueries.endpoints.updateUser.initiate({_id, body: updates, token}));
-    expect(response).data.password.toMatch("newPassword");
+    const response: Response = await store.dispatch(userQueries.endpoints.updateUser.initiate({_id, body: updates, token: JSON.stringify(token)}));
+    expect(response.data.name).toEqual("Updated User");
   });
 
-  it('Should delete existing User', async () => {
+  test('deleteUser - should delete existing User', async () => {
     const _id = "3";
-    const response = await store.dispatch(userQueries.endpoints.deleteUser.initiate({_id, token}));
-    expect(response).toBe(true);
+    const response: Response = await store.dispatch(userQueries.endpoints.deleteUser.initiate({_id, token: JSON.stringify(token)}));
+    expect(response.data).toBe(true);
   });
 })
 
