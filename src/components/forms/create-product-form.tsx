@@ -15,7 +15,7 @@ import Loading from '../shared/loading';
 const CreateProductForm: FC = () => {
 
     const [ title, setTitle ] = useState<string | undefined>(undefined);
-    const [ price, setPrice ] = useState<number | undefined>(undefined);
+    const [ price, setPrice ] = useState<string | undefined>(undefined);
     const [ description, setDescription ] = useState<string | undefined>(undefined);
     const [ image, setImage ] = useState<string | undefined>(undefined);
     const [ categoryName, setCategoryName ] = useState<string>('');
@@ -41,7 +41,7 @@ const CreateProductForm: FC = () => {
         event.preventDefault();
         const obj = {
             title,
-            price,
+            price: Number(price?.replace(/,/g, '.')),
             description,
             categoryId,
             images: image ? [image] : ["https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg"]
@@ -125,7 +125,7 @@ const CreateProductForm: FC = () => {
                         label="Price"
                         name="price"
                         type="text"
-                        onChange={(e) => setPrice(+e.target.value)}
+                        onChange={(e) => setPrice(e.target.value)}
                         required
                         helperText="Price is required"
                         sx={{

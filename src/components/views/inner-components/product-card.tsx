@@ -10,12 +10,12 @@ interface CardProps {
 }
 
 const ProductCard: FC<CardProps> = ({ product, admin }: CardProps) => {
-
+  const uiPrice =  parseFloat(product.price.toString()).toFixed(2);
   return (
     <div className="card-wrapper">
         <img src={product.images[0]} alt=""/>
         <div className="card-content">
-            <div className='product-price'>{product.price}</div>
+            <div className='product-price'>{uiPrice} €</div>
             <p className='product-title'>{product.title}</p>
             <p className='product-category'>{product.category.name}</p>
             { !admin ? <CartActions product={product}/> : <AdminActions product={product}/>}

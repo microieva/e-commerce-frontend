@@ -148,8 +148,10 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                         }}
                                     >    
                                     {columns.map((column: TableColumn) => {
-                                        const value = column.render ? column.render(row) : row[column.id].toString();
-                                       
+                                        let value = column.render ? column.render(row) : row[column.id].toString();
+                                        if (column.id === "price") {
+                                            value = parseFloat(value).toFixed(2) + " €";
+                                        }
                                         return (
                                             <TableCell key={column.id} align={column.align}>
                                                 <Link style={{textDecoration: "none", color: "black"}} to={`/products/${row._id}`}>

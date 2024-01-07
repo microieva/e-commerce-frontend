@@ -20,9 +20,9 @@ interface Props {
 }
 
 const UpdateProductForm: FC<Props> = ({ product, admin }) => {
-    
     const [ title, setTitle ] = useState<string>(product.title);
-    const [ price, setPrice ] = useState<number>(product.price);
+    const uiPrice = parseFloat(product.price.toString()).toFixed(2);
+    const [ price, setPrice ] = useState<string>(uiPrice);
     const [ description, setDescription ] = useState<string>(product.description);
     const [ image, setImage ] = useState<string>(product.images[0]);
     const [ categoryName, setCategoryName ] = useState<string>(product.category.name);
@@ -47,7 +47,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
         event.preventDefault();
         const obj = {
             title,
-            price,
+            price: Number(price.replace(/,/g, '.')),
             description,
             categoryId,
             images: image ? [image] : ["https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg"]
@@ -85,6 +85,8 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     useEffect(()=> {
         if (data) {
             !isLoading && navigate(`/products/${data._id}`);
+            const uiPrice = parseFloat(data.price.toString()).toFixed(2);
+            setPrice(uiPrice);
             setDisabled(true);
         }
         error && setErr(Boolean(error));
@@ -140,7 +142,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                         name="price"
                         type="text"
                         value={price}
-                        onChange={(e) => setPrice(+e.target.value)}
+                        onChange={(e) => setPrice(e.target.value)}
                         required
                         disabled={disabled}
                         helperText="Price is required"
