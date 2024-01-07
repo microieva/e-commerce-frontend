@@ -22,6 +22,7 @@ import { TableColumn } from '../../@types/table';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import AdminActions from '../shared/admin-actions';
 import Loading from '../shared/loading';
+import { useUiPrice } from '../../hooks/useUiPrice';
 
 interface TableProps {
     data: Product[],
@@ -150,7 +151,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                     {columns.map((column: TableColumn) => {
                                         let value = column.render ? column.render(row) : row[column.id].toString();
                                         if (column.id === "price") {
-                                            value = parseFloat(value).toFixed(2) + " €";
+                                            value = useUiPrice(value) + " €";
                                         }
                                         return (
                                             <TableCell key={column.id} align={column.align}>

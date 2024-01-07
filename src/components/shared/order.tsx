@@ -7,6 +7,7 @@ import { Order } from '../../@types/cart';
 import { useState } from 'react';
 import OrderItems from './order-items';
 import { useUiDate } from '../../hooks/useUiDate';
+import { useUiPrice } from '../../hooks/useUiPrice';
 
 interface Props {
     order: Order,
@@ -18,6 +19,7 @@ interface Props {
 
 const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: Props) => {
     const [ open, setOpen ] = useState<boolean>(false);
+    const uiPrice = useUiPrice(order.totalPrice);
     const uiDate = useUiDate(order.createdAt);
     
     const handleOpenItems = () => {
@@ -40,7 +42,7 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
                     </div>
                     <div>
                         <h2 style={{color: "darkgrey", alignSelf: "flex-end"}}>
-                            total price: {order.totalPrice} €
+                            total price: {uiPrice} €
                         </h2>
                         {order && 
                             <div className="btn-group" style={{float: "right"}}>

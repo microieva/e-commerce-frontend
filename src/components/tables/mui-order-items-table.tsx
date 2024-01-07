@@ -14,6 +14,7 @@ import {
 import { CustomOrderItemsTableHead } from './custom-table-head';
 import { CartColumn } from '../../@types/table';
 import { CartItem } from '../../@types/cart';
+import { useUiPrice } from '../../hooks/useUiPrice';
 
 interface Props {
     data: CartItem[]
@@ -107,7 +108,7 @@ const MuiTable = ({ data }: Props) => {
                                             {columns.map((column: CartColumn, i) => {
                                                 let value = column.render ? column.render(row) : row[column.id].toString();
                                                 if (column.id === "price") {
-                                                    value = parseFloat(value).toFixed(2) + " €";
+                                                    value = useUiPrice(value) + " €";
                                                 }
                                                 return (
                                                     <TableCell  key={`${i}`} align={column.align}>

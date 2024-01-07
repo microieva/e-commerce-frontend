@@ -19,6 +19,7 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import { Error } from '../../@types/error'
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import Loading from '../shared/loading';
+import { useUiPrice } from '../../hooks/useUiPrice';
 
 const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
@@ -42,7 +43,7 @@ const CartView = () => {
     const totalAmount = cart.reduce((total, cartItem) => {
         return total + cartItem.price * cartItem.quantity;
     }, 0);
-
+    const iuTotalAmount = useUiPrice(totalAmount);
     const navigate = useNavigate();
 
     const onEmptyCart = () => {
@@ -159,7 +160,7 @@ const CartView = () => {
             <MuiCartTable data={cart} disabled={disabled}/>
             {!order &&
                 <h2 style={{visibility: cart.length === 0 ? "hidden" : "visible", color: "darkgrey", alignSelf: "flex-end"}}>
-                    total amount: {totalAmount} $
+                    total amount: {iuTotalAmount} $
                 </h2>
             }
             {newOrder && 
