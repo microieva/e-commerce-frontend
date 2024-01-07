@@ -1,11 +1,12 @@
 import PaymentIcon from '@mui/icons-material/Payment';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { IconButton } from '@mui/material';
-import { CartItem, Order } from '../../@types/cart';
-import { useGetOrderItemsQuery } from '../../redux/api-queries/order-queries';
-import { useEffect, useState } from 'react';
+import { Order } from '../../@types/cart';
+import { useState } from 'react';
 import OrderItems from './order-items';
+import { useUiDate } from '../../hooks/useUiDate';
 
 interface Props {
     order: Order,
@@ -17,7 +18,7 @@ interface Props {
 
 const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: Props) => {
     const [ open, setOpen ] = useState<boolean>(false);
-    
+    const uiDate = useUiDate(order.createdAt);
     
     const handleOpenItems = () => {
         if (order.paid) {
@@ -28,12 +29,15 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
     const handleClose = () => {
         setOpen(false);
     }
-
+    
     return (
         <>
             <div className='order-container'>
                 <div className='order-wrapper' onClick={()=> handleOpenItems()}>
-                    <div>{children}</div>
+                    <div>
+                        {children}
+                        <h2><span style={{color: "darkgrey"}}>{uiDate}</span></h2> 
+                    </div>
                     <div>
                         <h2 style={{color: "darkgrey", alignSelf: "flex-end"}}>
                             total price: {order.totalPrice} €
@@ -53,7 +57,7 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
                                     </IconButton>
                                 </>}
                                 {order.paid && <IconButton  onClick={handleDeleteOrder}>
-                                    <RemoveShoppingCartIcon/>
+                                    <DeleteOutlineIcon/>
                                 </IconButton>}
                             </div>
                         }

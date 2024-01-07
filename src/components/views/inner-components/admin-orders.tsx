@@ -13,7 +13,7 @@ interface Props {
 }
 
 
-const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
+const AdminOrders = ({ orders, handleDeleteOrders }: Props) => {
     const [ deleteOrder, { data, error }] = useDeleteOrderMutation();
     const [ lastOrder, setLastOrder ] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
             }  
         }
     }
-    
+    console.log('ADMIN ORDERS: ', orders)
     useEffect(()=> {
         navigate('/auth/profile');
     }, [data])
@@ -44,24 +44,24 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
                         </div> 
                     </div> 
                     <div className="profile-section">
-                            {orders.map(order => {
-                                if (order.paid) {
-                                                                        return <OrderComponent 
-                                                order={order} 
-                                                handleDeleteOrder={()=>handleDeleteOrder(order._id)}
-                                            >
-                                                <div>
-                                                    <h2>your order</h2>
-                                                </div> 
-                                            </OrderComponent>
+                        {orders.map(order => {
+                            if (order.paid) {
+                                return <OrderComponent 
+                                            order={order} 
+                                            handleDeleteOrder={()=>handleDeleteOrder(order._id)}
+                                        >
+                                            <div>
+                                                <h2>user's order</h2>       
+                                            </div> 
+                                        </OrderComponent>
                             }
-                            })}
-                        </div>    
+                        })}
+                    </div>    
                 </>}
             </>
         )
     }  
 
 
-export default UserDetails;
+export default AdminOrders;
 

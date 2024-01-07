@@ -18,5 +18,6 @@ export interface Order {
   _id: string,
   userId: string,
   totalPrice: number,
-  paid: boolean
+  paid: boolean,
+  createdAt: string
 }

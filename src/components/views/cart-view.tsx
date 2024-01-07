@@ -24,7 +24,6 @@ const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data: user, isLoading: isLoadingUser } = useGetUserQuery(token);
 
-    const [userId, setUserId] = useState<string | undefined>(undefined);
     const [ disabled, setDisabled ] = useState<boolean>(Boolean(!localStorage.getItem('token')));
     const [ order, setOrder ] = useState<boolean>(false);
 
@@ -53,7 +52,7 @@ const CartView = () => {
     const handleCheckout = async () => {
         if (newOrder) {
             const updates = { paid: true }
-            await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id});
+                        await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id});
             setLoading(isLoadingNewOrder);
         }
     }
@@ -83,7 +82,6 @@ const CartView = () => {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
         }  
-        user && setUserId(user._id); 
         setDisabled(Boolean(!token));
 
         window.addEventListener('storage', handleStorage)

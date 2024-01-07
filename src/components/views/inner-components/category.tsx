@@ -1,7 +1,6 @@
 import { IconButton } from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import CreateCategoryForm from '../../forms/create-category-form';
 import { Category } from "../../../@types/product";
 
 interface Props {

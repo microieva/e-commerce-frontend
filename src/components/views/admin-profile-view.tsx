@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import UserOrders from './inner-components/user-orders';
+import AdminOrders from './inner-components/admin-orders';
 import Categories from './inner-components/categories';
 import { useDeleteOrdersMutation, useGetOrdersQuery } from '../../redux/api-queries/order-queries';
 import { useGetCategoriesQuery } from '../../redux/api-queries/category-queries';
@@ -34,7 +34,7 @@ const AdminProfileView: FC= () => {
                 />
             }
             {!deletingData && orders && orders.length>0 && 
-                <UserOrders 
+                <AdminOrders 
                     orders={orders} 
                     handleDeleteOrders={handleDeleteAdminOrders}
                 />

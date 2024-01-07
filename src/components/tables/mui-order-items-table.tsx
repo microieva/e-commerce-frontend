@@ -105,7 +105,10 @@ const MuiTable = ({ data }: Props) => {
                                                 }}
                                             >    
                                             {columns.map((column: CartColumn, i) => {
-                                                const value = column.render ? column.render(row) : row[column.id].toString();
+                                                let value = column.render ? column.render(row) : row[column.id].toString();
+                                                if (column.id === "price") {
+                                                    value = parseFloat(value).toFixed(2) + " €";
+                                                }
                                                 return (
                                                     <TableCell  key={`${i}`} align={column.align}>
                                                         <Link  
