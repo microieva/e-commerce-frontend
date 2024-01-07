@@ -3,7 +3,7 @@
 
 ## Demo
 
-[e-commerce](https://e-commerce-frontend-dusky-ten.vercel.app/))
+[e-commerce](https://e-commerce-frontend-dusky-ten.vercel.app/)
 
 ### Credentials
 
