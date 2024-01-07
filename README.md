@@ -3,17 +3,17 @@
 
 ## Demo
 
-[e-commerce](https://e-commerce-frontend-2dpvjbalf-microieva.vercel.app/)
+[e-commerce](https://e-commerce-frontend-dusky-ten.vercel.app/)
 
 ### Credentials
 
 admin: 
 - password: admin123
-- email: "admin@email.com"
+- email: admin@email.com
 
 user:
 - password: user123,
-- email: "user@email.com"
+- email: user@email.com
 
 ### Additional Notes
 
