@@ -13,7 +13,7 @@ import { useGetCategoriesQuery } from '../../redux/api-queries/category-queries'
 
 import { Category, Product } from '../../@types/product';
 import Loading from '../shared/loading';
-import { useUiPrice } from '../../hooks/useUiPrice';
+import { formatUiPrice } from '../../shared/formatUiPrice';
 
 interface Props {
     product: Product,
@@ -22,7 +22,7 @@ interface Props {
 
 const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     const [ title, setTitle ] = useState<string>(product.title);
-    const [ price, setPrice ] = useState<string>(useUiPrice(product.price));
+    const [ price, setPrice ] = useState<string>(formatUiPrice(product.price));
     const [ description, setDescription ] = useState<string>(product.description);
     const [ image, setImage ] = useState<string>(product.images[0]);
     const [ categoryName, setCategoryName ] = useState<string>(product.category.name);

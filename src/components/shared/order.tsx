@@ -7,7 +7,7 @@ import { Order } from '../../@types/cart';
 import { useState } from 'react';
 import OrderItems from './order-items';
 import { useUiDate } from '../../hooks/useUiDate';
-import { useUiPrice } from '../../hooks/useUiPrice';
+import { formatUiPrice } from '../../shared/formatUiPrice';
 
 interface Props {
     order: Order,
@@ -19,7 +19,7 @@ interface Props {
 
 const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: Props) => {
     const [ open, setOpen ] = useState<boolean>(false);
-    const uiPrice = useUiPrice(order.totalPrice);
+    const uiPrice = formatUiPrice(order.totalPrice);
     const uiDate = useUiDate(order.createdAt);
     
     const handleOpenItems = () => {

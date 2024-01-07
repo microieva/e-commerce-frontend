@@ -22,7 +22,7 @@ import { TableColumn } from '../../@types/table';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import AdminActions from '../shared/admin-actions';
 import Loading from '../shared/loading';
-import { useUiPrice } from '../../hooks/useUiPrice';
+import { formatUiPrice } from '../../shared/formatUiPrice';
 
 interface TableProps {
     data: Product[],
@@ -48,6 +48,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
             label: 'Price',
             minWidth: 170,
             align: 'right',
+            render: (row: Product) => formatUiPrice(row.price)+ " €"
         },
         {
             id: 'category',
@@ -149,10 +150,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                         }}
                                     >    
                                     {columns.map((column: TableColumn) => {
-                                        let value = column.render ? column.render(row) : row[column.id].toString();
-                                        if (column.id === "price") {
-                                            value = useUiPrice(value) + " €";
-                                        }
+                                        const value = column.render ? column.render(row) : row[column.id].toString();
                                         return (
                                             <TableCell key={column.id} align={column.align}>
                                                 <Link style={{textDecoration: "none", color: "black"}} to={`/products/${row._id}`}>
