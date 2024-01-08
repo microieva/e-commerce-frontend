@@ -26,7 +26,7 @@ const AdminOrders = ({ orders, handleDeleteOrders }: Props) => {
             }  
         }
     }
-    console.log('ADMIN ORDERS: ', orders)
+
     useEffect(()=> {
         navigate('/auth/profile');
     }, [data])

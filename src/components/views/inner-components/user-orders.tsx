@@ -26,7 +26,6 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
             }  
         }
     }
-    
     useEffect(()=> {
         navigate('/auth/profile');
     }, [data])

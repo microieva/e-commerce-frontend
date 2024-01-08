@@ -49,7 +49,6 @@ const LoginForm = () => {
             }
         }
         initialLogin();
-        console.log('error: ', error)
     }, [request, err]);
 
     const validate = () => {

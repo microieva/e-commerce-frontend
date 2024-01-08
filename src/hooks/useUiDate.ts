@@ -1,24 +1,17 @@
 export const useUiDate = (str: string) => {
-    const arr = str.split('T');
-    let date;
-
-    date = arr[0].split("-");
-    const time = arr[1].split(":");
-    date = date.concat(time);
-    date.pop();
-    date = format(date)
+    const arr = str.split(' ');
+    let day = arr[0].split('.');
+    let time = arr[1].replace('.', ':').split('.');
+    time.pop();
+    const date = format(day.concat(time))
     return `${date}`
 }
 
-const format = (strs: string[]) => {
+const format = (arr: string[]) => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    let month;
-    let day;
-    const year = strs[0];
-    month = Number(strs[1]);
-    day = strs[2];
-    day = day.charAt(0) === '0' && day.replace('0', '');
-    month = months[month-1];
-    const time = `${strs[3]}:${strs[4]}`
+    const day = arr[0];
+    const month = months[Number(arr[1])-1];
+    const year = arr[2];
+    const time = arr[3]
     return `${month} ${day}, ${year} at ${time}`
 }
