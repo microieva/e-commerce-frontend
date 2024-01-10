@@ -1,7 +1,6 @@
 
 import { Backdrop, Dialog, IconButton, ThemeProvider } from '@mui/material';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
+import { Outlet, useNavigate } from 'react-router-dom';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import { marineTheme } from '../../../shared/theme';

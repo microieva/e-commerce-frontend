@@ -26,7 +26,7 @@ const cartSlice = createSlice({
             }    
         },
         emptyCart: (state) => {
-            state = [];
+            state.length = 0;
         }
     }
 });

@@ -47,7 +47,6 @@ const CardsView = ({ searchWord }: ViewProps) => {
 	}, [token])
 
 	useEffect(()=>{	
-		console.log('FILTERED PRODS: ', data)
 		data && setProducts(data);
 	}, [searchWord, data])
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-import { IconButton } from '@mui/material';
+import { Backdrop, Dialog, IconButton, ThemeProvider } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCartOutlined';
@@ -20,6 +20,11 @@ import { Error } from '../../@types/error'
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import Loading from '../shared/loading';
 import { formatUiPrice } from '../../shared/formatUiPrice';
+import Alert from '../shared/alert';
+import { marineTheme } from '../../shared/theme';
+import { TypeForm } from '../../@types/types';
+import FormProvider from '../../contexts/form';
+import FormSwitcher from './inner-components/form-switcher';
 
 const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
@@ -35,6 +40,9 @@ const CartView = () => {
     const [ deleteOrder, { data: deletedOrder, error: deletingError, isLoading: isDeletingOrder }] = useDeleteOrderMutation();
     const [loading, setLoading] = useState<boolean>(isLoadingUser || isLoadingNewOrder || isLoadingUpdatedOrder || isDeletingOrder);
     const [ err, setErr ] = useState<Error | undefined>(undefined);
+    const [ showAlert, setShowAlert ] = useState<boolean>(false);
+    const [ openForm, setOpenForm ] = useState<boolean>(false);
+    const [ form, setForm ] = useState<TypeForm>(null);
     const dispatch = useAppDispatch();
 
     const numberOfItems = cart.reduce((total, cartItem) => {
@@ -51,17 +59,20 @@ const CartView = () => {
     }
 
     const onCreateOrder = () => {
-        setOrder(true);
-        dispatch(emptyCart());
-        // cart needs to go empty - refresh the table after update (on pay) & delete
-        console.log('true ?--->', order)
+        if (user) {
+            setOrder(true);
+        } else {
+            setShowAlert(true);
+        }
     }
 
     const handleCheckout = async () => {
         if (newOrder) {
             const updates = { paid: true }
-                        await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id});
+            await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id});
             setLoading(isLoadingNewOrder);
+            setOrder(false);
+            dispatch(emptyCart());
         }
     }
 
@@ -75,13 +86,6 @@ const CartView = () => {
     }
 
     useEffect(() => {
-        if (deletedOrder) {
-            //snackbar deletedOrder.msg
-            dispatch(emptyCart());
-        }  
-    }, [deletedOrder]);
-
-    useEffect(() => {
         if (updatedOrder) {
             dispatch(emptyCart());
         }  
@@ -90,7 +94,7 @@ const CartView = () => {
     useEffect(() => {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
-        }  
+        } 
 
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
@@ -106,7 +110,6 @@ const CartView = () => {
     }, [user])
 
     useEffect(()=> {
-        //setOrder(order);
         cart.length === 0 && setDisabled(true);
         if (order) {
             if (cart.length !== 0) {
@@ -140,6 +143,17 @@ const CartView = () => {
         }
     }, [orderRequestBody]);
 
+    const handleClose = () => {
+        showAlert && setShowAlert(false);
+        openForm && setOpenForm(false);
+
+    }
+    const handleConfirm = () => {
+        setForm('login');
+        setShowAlert(false);
+        setOpenForm(true);
+    }
+
     if (loading) {
         return <Loading />
     }
@@ -153,10 +167,10 @@ const CartView = () => {
                     <h2>your cart <span style={{color: "darkgrey"}}>/ {cart.length} {cart.length===1 ? ' product': 'products'}</span></h2>
                 }
                 <div className="btn-group">
-                    <IconButton disabled={disabled || !user} onClick={()=>onCreateOrder()}>
+                    <IconButton disabled={disabled} onClick={()=> onCreateOrder()}>
                         <ShoppingBasketOutlinedIcon />
                     </IconButton>
-                    <IconButton disabled={disabled || !user} onClick={() => onEmptyCart} >
+                    <IconButton disabled={disabled} onClick={()=> onEmptyCart()} >
                         <RemoveShoppingCartOutlinedIcon />
                     </IconButton>
                     <IconButton  onClick={()=> navigate('/')}>
@@ -168,11 +182,11 @@ const CartView = () => {
             <MuiCartTable data={cart} disabled={disabled}/>
             {!order &&
                 <h2 style={{visibility: cart.length === 0 ? "hidden" : "visible", color: "darkgrey", alignSelf: "flex-end"}}>
-                    total amount: {iuTotalAmount} $
+                    total amount: {iuTotalAmount} €
                 </h2>
             }
-            {newOrder && 
-                <div style={{visibility: updatedOrder || deletedOrder ? 'hidden' : 'visible', marginTop: "4rem"}}>
+            {order && newOrder && 
+                <div style={{marginTop: "4rem"}}>
                     <OrderComponent 
                         order={newOrder} 
                         handleCheckout={handleCheckout}
@@ -183,6 +197,32 @@ const CartView = () => {
                     </OrderComponent>
                 </div>
             }
+            { showAlert &&
+                <>
+                    <ThemeProvider theme={marineTheme}>
+                            <Dialog fullWidth open={showAlert} onClose={handleClose} >
+                                <Alert 
+                                    text={'signup or login to order'}
+                                    handleCancel={handleClose} 
+                                    handleConfirm={handleConfirm}
+                                />
+                            </Dialog>
+                            <Backdrop open={showAlert} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                    </ThemeProvider>
+                    <Outlet />
+                </>
+            }
+            <>
+                <ThemeProvider theme={marineTheme}>
+                    <FormProvider form={form} onClose={handleClose}>
+                        <Dialog fullWidth open={openForm} onClose={handleClose} >
+                            <FormSwitcher />
+                        </Dialog>
+                        <Backdrop open={openForm} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                    </FormProvider>
+                </ThemeProvider>
+                <Outlet />
+            </>
         </div>    
     )
 }
