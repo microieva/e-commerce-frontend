@@ -5,7 +5,7 @@ import { useDeleteUserOrdersMutation, useGetOrdersByUserIdQuery } from '../../re
 
 const UserView: FC<{ userId: string }>= ({ userId }) => {
     const token = localStorage.getItem('token') || ''
-    const { data } = useGetOrdersByUserIdQuery({ token, userId });
+    const { data: orders } = useGetOrdersByUserIdQuery({ token, userId });
     const [ deleteUserOrders, {data: deletingData, error, isLoading }] = useDeleteUserOrdersMutation();
 
     const handleDeleteUserOrders = async () => {  
@@ -14,7 +14,7 @@ const UserView: FC<{ userId: string }>= ({ userId }) => {
 
     return (
         <>
-            {!deletingData && data && <UserOrders orders={data} handleDeleteOrders={handleDeleteUserOrders}/>}
+            {!deletingData && orders && <UserOrders orders={orders} handleDeleteOrders={handleDeleteUserOrders}/>}
         </>
     );
 }

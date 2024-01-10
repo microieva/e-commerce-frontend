@@ -20,7 +20,7 @@ const categoryQueries = createApi({
             query: (categoryId) => `/${categoryId}/products`,
             providesTags: ['Products'],
         }),
-        createCategory: build.mutation<{}, CategoryRequest>({
+        createCategory: build.mutation<Category, CategoryRequest>({
             query: (categoryRequest) => (categoryRequest && 
                 {
                     url: `/`, 

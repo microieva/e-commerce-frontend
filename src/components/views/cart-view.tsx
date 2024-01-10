@@ -25,7 +25,8 @@ const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data: user, isLoading: isLoadingUser } = useGetUserQuery(token);
 
-    const [ disabled, setDisabled ] = useState<boolean>(Boolean(!localStorage.getItem('token')));
+    const cart = useAppSelector(state => state.cart); 
+    const [ disabled, setDisabled ] = useState<boolean>(Boolean(cart.length === 0));
     const [ order, setOrder ] = useState<boolean>(false);
 
     const [ orderRequestBody, setOrderRequestBody ] = useState<{ id: string, quantity: number}[] | undefined>(undefined);
@@ -35,7 +36,6 @@ const CartView = () => {
     const [loading, setLoading] = useState<boolean>(isLoadingUser || isLoadingNewOrder || isLoadingUpdatedOrder || isDeletingOrder);
     const [ err, setErr ] = useState<Error | undefined>(undefined);
     const dispatch = useAppDispatch();
-    const cart = useAppSelector(state => state.cart); 
 
     const numberOfItems = cart.reduce((total, cartItem) => {
         return total + cartItem.quantity;
@@ -48,6 +48,13 @@ const CartView = () => {
 
     const onEmptyCart = () => {
         dispatch(emptyCart());
+    }
+
+    const onCreateOrder = () => {
+        setOrder(true);
+        dispatch(emptyCart());
+        // cart needs to go empty - refresh the table after update (on pay) & delete
+        console.log('true ?--->', order)
     }
 
     const handleCheckout = async () => {
@@ -63,6 +70,7 @@ const CartView = () => {
             await deleteOrder({orderId: newOrder._id, token})
             setOrder(false);
             setLoading(isDeletingOrder);
+            setDisabled(false);
         }
     }
 
@@ -83,7 +91,6 @@ const CartView = () => {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
         }  
-        setDisabled(Boolean(!token));
 
         window.addEventListener('storage', handleStorage)
         return () => window.removeEventListener('storage', handleStorage)
@@ -99,6 +106,7 @@ const CartView = () => {
     }, [user])
 
     useEffect(()=> {
+        //setOrder(order);
         cart.length === 0 && setDisabled(true);
         if (order) {
             if (cart.length !== 0) {
@@ -145,10 +153,10 @@ const CartView = () => {
                     <h2>your cart <span style={{color: "darkgrey"}}>/ {cart.length} {cart.length===1 ? ' product': 'products'}</span></h2>
                 }
                 <div className="btn-group">
-                    <IconButton disabled={disabled} onClick={()=> setOrder(true)}>
+                    <IconButton disabled={disabled || !user} onClick={()=>onCreateOrder()}>
                         <ShoppingBasketOutlinedIcon />
                     </IconButton>
-                    <IconButton disabled={disabled} onClick={()=> onEmptyCart()} >
+                    <IconButton disabled={disabled || !user} onClick={() => onEmptyCart} >
                         <RemoveShoppingCartOutlinedIcon />
                     </IconButton>
                     <IconButton  onClick={()=> navigate('/')}>
