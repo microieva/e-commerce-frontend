@@ -3,7 +3,7 @@ import server from '../servers/user-server';
 import userQueries from '../../redux/api-queries/user-queries';
 import { mockUsers } from '../../shared/mock-users';
 import { User } from '../../@types/user';
-import { token } from '../../shared/mock-auth';
+import { adminToken, token } from '../../shared/mock-auth';
 
 type Response = {
   data: {msg : string} | User | User[]
@@ -20,7 +20,7 @@ describe('users', () => {
   afterEach(() => server.resetHandlers())
 
   it('getUsers - should get all Users', async () => {
-    const response: Response = await store.dispatch(userQueries.endpoints.getUsers.initiate(JSON.stringify(token)));
+    const response: Response = await store.dispatch(userQueries.endpoints.getUsers.initiate(JSON.stringify(adminToken)));
     expect(response.data).toMatchObject(mockUsers);
   });
 

@@ -3,7 +3,7 @@ import server from '../servers/product-server';
 import productQueries from '../../redux/api-queries/product-queries';
 import { mockProducts } from '../../shared/mock-products';
 import { Product } from '../../@types/product';
-import { token } from '../../shared/mock-auth';
+import { adminToken, token } from '../../shared/mock-auth';
 
 type Response = {
   data: Product[] | Product
@@ -38,22 +38,22 @@ describe('products', () => {
       images: [''],
       description: "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
   }
-    const response: Response = await store.dispatch(productQueries.endpoints.createProduct.initiate({token: JSON.stringify(token), body: newProduct}));
+    const response: Response = await store.dispatch(productQueries.endpoints.createProduct.initiate({token: JSON.stringify(adminToken), body: newProduct}));
     expect(response.data.title).toEqual(newProduct.title);
   });
 
   test('updateProduct - should update existing product title to Updated Product', async () => {
-    const _id = "10";
+    const productId = "10";
     const updates: Partial<Product> =  {  
       title: "Updated Product",
     };
-    const response: Response = await store.dispatch(productQueries.endpoints.updateProduct.initiate({productId: _id, body: updates, token: JSON.stringify(token)}));
+    const response: Response = await store.dispatch(productQueries.endpoints.updateProduct.initiate({productId, body: updates, token: JSON.stringify(adminToken)}));
     expect(response.data.title).toMatch("Updated Product");
   });
 
   test('deleteProduct - should delete existing product', async () => {
-    const _id = "8";
-    const response: Response = await store.dispatch(productQueries.endpoints.deleteProduct.initiate({productId: _id, token: JSON.stringify(token)}));
+    const productId = "8";
+    const response: Response = await store.dispatch(productQueries.endpoints.deleteProduct.initiate({productId, token: JSON.stringify(adminToken)}));
     expect(response.data).toBe(true);
   });
 })
