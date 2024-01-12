@@ -4,7 +4,7 @@ export const mockProducts: Omit<Product, "categoryId">[] = [
   {
       _id: "8",
       title: "nuevo title",
-      price: 987,
+      price: 100,
       category: {
         _id: "1",
         name: 'string',
@@ -17,7 +17,7 @@ export const mockProducts: Omit<Product, "categoryId">[] = [
   {
       _id: "9",
       title: "Bespoke Wooden Shirt",
-      price: 551,
+      price: 200,
       category: {
         _id: "1",
         name: 'string',
@@ -30,7 +30,7 @@ export const mockProducts: Omit<Product, "categoryId">[] = [
   {
       _id: "10",
       title: "Gorgeous Soft Hat",
-      price: 635,
+      price: 300,
       category: {
         _id: "2",
         name: 'string',

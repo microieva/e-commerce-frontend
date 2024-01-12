@@ -6,7 +6,7 @@ import { Category, CategoryRequest, Product } from '../../@types/product';
 const categoryQueries = createApi({
     reducerPath: "categoryReducer",
     baseQuery: fetchBaseQuery({ baseUrl: `${url}/categories` }),
-    tagTypes: ['Categories', 'Products', 'Category'],
+    tagTypes: ['Categories', 'Category'],
     endpoints: (build) => ({
         getCategories: build.query<Category[], string>({
             query: (token) => (token && { url: '/', headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}}),
@@ -16,11 +16,7 @@ const categoryQueries = createApi({
             query: (categoryId) => `/${categoryId}`,
             providesTags: ['Category']
         }),
-        getProductsByCategory: build.query<Product[], number>({
-            query: (categoryId) => `/${categoryId}/products`,
-            providesTags: ['Products'],
-        }),
-        createCategory: build.mutation<Category, CategoryRequest>({
+        createCategory: build.mutation<{}, CategoryRequest>({
             query: (categoryRequest) => (categoryRequest && 
                 {
                     url: `/`, 
@@ -47,7 +43,6 @@ const categoryQueries = createApi({
 export const { 
     useGetCategoriesQuery,
     useGetCategoryByIdQuery,
-    useGetProductsByCategoryQuery,
     useCreateCategoryMutation,
     useDeleteCategoryMutation
  } = categoryQueries;

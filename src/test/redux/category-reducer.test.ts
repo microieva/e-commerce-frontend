@@ -2,7 +2,12 @@ import server from "../servers/category-server";
 import { mockCategories } from "../../shared/mock-categories";
 import { store } from "../../shared/store";
 import categoryQueries from "../../redux/api-queries/category-queries";
-import { Product } from "../../@types/product";
+import { Category } from "../../@types/product";
+import { adminToken } from '../../shared/mock-auth';
+
+type Response = {
+  data: Category
+}
 
 describe('categories', () => {
 
@@ -14,18 +19,32 @@ describe('categories', () => {
   })
   afterEach(() => server.resetHandlers())
 
-  /*it('Should get all categories', async () => {
-    await store.dispatch(categoryQueries.endpoints.getCategories.initiate(undefined));
-    expect(store.getState().categoryReducer.queries['getCategories(undefined)']?.data).toMatchObject(mockCategories);
-  }),*/
-  it('Should get one category object with id = 1', async () => {
-    const _id: string = "1";
-    await store.dispatch(categoryQueries.endpoints.getCategoryById.initiate(_id));
-    expect(store.getState().categoryReducer.queries[`getCategoryById(${_id})`]?.data).toMatchObject(mockCategories[0]);
+  test('getCategories - should get all categories', async () => {
+    const response = await store.dispatch(categoryQueries.endpoints.getCategories.initiate(JSON.stringify(adminToken)));
+    expect(response).toHaveProperty("data");
+    expect(response.data).toEqual(mockCategories);
   }),
-  it('Should get all products from the same category', async () => {
-    const categoryId: string = "1";
-    const result = await store.dispatch(categoryQueries.endpoints.getProductsByCategory.initiate(Number(categoryId)));
-    expect(result.data?.every((product: Product) => product.category._id === categoryId)).toBe(true);
-  })
+
+  test('getCategoryById - should get one category object with id = 1', async () => {
+    const _id: string = "1";
+    const response = await store.dispatch(categoryQueries.endpoints.getCategoryById.initiate(_id));
+  
+    expect(response).toHaveProperty("data");
+    expect(response.data).toEqual(mockCategories[0]);
+  }),
+
+  test('createCategory - should create new category', async () => {
+    const newCategory: Partial<Category> =  {
+      name: "New Category",
+      image: "string"
+    }
+    const response: Response = await store.dispatch(categoryQueries.endpoints.createCategory.initiate({token: JSON.stringify(adminToken), body: newCategory}));
+    expect(response.data.name).toEqual(newCategory.name);
+  });
+
+  test('deleteCategory - should delete existing category', async () => {
+    const categoryId = "1";
+    const response: Response = await store.dispatch(categoryQueries.endpoints.deleteCategory.initiate({categoryId, token: JSON.stringify(adminToken)}));
+    expect(response.data).toBe(true);
+  });
 })

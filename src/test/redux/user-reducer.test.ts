@@ -2,8 +2,12 @@ import { store } from '../../shared/store';
 import server from '../servers/user-server';
 import userQueries from '../../redux/api-queries/user-queries';
 import { mockUsers } from '../../shared/mock-users';
-import { mockUser, mockResponse } from '../../shared/mock-auth';
 import { User } from '../../@types/user';
+import { adminToken, token } from '../../shared/mock-auth';
+
+type Response = {
+  data: {msg : string} | User | User[]
+}
 
 describe('users', () => {
 
@@ -15,24 +19,24 @@ describe('users', () => {
   })
   afterEach(() => server.resetHandlers())
 
-  it('Should get all Users', async () => {
-    await store.dispatch(userQueries.endpoints.getUsers.initiate(undefined));
-    expect(store.getState().userReducer.queries['getUsers(undefined)']?.data).toMatchObject(mockUsers);
+  it('getUsers - should get all Users', async () => {
+    const response: Response = await store.dispatch(userQueries.endpoints.getUsers.initiate(JSON.stringify(adminToken)));
+    expect(response.data).toMatchObject(mockUsers);
   });
-  /*
-  MISSING TOKEN
-  it('Should update existing User title to Updated User', async () => {
+
+  test('updateUser - should update existing User name to Updated User', async () => {
     const _id = "2";
     const updates: Partial<User> =  {  
-      password: "newPassword",
+      name: "Updated User",
     };
-    const result: any = await store.dispatch(userQueries.endpoints.updateUser.initiate({_id, ...updates}));
-    expect(result.data.password).toMatch("newPassword");
-  });*/
-  /*it('Should delete existing User', async () => {
+    const response: Response = await store.dispatch(userQueries.endpoints.updateUser.initiate({_id, body: updates, token: JSON.stringify(token)}));
+    expect(response.data.name).toEqual("Updated User");
+  });
+
+  test('deleteUser - should delete existing User', async () => {
     const _id = "3";
-    const result: any = await store.dispatch(userQueries.endpoints.deleteUser.initiate(_id));
-    expect(result.data).toBe(true);
-  });*/
+    const response: Response = await store.dispatch(userQueries.endpoints.deleteUser.initiate({_id, token: JSON.stringify(token)}));
+    expect(response.data).toBe(true);
+  });
 })
 

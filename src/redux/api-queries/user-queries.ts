@@ -8,8 +8,12 @@ const userQueries  = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: `${url}/users` }),
     tagTypes: ['Users', 'User'],
     endpoints: (builder) => ({
-        getUsers: builder.query<User[], void>({
-            query: () => '',
+        getUsers: builder.query<User[], string>({
+            query: (token) =>  ({
+                url: `/`, 
+                method: 'GET', 
+                headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
+            }),
             providesTags: ['Users', 'User']
         }),
         updateUser: builder.mutation<User, UserRequest>({

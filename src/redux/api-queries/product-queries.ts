@@ -19,8 +19,8 @@ const productQueries  = createApi({
             query: (productId) => `/${productId}`,
             providesTags: ['Product']
         }), 
-        getFilteredProductsByTitle: builder.query<Product[], string>({
-            query: (query) => ({url:`/search/?title=${query}`}),
+        getFilteredProductsByTitle: builder.query<Product[], { title: string }>({
+            query: (title) => ({url:`/search/?title=${title}`}),
             providesTags: ['Products']
         }),
         createProduct: builder.mutation<Product, ProductRequest>({

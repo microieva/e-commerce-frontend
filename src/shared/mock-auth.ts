@@ -7,9 +7,11 @@ const mockRequest: LoginRequest = {
 };
 
 const mockResponse: LoginResponse = {
-  access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY3Mjc2NjAyOCwiZXhwIjoxNjc0NDk0MDI4fQ.kCak9sLJr74frSRVQp0_27BY4iBCgQSmoT3vQVWKzJg",
-  refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY3Mjc2NjAyOCwiZXhwIjoxNjcyODAyMDI4fQ.P1_rB3hJ5afwiG4TWXLq6jOAcVJkvQZ2Z-ZZOnQ1dZw"
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Njc1MGFlOTU2NmM0NjMzNjRhNmQ3NiIsIm5hbWUiOiJBZG1pbi0yIiwiZW1haWwiOiJhZG1pbi0yQGVtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImF2YXRhciI6Imh0dHBzOi8vYXBpLmxvcmVtLnNwYWNlL2ltYWdlL2ZhY2U_dz02NDAmaD00ODAmcj04NjciLCJpYXQiOjE3MDEyNjk2Nzh9.ic4ky4kqsGl4ZOuFGAHn6X5lu7-jB2hZNnYO0qGpZWA"
 }
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Njc1MGFlOTU2NmM0NjMzNjRhNmQ3NiIsIm5hbWUiOiJBZG1pbi0yIiwiZW1haWwiOiJhZG1pbi0yQGVtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImF2YXRhciI6Imh0dHBzOi8vYXBpLmxvcmVtLnNwYWNlL2ltYWdlL2ZhY2U_dz02NDAmaD00ODAmcj04NjciLCJpYXQiOjE3MDEyNjk2Nzh9.ic4ky4kqsGl4ZOuFGAHn6X5lu7-jB2hZNnYO0qGpZWA"
+const adminToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YTExY2U4ZmUxNjM4MTRmZjI2YTg1NyIsIm5hbWUiOiJUZXN0IEFkbWluIiwiZW1haWwiOiJ0ZXN0YWRtaW5AZW1haWwuY29tIiwicm9sZSI6IkFETUlOIiwiYXZhdGFyIjoiaHR0cHM6Ly9hcGkubG9yZW0uc3BhY2UvaW1hZ2UvZmFjZT93PTY0MCZoPTQ4MCZyPTg2NyIsImlhdCI6MTcwNTA1NzUxM30.ROlyE0TLFqICWkhoOaokEfewGdcCLxJuzY7Ht1hIeGo"
 
 const mockUser: User = {
   _id: "1",
@@ -23,5 +25,7 @@ const mockUser: User = {
 export {
   mockRequest,
   mockResponse,
-  mockUser
+  mockUser,
+  token,
+  adminToken
 };
