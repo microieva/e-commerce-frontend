@@ -3,12 +3,9 @@ import server from '../servers/order-server';
 import orderQueries from '../../redux/api-queries/order-queries';
 import { mockOrders } from '../../shared/mock-orders';
 import { mockOrderItems } from '../../shared/mock-items';
-import { token } from '../../shared/mock-auth';
+import { adminToken, token } from '../../shared/mock-auth';
 import { Order } from '../../@types/cart';
 
-type Response = {
-  data: Order | Order[] | { msg: string }
-}
 
 beforeAll(()=> {
   server.listen()
@@ -46,8 +43,11 @@ describe('orders', () => {
             quantity: 2
         }
     ]
-    const response: Response = await store.dispatch(orderQueries.endpoints.createOrder.initiate({userId: "2", token: JSON.stringify(token), body: orderRequest}));
-    expect(response.data).toBeTruthy();
+    const response = await store.dispatch(orderQueries.endpoints.createOrder.initiate({userId: "2", token: JSON.stringify(token), body: orderRequest}));
+    expect(response).toHaveProperty('data');
+    if ('data' in response) {
+      expect(response.data).toBeTruthy();
+    }
   });
 
   test('updateOrder - should update existing order', async () => {
@@ -55,20 +55,29 @@ describe('orders', () => {
     const updates: Partial<Order> =  {  
       paid: true,
     };
-    const response: Response = await store.dispatch(orderQueries.endpoints.updateOrder.initiate({orderId, body: updates, token: JSON.stringify(token)}));
-    expect(response.data.paid).toBe(true);
+    const response = await store.dispatch(orderQueries.endpoints.updateOrder.initiate({orderId, body: updates, token: JSON.stringify(token)}));
+    expect(response).toHaveProperty('data');
+    if ('data' in response) {
+      expect(response.data.paid).toBe(true);
+    }
   });
 
   test('deleteOrder - should delete existing order', async () => {
     const orderId = "2";
-    const response: Response = await store.dispatch(orderQueries.endpoints.deleteOrder.initiate({orderId, token: JSON.stringify(token)}));
-    expect(response.data).toBe(true);
+    const response = await store.dispatch(orderQueries.endpoints.deleteOrder.initiate({orderId, token: JSON.stringify(token)}));
+    expect(response).toHaveProperty('data');
+    if ('data' in response) {
+      expect(response.data).toBe(true);
+    }
   });
 
   test('deleteUserOrders - should delete user orders', async () => {
     const userId = "3";
-    const response: Response = await store.dispatch(orderQueries.endpoints.deleteUserOrders.initiate({userId, token: JSON.stringify(token)}));
-    expect(response.data).toBe(true)
+    const response = await store.dispatch(orderQueries.endpoints.deleteUserOrders.initiate({userId, token: JSON.stringify(token)}));
+    expect(response).toHaveProperty('data');
+    if ('data' in response) {
+      expect(response.data).toBe(true)
+    }
   });
 })
 

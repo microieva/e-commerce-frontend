@@ -1,13 +1,8 @@
 import { store } from '../../shared/store';
 import server from '../servers/auth-server';
 import authQueries from '../../redux/api-queries/auth-queries';
-import { mockUser, mockResponse, mockRequest, token } from '../../shared/mock-auth';
-import { LoginRequest } from '../../@types/auth';
+import { mockUser, mockRequest, token } from '../../shared/mock-auth';
 import { User } from '../../@types/user';
-
-type Response = {
-  data: string
-}
 
 describe('authentification', () => {
 
@@ -22,8 +17,11 @@ describe('authentification', () => {
   })
 
   test('login - should return token', async () => {
-    const response: Response = await store.dispatch(authQueries.endpoints.login.initiate(mockRequest));
-    expect(response.data).toEqual(token);
+    const response = await store.dispatch(authQueries.endpoints.login.initiate(mockRequest));
+    expect(response).toHaveProperty('data');
+    if ('data' in response) {
+      expect(response.data).toEqual(token);
+    }
   });
 
   test('getUser - should return user details', async ()=>{
@@ -37,7 +35,10 @@ describe('authentification', () => {
       email: "test.user@email.com",
       password: "passowrd4"
     };
-    const response: Response = await store.dispatch(authQueries.endpoints.createUser.initiate(newUser));
-    expect(response.data).toEqual(token)
+    const response = await store.dispatch(authQueries.endpoints.createUser.initiate(newUser));
+    expect(response).toHaveProperty('data');
+    if ('data' in response) {
+      expect(response.data).toEqual(token);
+    }
   });
 })

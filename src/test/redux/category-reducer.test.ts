@@ -5,10 +5,6 @@ import categoryQueries from "../../redux/api-queries/category-queries";
 import { Category } from "../../@types/product";
 import { adminToken } from '../../shared/mock-auth';
 
-type Response = {
-  data: Category
-}
-
 describe('categories', () => {
 
   beforeAll(()=> {
@@ -26,8 +22,8 @@ describe('categories', () => {
   }),
 
   test('getCategoryById - should get one category object with id = 1', async () => {
-    const _id: string = "1";
-    const response = await store.dispatch(categoryQueries.endpoints.getCategoryById.initiate(_id));
+    const categoryId: string = "1";
+    const response = await store.dispatch(categoryQueries.endpoints.getCategoryById.initiate(categoryId));
   
     expect(response).toHaveProperty("data");
     expect(response.data).toEqual(mockCategories[0]);
@@ -38,13 +34,19 @@ describe('categories', () => {
       name: "New Category",
       image: "string"
     }
-    const response: Response = await store.dispatch(categoryQueries.endpoints.createCategory.initiate({token: JSON.stringify(adminToken), body: newCategory}));
-    expect(response.data.name).toEqual(newCategory.name);
+    const response = await store.dispatch(categoryQueries.endpoints.createCategory.initiate({token: JSON.stringify(adminToken), body: newCategory}));
+    expect(response).toHaveProperty("data");
+    if ('data' in response) {
+      expect(response.data.name).toEqual(newCategory.name);
+    }
   });
 
   test('deleteCategory - should delete existing category', async () => {
     const categoryId = "1";
-    const response: Response = await store.dispatch(categoryQueries.endpoints.deleteCategory.initiate({categoryId, token: JSON.stringify(adminToken)}));
-    expect(response.data).toBe(true);
+    const response = await store.dispatch(categoryQueries.endpoints.deleteCategory.initiate({categoryId, token: JSON.stringify(adminToken)}));
+    expect(response).toHaveProperty("data");
+    if ('data' in response) {
+      expect(response.data).toBe(true);
+    }
   });
 })

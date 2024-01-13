@@ -8,14 +8,13 @@ export const handlers = [
     const { email, password } = await req.json();
 
     if (mockRequest.email === email && mockRequest.password === password) {
-      return res(
-        ctx.json(token)
-      )
-    } else {
-      return res(
-        ctx.json("Incorrect user details")
-      );
-    }
+      return res(ctx.json(token))
+    } 
+    // else {
+    //   return res(
+    //     ctx.json("Incorrect user details")
+    //   );
+    // }
   }),
   rest.get('https://e-commerce-api-atbv.onrender.com/api/v1/auth/profile', async (req, res, ctx) => {
     const token = req.headers.get('Authorization'); 

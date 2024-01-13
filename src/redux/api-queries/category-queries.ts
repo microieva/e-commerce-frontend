@@ -16,7 +16,7 @@ const categoryQueries = createApi({
             query: (categoryId) => `/${categoryId}`,
             providesTags: ['Category']
         }),
-        createCategory: build.mutation<{}, CategoryRequest>({
+        createCategory: build.mutation<Category, CategoryRequest>({
             query: (categoryRequest) => (categoryRequest && 
                 {
                     url: `/`, 

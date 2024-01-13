@@ -8,7 +8,7 @@ interface TableProps {
     searchWord: string
 }
 const Table: FC<TableProps> = ({ searchWord }: TableProps) => {
-    const { data, isLoading } = useGetFilteredProductsByTitleQuery(searchWord);
+    const { data, isLoading } = useGetFilteredProductsByTitleQuery({title: searchWord});
 	const [ products, setProducts] = useState<Product[]>([]);
 
     useEffect(()=>{	

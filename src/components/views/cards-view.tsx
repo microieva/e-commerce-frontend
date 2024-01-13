@@ -21,7 +21,7 @@ const CardsView = ({ searchWord }: ViewProps) => {
 	const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
 	const [ admin, setAdmin ] = useState<boolean>(false);
 
-	const { data, isLoading } = useGetFilteredProductsByTitleQuery(searchWord);
+	const { data, isLoading } = useGetFilteredProductsByTitleQuery({ title: searchWord});
 	const [ products, setProducts] = useState<Product[]>([]);
 
 	const [currentPage, setCurrentPage] = useState<number>(1);

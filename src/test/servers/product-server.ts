@@ -24,15 +24,17 @@ export const handlers = [
     }), 
 
     rest.get(`https://e-commerce-api-atbv.onrender.com/api/v1/products/search/`, (req, res, ctx) =>{
-      const title = req.url.searchParams.get('title');
-      let queryResult = [...mockProducts]
-
+      const title = req.url.searchParams
+      const result = mockProducts.filter((p) => p.title.toLowerCase().includes(title.toString().toLowerCase()))
       if (title) {
-        queryResult = queryResult.filter((p) => p.title.toLowerCase().includes(title.toString().toLowerCase()));
+        return res(
+          ctx.json(result)
+        )
+      } else {
+        return res(
+          ctx.json([])
+        )
       }
-      return res(
-        ctx.json(queryResult)
-      )
     }),
 
     rest.post('https://e-commerce-api-atbv.onrender.com/api/v1/products', async (req, res, ctx) => {
@@ -50,11 +52,11 @@ export const handlers = [
         );
       }
     }),
-    rest.put('https://e-commerce-api-atbv.onrender.com/api/v1/products/:id', async (req, res, ctx) => {
+    rest.put('https://e-commerce-api-atbv.onrender.com/api/v1/products/:productId', async (req, res, ctx) => {
       const reqToken = (req.headers.get('authorization'))?.toString().match(adminToken);
-      const { id } = req.params;
+      const { productId } = req.params;
       const body = await req.json();
-      const mockProductToUpdate = mockProducts.find(p=> p._id === id);
+      const mockProductToUpdate = mockProducts.find(p=> p._id === productId);
 
       if (reqToken && mockProductToUpdate) {
         return res(
@@ -64,11 +66,11 @@ export const handlers = [
       }
     }),
 
-    rest.delete('https://e-commerce-api-atbv.onrender.com/api/v1/products/:id', async (req, res, ctx)=>{
+    rest.delete('https://e-commerce-api-atbv.onrender.com/api/v1/products/:productId', async (req, res, ctx)=>{
       const reqToken = (req.headers.get('authorization'))?.toString().match(adminToken);
-      const { id } = req.params;
+      const { productId } = req.params;
 
-      if(reqToken && mockProducts.find(p=> p._id === id)) {
+      if(reqToken && mockProducts.find(p=> p._id === productId)) {
         return res(
           ctx.json(true)
         )
