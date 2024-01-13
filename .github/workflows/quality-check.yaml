@@ -1,7 +1,7 @@
 name: Installing And Testing
 on:
   push:
-    branches: [main, devops/git-actions]
+    branches: [main, dev]
 
 jobs:
   install:
