@@ -85,8 +85,9 @@ const Categories = ({ categories }: Props) => {
                                 }
                         </div> 
                         <div className="profile-section">
-                                {categories.map(category => {
+                                {categories.map((category, i) => {
                                     return <CategoryComponent 
+                                        key={i}
                                         category={category} 
                                         handleDelete={handleDeleteCategory}
                                     />                  
@@ -99,7 +100,7 @@ const Categories = ({ categories }: Props) => {
                         <ThemeProvider theme={marineTheme}>
                                 <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                     <Alert 
-                                        text={`are you sure you want to delete all orders from the system permanently?`}
+                                        text={`are you sure you want to delete all categories from the system permanently?`}
                                         handleCancel={handleClose} 
                                         handleConfirm={handleDelete}
                                     />

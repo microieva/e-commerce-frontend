@@ -73,7 +73,7 @@ const CardsView = ({ searchWord }: ViewProps) => {
 					</div> 
 					<div className="pagination-container">
 						<Pagination
-							itemsPerPage={[10, 20]}
+							itemsPerPage={[10, 20, 100]}
 							totalItems={products.length}
 							onPageChange={handlePageChange}
 							startIndex={startIndex}

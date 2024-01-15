@@ -73,7 +73,7 @@ const MuiTable = ({ data, disabled }: Props) => {
     }
     
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow:"none", border: "1px solid darkgray", borderRadius:"7px"}}>
             <TableContainer sx={{ maxHeight: "40rem" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <CustomCartTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>

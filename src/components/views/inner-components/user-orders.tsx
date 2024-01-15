@@ -1,19 +1,25 @@
 
-import { Divider, IconButton } from '@mui/material';
+import { useEffect, useState, MouseEvent } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { Backdrop, Dialog, Divider, IconButton, ThemeProvider } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Order } from '../../../@types/cart';
 import OrderComponent from '../../shared/order';
-import { useDeleteOrderMutation } from '../../../redux/api-queries/order-queries';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDeleteOrderMutation, useDeleteUserOrdersMutation } from '../../../redux/api-queries/order-queries';
+import Alert from '../../shared/alert';
+import { marineTheme } from '../../../shared/theme';
+import { useGetUserQuery } from '../../../redux/api-queries/auth-queries';
 
 interface Props {
-    orders: Order[],
-    handleDeleteOrders: ()=>Promise<void>
+    orders: Order[]
 }
 
 
-const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
+const UserDetails = ({ orders }: Props) => {
+    const [ deleteUserOrders, { data: deleteUserOrdersData, error: deleteUserOrdersError, isLoading}] = useDeleteUserOrdersMutation();
+    const { data: user } = useGetUserQuery(localStorage.getItem('token') || '');
+    const [ userId, setUserId ] = useState<string | undefined>(user?._id);
+    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const [ deleteOrder, { data, error }] = useDeleteOrderMutation();
     const [ lastOrder, setLastOrder ] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -26,9 +32,28 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
             }  
         }
     }
+
+    const handleDeleteUserOrders = async () => {
+        if (userId) {
+            await deleteUserOrders({userId, token: localStorage.getItem('token') || ''});
+            setIsDeleting(false);
+            setLastOrder(true);
+        }
+    }
+
+    const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsDeleting(true);
+    }
+
+    const handleClose = () => {
+        setIsDeleting(false);
+    }
+
     useEffect(()=> {
         navigate('/auth/profile');
-    }, [data])
+    }, [data, deleteUserOrdersData])
 
         return (
             <>
@@ -37,15 +62,16 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
                     <div className='view-header' style={{marginTop: "6rem"}}>
                         <h2>orders</h2>
                         <div className='btn-group'>
-                            <IconButton onClick={()=>handleDeleteOrders()}>
+                            <IconButton onClick={(e)=>onDelete(e)}>
                                 <DeleteForeverIcon/>
                             </IconButton>
                         </div> 
                     </div> 
                     <div className="profile-section">
-                            {orders.map(order => {
+                            {orders.map((order, i )=> {
                                 if (order.paid) {
-                                                                        return <OrderComponent 
+                                    return <OrderComponent 
+                                                key={i}
                                                 order={order} 
                                                 handleDeleteOrder={()=>handleDeleteOrder(order._id)}
                                             >
@@ -57,6 +83,21 @@ const UserDetails = ({ orders, handleDeleteOrders }: Props) => {
                             })}
                         </div>    
                 </>}
+                { isDeleting &&
+                    <>
+                        <ThemeProvider theme={marineTheme}>
+                                <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                                    <Alert 
+                                        text={`are you sure you want to delete all orders from the system permanently?`}
+                                        handleCancel={handleClose} 
+                                        handleConfirm={handleDeleteUserOrders}
+                                    />
+                                </Dialog>
+                                <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                        </ThemeProvider>
+                        <Outlet />
+                    </>
+                }
             </>
         )
     }  

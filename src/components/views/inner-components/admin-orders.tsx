@@ -76,20 +76,20 @@ const AdminOrders = ({ orders }: Props) => {
                     </div>    
                 </>}
                 { isDeleting &&
-                <>
-                    <ThemeProvider theme={marineTheme}>
-                            <Dialog fullWidth open={isDeleting} onClose={handleClose} >
-                                <Alert 
-                                    text={`are you sure you want to delete all orders from the system permanently?`}
-                                    handleCancel={handleClose} 
-                                    handleConfirm={handleDelete}
-                                />
-                            </Dialog>
-                            <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                    </ThemeProvider>
-                    <Outlet />
-                </>
-            }
+                    <>
+                        <ThemeProvider theme={marineTheme}>
+                                <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                                    <Alert 
+                                        text={`are you sure you want to delete all orders from the system permanently?`}
+                                        handleCancel={handleClose} 
+                                        handleConfirm={handleDelete}
+                                    />
+                                </Dialog>
+                                <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                        </ThemeProvider>
+                        <Outlet />
+                    </>
+                }
             </>
         )
     }  
