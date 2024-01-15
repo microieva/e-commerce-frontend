@@ -11,12 +11,11 @@ import { marineTheme, orangeTheme } from '../../../shared/theme';
 import Alert from '../../shared/alert';
 
 interface Props {
-    categories: Category[],
-    handleDeleteCategories?: ()=>Promise<void>
+    categories: Category[]
 }
 
 
-const Categories = ({ categories, handleDeleteCategories }: Props) => {
+const Categories = ({ categories }: Props) => {
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const [ deleteCategory, { data, error }] = useDeleteCategoryMutation();
     const [ deleteCategories, { data: deleteAllCategoriesData, error: deleteAllCategoriesError, isLoading}] = useDeleteCategoriesMutation();

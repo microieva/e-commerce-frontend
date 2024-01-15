@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, MouseEvent } from 'react';
+import { FC, useState, MouseEvent } from 'react';
 
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';

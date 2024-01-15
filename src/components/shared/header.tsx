@@ -6,7 +6,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
-import { marineTheme } from '../../shared/theme';
+import { orangeTheme } from '../../shared/theme';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import FormProvider from '../../contexts/form';
 
@@ -100,7 +100,7 @@ const Header: FC = () => {
                     }
                 </div>
             </div>
-            <ThemeProvider theme={marineTheme}>
+            <ThemeProvider theme={orangeTheme}>
                 <FormProvider form={form} onClose={handleClose}>
                     <Dialog fullWidth open={open} onClose={handleClose} >
                         <FormSwitcher />

@@ -17,7 +17,7 @@ const Section: FC = () => {
       };
 
     return (
-        <section style={{ width: "100%"}}>
+        <div style={{ width: "100%"}}>
             <div className='utilities-container'>
                 <SearchBar onSearchInputChange={handleSearchInputChange} />
                 <HomeViewSwitcherIcons switchView={switchView}/>
@@ -26,7 +26,7 @@ const Section: FC = () => {
                 {activeView === 'grid' && <CardsView searchWord={searchWord}/>}
                 {activeView === 'table' && <TableView searchWord={searchWord}/>}
             </div>  
-        </section>
+        </div>
     )
 }
 

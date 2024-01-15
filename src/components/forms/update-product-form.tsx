@@ -105,6 +105,16 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
         setErr(foundUndefined);
     }
 
+    const onCancel =() => {
+        setTitle(product.title);
+        setPrice(formatUiPrice(product.price));
+        setDescription(product.description);
+        setImage(product.images[0]);
+        setCategoryName(product.category.name);
+        setErr(false);
+        setDisabled(true);
+    }
+
     if (isLoading) {
         return <Loading />
     }
@@ -245,12 +255,12 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                             !disabled && 
                                 <>
                                     <IconButton 
-                                    type ="submit" 
-                                    disabled={err}
+                                        type ="submit" 
+                                        disabled={err}
                                     >
                                         <BackupOutlinedIcon/>
                                     </IconButton> 
-                                    <IconButton type ="button" onClick={()=> setDisabled(true)}>
+                                    <IconButton type ="button" onClick={()=> onCancel()}>
                                         <HighlightOffIcon/>
                                     </IconButton> 
                                 </>

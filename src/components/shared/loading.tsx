@@ -7,7 +7,7 @@ const Loading: FC = () => {
         <div>
             <Box className='loading' sx={{
                 '& .MuiCircularProgress-root': {color: 'darkgrey'},
-                '& .MuiCircularProgress-svg': {margin: 'auto'}
+                '& .MuiCircularProgress-svg': {margin: 'auto', height: "100%"}
             }}
                 >
                     <CircularProgress />

@@ -11,11 +11,10 @@ import { marineTheme } from '../../../shared/theme';
 
 interface Props {
     orders: Order[],
-    handleDeleteOrders?: ()=>Promise<void>
 }
 
 
-const AdminOrders = ({ orders, handleDeleteOrders }: Props) => {
+const AdminOrders = ({ orders }: Props) => {
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const [ deleteOrders, { data: deleteAllOrdersData, error: deleteAllOrdersError, isLoading}] = useDeleteOrdersMutation();
     const [ deleteOrder, { data, error }] = useDeleteOrderMutation();
