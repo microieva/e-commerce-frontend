@@ -1,4 +1,6 @@
-import Button from "./button";
+import { IconButton } from "@mui/material";
+import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 interface Props {
     text: string
@@ -11,8 +13,12 @@ const Alert = ({handleCancel, handleConfirm, text}: Props) => {
         <div className="alert-container">
             <h2>{text}</h2>
             <div className="btn-group">
-                <Button text={'cancel'} onClick={handleCancel} width="8rem" height="2rem"/>
-                <Button text={'confirm'} onClick={handleConfirm} width="8rem" height="2rem"/>
+                <IconButton onClick={handleConfirm}>
+                    <ThumbUpIcon/>
+                </IconButton>
+                <IconButton onClick={handleCancel}>
+                    <DoorBackOutlinedIcon/>
+                </IconButton>
             </div>
         </div>
     )

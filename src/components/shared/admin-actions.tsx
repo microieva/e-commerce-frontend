@@ -1,12 +1,16 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState, MouseEvent } from 'react';
 
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
 import { Product } from '../../@types/product';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useDeleteProductMutation } from '../../redux/api-queries/product-queries';
+import { Backdrop, Dialog, ThemeProvider } from '@mui/material';
+import Alert from './alert';
+import { marineTheme } from '../../shared/theme';
+import Loading from './loading';
 
 interface Props {
     product: Omit<Product, "categoryId">
@@ -14,6 +18,7 @@ interface Props {
 
 const AdminActions: FC<Props> = ({ product }: Props) => {
     const [ deleteProduct, { data, error, isLoading}] = useDeleteProductMutation();
+    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const handleUpdate = () => {
@@ -22,35 +27,63 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
 
     const handleDelete = async () => {
         await deleteProduct({token: localStorage.getItem('token') || '', productId: product._id});
+        navigate('/');
     }
-    
-    useEffect(()=>{
-        console.log('data from deleting in cards view: ', data);
-    }, [data]);
+
+    const handleClose = () => {
+        setIsDeleting(false);
+    }
+
+    const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsDeleting(true);
+    }
+
+    if (isLoading) {
+        return <Loading />
+    }
 
     return (
-        <div className='btn-group' 
-            style={{
-                float: "right", 
-                position: "relative", 
-                zIndex:"0"
-            }}
-        >
-            <IconButton 
-                aria-label="add" 
-                size="large" 
-                onClick={handleUpdate}
+        <>
+            <div className='btn-group' 
+                style={{
+                    float: "right", 
+                    position: "relative", 
+                    zIndex:"0"
+                }}
             >
-                <EditNoteIcon/>
-            </IconButton>
-            <IconButton 
-                aria-label="delete" 
-                size="large" 
-                onClick={handleDelete} 
-            >
-                <DeleteForeverIcon />
-            </IconButton>
-        </div>
+                <IconButton 
+                    aria-label="add" 
+                    size="large" 
+                    onClick={handleUpdate}
+                >
+                    <EditNoteIcon/>
+                </IconButton>
+                <IconButton 
+                    aria-label="delete" 
+                    size="large" 
+                    onClick={(e)=> onDelete(e)}
+                >
+                    <DeleteForeverIcon />
+                </IconButton>
+            </div>
+            { isDeleting &&
+                <>
+                    <ThemeProvider theme={marineTheme}>
+                            <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                                <Alert 
+                                    text={`delete product "${product.title}" permanently?`}
+                                    handleCancel={handleClose} 
+                                    handleConfirm={handleDelete}
+                                />
+                            </Dialog>
+                            <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                    </ThemeProvider>
+                    <Outlet />
+                </>
+            }
+        </>
   )
 }
 

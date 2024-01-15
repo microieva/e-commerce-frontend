@@ -21,6 +21,7 @@ interface Props {
 }
 
 const UpdateProductForm: FC<Props> = ({ product, admin }) => {
+
     const [ title, setTitle ] = useState<string>(product.title);
     const [ price, setPrice ] = useState<string>(formatUiPrice(product.price));
     const [ description, setDescription ] = useState<string>(product.description);
@@ -118,7 +119,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                         name="title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        required
+                        required={admin}
                         disabled={disabled}
                         helperText="Title is required"
                         sx={{
@@ -142,7 +143,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                         type="text"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
-                        required
+                        required={admin}
                         disabled={disabled}
                         helperText="Price is required"
                         sx={{
@@ -165,7 +166,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                         value={description}
                         helperText="Description is required"
                         onChange={(e)=> setDescription(e.target.value)}
-                        required
+                        required={admin}
                         disabled={disabled}
                         onFocus={()=>setDescriptionError(false)}
                         sx={{
@@ -203,18 +204,34 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                     />
                 </FormControl> 
                 <FormControl variant="standard" fullWidth>
-                    <InputLabel required id="category-label" disabled={disabled}>Category</InputLabel>
-                    <Select
-                        required
-                        disabled={disabled}
-                        onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value)}
-                        label="Category"
-                        value={categoryName}
-                    >
-                        {ctgrs && ctgrs.map((ctgry: Category)=> {
-                            return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
-                        })}
-                    </Select>
+                    {
+                        admin ? 
+                        <>
+                            <InputLabel required id="category-label" disabled={disabled}>Category</InputLabel>
+                            <Select
+                                required
+                                disabled={disabled}
+                                onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value)}
+                                label="Category"
+                                value={categoryName}
+                            >
+                                {ctgrs && ctgrs.map((ctgry: Category)=> {
+                                    return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
+                                })}
+                            </Select>
+                        </>
+                        :
+                        <TextField
+                            fullWidth
+                            variant="standard"
+                            label="Category"
+                            name="category"
+                            type="text"
+                            value={categoryName}
+                            disabled
+                        />
+                    }
+                    
                 </FormControl>
                 <div className='btn-group'>  
                     { admin && 

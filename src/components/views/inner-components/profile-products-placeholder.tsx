@@ -1,11 +1,33 @@
-import { FC } from "react"
-import { Divider, IconButton } from "@mui/material"
+import { FC, useState, MouseEvent } from "react"
+import { Backdrop, Dialog, Divider, IconButton, ThemeProvider } from "@mui/material"
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useNavigate } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
+import Alert from "../../shared/alert";
+import { marineTheme } from "../../../shared/theme";
+import { useDeleteProductsMutation } from "../../../redux/api-queries/product-queries";
 
 export const ProfileProductsPlaceholder: FC = () => {
+    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
+    const [ deleteProducts, { data, error, isLoading}] = useDeleteProductsMutation();
+    
     const navigate = useNavigate();
+
+    const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsDeleting(true);
+    }
+
+    const handleClose = () => {
+        setIsDeleting(false);
+    }
+
+    const handleDelete = async () => {
+        await deleteProducts(localStorage.getItem('token') || '');
+        navigate('/');
+    }
+
     return (
         <>
             <Divider />
@@ -15,11 +37,27 @@ export const ProfileProductsPlaceholder: FC = () => {
                     <IconButton onClick={()=> navigate("/products/new")}>
                         <PlaylistAddOutlinedIcon />
                     </IconButton> 
-                    <IconButton onClick={()=>console.log('Ei.')}>
+                    <IconButton onClick={(e)=>onDelete(e)}>
                         <DeleteForeverIcon/>
                     </IconButton>
                 </div> 
             </div> 
+            { isDeleting &&
+                <>
+                    <ThemeProvider theme={marineTheme}>
+                            <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                                <Alert 
+                                    text={`are you sure you want to delete all products permanently?`}
+                                    handleCancel={handleClose} 
+                                    handleConfirm={handleDelete}
+                                />
+                            </Dialog>
+                            <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                    </ThemeProvider>
+                    <Outlet />
+                </>
+            }
         </>
     )
 }
+

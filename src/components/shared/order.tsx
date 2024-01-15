@@ -36,14 +36,11 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
         <>
             <div className='order-container'>
                 <div className='order-wrapper' onClick={()=> handleOpenItems()}>
-                    <div>
+                    <div style={{display: "flex", flexDirection: "column", alignItems:"flex-start"}}>
                         {children}
-                        <h2><span style={{color: "darkgrey"}}>{uiDate}</span></h2> 
+                        <p style={{color: "darkgrey", marginLeft: "4rem"}}>{uiDate}</p> 
                     </div>
-                    <div>
-                        <h2 style={{color: "darkgrey", alignSelf: "flex-end"}}>
-                            total price: {uiPrice} €
-                        </h2>
+                    <div style={{display: "flex", flexDirection: "column", alignItems:"flex-end"}}>  
                         {order && 
                             <div className="btn-group" style={{float: "right"}}>
                                 {!order.paid &&
@@ -63,6 +60,9 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
                                 </IconButton>}
                             </div>
                         }
+                         <p style={{color: "darkgrey", alignSelf: "flex-end", marginRight: "4rem"}}>
+                            total price: {uiPrice} €
+                        </p>
                     </div>
                 </div>
                     { open && 

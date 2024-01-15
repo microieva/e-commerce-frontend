@@ -10,9 +10,6 @@ const HomePage: FC = () => {
         <>
             <main>
                 <Header/>
-                <div className='divider'>
-                    <Divider />
-                </div>
                 <Section />
                 <div className='divider'>
                     <Divider />

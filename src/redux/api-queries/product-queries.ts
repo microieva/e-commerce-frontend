@@ -54,6 +54,16 @@ const productQueries  = createApi({
                 }
             ),
             invalidatesTags: ['Products']
+        }),
+        deleteProducts: builder.mutation<{msg: string}, string>({
+            query: (token) => (
+                {
+                    url: `/products`, 
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
+                }
+            ),
+            invalidatesTags: ['Products']
         })
     })
 })
@@ -61,10 +71,11 @@ const productQueries  = createApi({
 export const {
     useGetProductsQuery,
     useGetFilteredProductsByTitleQuery, 
-    useDeleteProductMutation, 
     useGetProductByIdQuery,
     useCreateProductMutation,
-    useUpdateProductMutation
+    useUpdateProductMutation,
+    useDeleteProductMutation, 
+    useDeleteProductsMutation
 } = productQueries;
 export default productQueries;
 

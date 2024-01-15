@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import AdminOrders from './inner-components/admin-orders';
 import Categories from './inner-components/categories';
 import { useDeleteOrdersMutation, useGetOrdersQuery } from '../../redux/api-queries/order-queries';
@@ -10,11 +10,12 @@ const AdminProfileView: FC= () => {
     const { data: orders} = useGetOrdersQuery({ token: localStorage.getItem('token') || '' });
     const { data: categories } = useGetCategoriesQuery(localStorage.getItem('token') || '');
     const [ deleteOrders, { data: deletingData, error }] = useDeleteOrdersMutation();
+    
     //const [ deletecategories, { data: deletingcategories }] = useDeleteCategoriesMutation();
     const navigate = useNavigate();
 
     const handleDeleteAdminOrders = async () => {
-        await deleteOrders({ token: localStorage.getItem('token') || ''});
+        //await deleteOrders({ token: localStorage.getItem('token') || ''});
     }
     const handleDeleteCategories = async () => {
         console.log('deleting all categories disabled for now')
@@ -30,13 +31,14 @@ const AdminProfileView: FC= () => {
             {categories && categories.length>0 && 
                 <Categories 
                     categories={categories} 
-                    handleDeleteCategories={handleDeleteCategories}
+                    //handleIsDeleting={isDeleting}
+                    //handleDeleteCategories={handleDeleteCategories}
                 />
             }
             {!deletingData && orders && orders.length>0 && 
                 <AdminOrders 
                     orders={orders} 
-                    handleDeleteOrders={handleDeleteAdminOrders}
+                    //handleDeleteOrders={handleDeleteAdminOrders}
                 />
             }
         </>

@@ -23,12 +23,8 @@ const AccountDetails = ({ user }: Props) => {
         await deleteUser({ token: localStorage.getItem('token') || '', _id: user._id})
         localStorage.removeItem('token');
     }
-    const handleCancel = () => {
-        setIsDeleting(false);
-    }
     const handleClose = () => {
         setIsDeleting(false);
-        //navigate('/');
     }
 
     useEffect(()=> {
@@ -65,7 +61,7 @@ const AccountDetails = ({ user }: Props) => {
                                 <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                     <Alert 
                                         text={'are you sure you want to delete your account?'}
-                                        handleCancel={handleCancel} 
+                                        handleCancel={handleClose} 
                                         handleConfirm={handleDeleteUser}
                                     />
                                 </Dialog>

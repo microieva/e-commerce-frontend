@@ -1,18 +1,21 @@
-import { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FC, useEffect, useState, MouseEvent } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-import { IconButton, ThemeProvider } from '@mui/material';
+import { Backdrop, Dialog, IconButton, ThemeProvider } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDeleteProductMutation } from '../../redux/api-queries/product-queries';
-import { orangeTheme } from '../../shared/theme';
+import { marineTheme, orangeTheme } from '../../shared/theme';
 
 import UpdateProductForm from '../forms/update-product-form';
 import CartActions from '../shared/cart-actions';
 
 import { Product } from '../../@types/product';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
+import Alert from '../shared/alert';
+import Loading from '../shared/loading';
+
 
 interface Props {
     product: Product
@@ -20,11 +23,22 @@ interface Props {
 
 const ProductView: FC<Props> = ({ product }) => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
+    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const { data: user } = useGetUserQuery(token);
     
     const [ admin, setAdmin ] = useState<boolean>(false);
     const [ deleteProduct, { data, error, isLoading } ] = useDeleteProductMutation();
     const navigate = useNavigate();
+
+    const handleClose = () => {
+        setIsDeleting(false);
+    }
+
+    const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsDeleting(true);
+    }
 
     useEffect(()=> {
         const handleStorage = () => {
@@ -40,54 +54,79 @@ const ProductView: FC<Props> = ({ product }) => {
 		if (!token) {
 			setAdmin(false);
 		}
-	}, [token])
+	}, [token]);
 
     useEffect(()=> {
         if (data && !error && !isLoading) {
             navigate('/');
         }
-    }, [data])
+    }, [data]);
 
-    const onDelete = () => {
-        deleteProduct({ productId: product._id, token: token});
+    const handleDelete = async () => {
+        await deleteProduct({token: localStorage.getItem('token') || '', productId: product._id});
+        navigate('/');
+    }
+
+    if (isLoading) {
+        return <Loading />
     }
 
     return (
-        <div className="view-container">
-            <div className='view-header'>
-                <h2>product</h2>
-                <div className="btn-group">
-                    { admin ? 
-                    <>
-                        <IconButton onClick={()=> onDelete()} style={{padding: "0.8rem"}}>
-                        <DeleteForeverIcon/>
-                        </IconButton>
-                        <IconButton onClick={()=> navigate("/products/new")} style={{padding: "0.8rem"}}>
-                            <PlaylistAddOutlinedIcon />
-                        </IconButton> 
-                        <IconButton onClick={()=> navigate('/')}>
-                            <DoorBackOutlinedIcon/>
-                        </IconButton>
-                    </>
-                    :
-                    <>
-                        <CartActions product={product}/>
-                        <IconButton onClick={()=> navigate('/')}>
-                            <DoorBackOutlinedIcon/>
-                        </IconButton>
-                    </>
-                    }
+        <>
+            <div className="view-container">
+                <div className='view-header'>
+                    <h2>{product.title.toLowerCase()}</h2>
+                    <div className="btn-group">
+                        { admin ? 
+                            <>
+                                <IconButton onClick={(e)=> onDelete(e)} style={{padding: "0.8rem"}}>
+                                    <DeleteForeverIcon/>
+                                </IconButton>
+                                <IconButton onClick={()=> navigate("/products/new")} style={{padding: "0.8rem"}}>
+                                    <PlaylistAddOutlinedIcon />
+                                </IconButton> 
+                                <IconButton onClick={()=> navigate('/')}>
+                                    <DoorBackOutlinedIcon/>
+                                </IconButton>
+                            </>
+                        :
+                            <>
+                                <CartActions product={product}>
+                                    <IconButton onClick={()=> navigate('/')}>
+                                        <DoorBackOutlinedIcon/>
+                                    </IconButton>
+                                </CartActions>
+                                
+                            </>
+                        }
+                        
+                    </div>
+                </div>
+                <div className='view-details'>
+                    <ThemeProvider theme={orangeTheme}>
+                        {product && <UpdateProductForm product={product} admin={admin}/>}
+                    </ThemeProvider>
+                    <div className="img-wrapper">
+                        <img src={`${product.images[product.images.length-1]}`} alt="profile" />
+                    </div>
                 </div>
             </div>
-            <div className='view-details'>
-                <ThemeProvider theme={orangeTheme}>
-                    {product && <UpdateProductForm product={product} admin={admin}/>}
-                </ThemeProvider>
-                <div className="img-wrapper">
-                    <img src={`${product.images[product.images.length-1]}`} alt="profile" />
-                </div>
-            </div>
-        </div>
+            { isDeleting &&
+                <>
+                    <ThemeProvider theme={marineTheme}>
+                            <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                                <Alert 
+                                    text={`delete product "${product.title}" permanently?`}
+                                    handleCancel={handleClose} 
+                                    handleConfirm={handleDelete}
+                                />
+                            </Dialog>
+                            <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                    </ThemeProvider>
+                    <Outlet />
+                </>
+            }
+        </>
     )
 }
 

@@ -15,7 +15,7 @@ interface PaginationProps {
 }
 
 const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChange, startIndex, endIndex }: PaginationProps) => {
-	const [itemsPerPageOption, setItemsPerPageOption] = useState(20);
+	const [itemsPerPageOption, setItemsPerPageOption] = useState(10);
 	const totalPages = Math.ceil(totalItems / itemsPerPageOption);
 	const [currentPage, setCurrentPage] = useState(1);
 

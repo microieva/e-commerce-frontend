@@ -1,19 +1,23 @@
 
-import { Divider, IconButton } from '@mui/material';
+import { useEffect, useState, MouseEvent } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { Backdrop, Dialog, Divider, IconButton, ThemeProvider } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Order } from '../../../@types/cart';
 import OrderComponent from '../../shared/order';
-import { useDeleteOrderMutation } from '../../../redux/api-queries/order-queries';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDeleteOrderMutation, useDeleteOrdersMutation } from '../../../redux/api-queries/order-queries';
+import Alert from '../../shared/alert';
+import { marineTheme } from '../../../shared/theme';
 
 interface Props {
     orders: Order[],
-    handleDeleteOrders: ()=>Promise<void>
+    handleDeleteOrders?: ()=>Promise<void>
 }
 
 
 const AdminOrders = ({ orders, handleDeleteOrders }: Props) => {
+    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
+    const [ deleteOrders, { data: deleteAllOrdersData, error: deleteAllOrdersError, isLoading}] = useDeleteOrdersMutation();
     const [ deleteOrder, { data, error }] = useDeleteOrderMutation();
     const [ lastOrder, setLastOrder ] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -27,6 +31,20 @@ const AdminOrders = ({ orders, handleDeleteOrders }: Props) => {
         }
     }
 
+    const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsDeleting(true);
+    }
+
+    const handleClose = () => {
+        setIsDeleting(false);
+    }
+
+    const handleDelete = async () => {
+        await deleteOrders({token: localStorage.getItem('token') || ''});
+    }
+
     useEffect(()=> {
         navigate('/auth/profile');
     }, [data])
@@ -38,7 +56,7 @@ const AdminOrders = ({ orders, handleDeleteOrders }: Props) => {
                     <div className='view-header' style={{marginTop: "6rem"}}>
                         <h2>orders</h2>
                         <div className='btn-group'>
-                            <IconButton onClick={()=>handleDeleteOrders()}>
+                            <IconButton onClick={(e)=>onDelete(e)}>
                                 <DeleteForeverIcon/>
                             </IconButton>
                         </div> 
@@ -58,6 +76,21 @@ const AdminOrders = ({ orders, handleDeleteOrders }: Props) => {
                         })}
                     </div>    
                 </>}
+                { isDeleting &&
+                <>
+                    <ThemeProvider theme={marineTheme}>
+                            <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                                <Alert 
+                                    text={`are you sure you want to delete all orders from the system permanently?`}
+                                    handleCancel={handleClose} 
+                                    handleConfirm={handleDelete}
+                                />
+                            </Dialog>
+                            <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                    </ThemeProvider>
+                    <Outlet />
+                </>
+            }
             </>
         )
     }  

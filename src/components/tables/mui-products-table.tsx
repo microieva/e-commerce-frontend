@@ -103,7 +103,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
     }
     
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <Paper sx={{ width: '90%', overflow: 'hidden', margin: "auto"}}>
             <TableContainer sx={{ maxHeight: "40rem" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <CustomProductsTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>

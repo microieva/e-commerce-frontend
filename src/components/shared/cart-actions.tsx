@@ -12,10 +12,11 @@ import { CartItem } from '../../@types/cart';
 
 interface CartActionsProps {
     product: Omit<Product, "categoryId">
-    cartDisabled?: boolean
+    cartDisabled?: boolean,
+    children?: JSX.Element
 }
 
-const CartActions: FC<CartActionsProps> = ({product, cartDisabled}: CartActionsProps) => {
+const CartActions: FC<CartActionsProps> = ({product, cartDisabled, children}: CartActionsProps) => {
     const cart = useAppSelector(state => state.cart); 
     const [isInCart, setIsInCart] = useState<boolean>(cart.some((item: CartItem) => item._id === product._id))
     const dispatch = useAppDispatch();
@@ -64,6 +65,7 @@ const CartActions: FC<CartActionsProps> = ({product, cartDisabled}: CartActionsP
             >
                 <DeleteOutlineIcon />
             </IconButton>
+            { children && <>{children}</>}
         </div>
   )
 }

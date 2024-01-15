@@ -1,23 +1,25 @@
-
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Divider, IconButton, ThemeProvider } from '@mui/material';
+import { useEffect, useState, MouseEvent } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { Backdrop, Dialog, Divider, IconButton, ThemeProvider } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import { useDeleteCategoryMutation } from '../../../redux/api-queries/category-queries';
+import { useDeleteCategoriesMutation, useDeleteCategoryMutation } from '../../../redux/api-queries/category-queries';
 import CategoryComponent from './category';
 import { Category } from '../../../@types/product';
 import CreateCategoryForm from '../../forms/create-category-form';
-import { orangeTheme } from '../../../shared/theme';
+import { marineTheme, orangeTheme } from '../../../shared/theme';
+import Alert from '../../shared/alert';
 
 interface Props {
     categories: Category[],
-    handleDeleteCategories: ()=>Promise<void>
+    handleDeleteCategories?: ()=>Promise<void>
 }
 
 
 const Categories = ({ categories, handleDeleteCategories }: Props) => {
+    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const [ deleteCategory, { data, error }] = useDeleteCategoryMutation();
+    const [ deleteCategories, { data: deleteAllCategoriesData, error: deleteAllCategoriesError, isLoading}] = useDeleteCategoriesMutation();
     const [ lastCategory, setLastCategory ] = useState<boolean>(false);
     const navigate = useNavigate();
     const [ open, setOpen ] = useState<boolean>(false);
@@ -31,10 +33,23 @@ const Categories = ({ categories, handleDeleteCategories }: Props) => {
             }  
         }
     }
+    const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsDeleting(true);
+    }
     const handleCancel = () => {
         setOpen(false);
         setDisabled(false);
     }
+
+    const handleClose = () => {
+        setIsDeleting(false);
+    }
+    const handleDelete = async () => {
+        await deleteCategories(localStorage.getItem('token') || '');
+    }
+
     useEffect(()=> {
         if (open) {
             setDisabled(true);
@@ -59,7 +74,7 @@ const Categories = ({ categories, handleDeleteCategories }: Props) => {
                                     <IconButton  disabled={disabled} onClick={()=> setOpen(true)}>
                                         <PlaylistAddIcon/>
                                     </IconButton>
-                                    <IconButton onClick={()=>handleDeleteCategories()}>
+                                    <IconButton onClick={(e)=>onDelete(e)}>
                                         <DeleteForeverIcon/>
                                     </IconButton>
                                 </div> 
@@ -78,6 +93,21 @@ const Categories = ({ categories, handleDeleteCategories }: Props) => {
                                     />                  
                                 })}
                             </div>    
+                    </>
+                }
+                { isDeleting &&
+                    <>
+                        <ThemeProvider theme={marineTheme}>
+                                <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                                    <Alert 
+                                        text={`are you sure you want to delete all orders from the system permanently?`}
+                                        handleCancel={handleClose} 
+                                        handleConfirm={handleDelete}
+                                    />
+                                </Dialog>
+                                <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                        </ThemeProvider>
+                        <Outlet />
                     </>
                 }
             </>

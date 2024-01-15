@@ -58,14 +58,14 @@ const Header: FC = () => {
 
     return (
         <header>
-            { loggedInUser ? <h2>Hello, {loggedInUser.name}</h2> : <h2>products</h2>}
+            { loggedInUser ? <h2>hello, {loggedInUser.name}</h2> : <h2>random shop</h2>}
             <div className='header-group'>
                 <div className='btn-group'>
                     { !loggedInUser ? 
-                        <>
+                        <div >
                             <Button text="sign up" width="8rem" height="2rem" onClick={()=> handleOpen('signup')} />
                             <Button text="log in" width="8rem" height="2rem" onClick={()=>handleOpen('login')} />
-                        </>
+                        </div>
                         :
                         <>
                             <IconButton onClick={onLogout}>
@@ -78,6 +78,11 @@ const Header: FC = () => {
                             </Link>    
                         </>
                     }
+                    <Link to={`/`}>
+                        <IconButton>
+                            <RoofingIcon />
+                        </IconButton>
+                    </Link>   
                     {loggedInUser?.role !== "ADMIN" && 
                         <Link to='/cart'>
                             <IconButton>
@@ -93,11 +98,6 @@ const Header: FC = () => {
                             </IconButton>
                         </Link>
                     }
-                    <Link to={`/`}>
-                        <IconButton>
-                            <RoofingIcon />
-                        </IconButton>
-                    </Link>   
                 </div>
             </div>
             <ThemeProvider theme={marineTheme}>
