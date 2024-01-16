@@ -119,159 +119,156 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
         return <Loading />
     }
     return (
-        <div className='form-container' style={{margin: "0"}}>
-            <form onSubmit={handleSubmit} ref={formRef}>
-                <FormControl fullWidth>
-                    <TextField
-                        fullWidth
-                        variant="standard"
-                        label="Title"
-                        name="title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required={admin}
-                        disabled={disabled}
-                        helperText="Title is required"
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                              visibility: titleError ? 'visible' : 'hidden',
-                              transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                            }
-                        }}
-                        onFocus={()=>setTitleError(false)} 
-                    />
-                </FormControl>
-                <FormControl fullWidth>
-                    <TextField
-                        fullWidth
-                        variant="standard"
-                        label="Price"
-                        name="price"
-                        type="text"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        required={admin}
-                        disabled={disabled}
-                        helperText="Price is required"
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                              visibility: priceError ? 'visible' : 'hidden',
-                              transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                            }
-                        }}
-                        onFocus={()=>setPriceError(false)}
-                    />
-                </FormControl>
-                 <FormControl fullWidth>
-                    <TextField
-                        label="Description"
-                        variant="standard"
-                        name="description"
-                        value={description}
-                        helperText="Description is required"
-                        onChange={(e)=> setDescription(e.target.value)}
-                        required={admin}
-                        disabled={disabled}
-                        onFocus={()=>setDescriptionError(false)}
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                              visibility: descriptionError ? 'visible' : 'hidden',
-                              transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                            }
-                        }}
-                    />
-                </FormControl>
-                <FormControl fullWidth>
-                    <TextField
-                        fullWidth
-                        variant="standard"
-                        label="Image"
-                        name="image"
-                        type="text"
-                        value={image}
-                        disabled={disabled}
-                        helperText="Image must be a valid internet link"
-                        onChange={(e) => setImage(e.target.value)}
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                            visibility: imageError ? 'visible' : 'hidden',
+        <form className='form-container product-form' onSubmit={handleSubmit} ref={formRef}>
+            <FormControl fullWidth>
+                <TextField
+                    fullWidth
+                    variant="standard"
+                    label="Title"
+                    name="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required={admin}
+                    disabled={disabled}
+                    helperText="Title is required"
+                    sx={{
+                        '& .MuiFormHelperText-root': {
+                            visibility: titleError ? 'visible' : 'hidden',
                             transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                            }
-                        }}
-                        onFocus={()=> setImageError(false)}
-                    />
-                </FormControl> 
-                <FormControl variant="standard" fullWidth>
-                    {
-                        admin ? 
-                        <>
-                            <InputLabel required id="category-label" disabled={disabled}>Category</InputLabel>
-                            <Select
-                                required
-                                disabled={disabled}
-                                onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value)}
-                                label="Category"
-                                value={categoryName}
-                            >
-                                {ctgrs && ctgrs.map((ctgry: Category)=> {
-                                    return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
-                                })}
-                            </Select>
-                        </>
-                        :
-                        <TextField
-                            fullWidth
-                            variant="standard"
+                        },
+                        '& .MuiInputBase-root.MuiInput-root:before': { 
+                            borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                        }
+                    }}
+                    onFocus={()=>setTitleError(false)} 
+                />
+            </FormControl>
+            <FormControl fullWidth>
+                <TextField
+                    fullWidth
+                    variant="standard"
+                    label="Price"
+                    name="price"
+                    type="text"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    required={admin}
+                    disabled={disabled}
+                    helperText="Price is required"
+                    sx={{
+                        '& .MuiFormHelperText-root': {
+                            visibility: priceError ? 'visible' : 'hidden',
+                            transition: 'visibility 0.2s ease-in',
+                        },
+                        '& .MuiInputBase-root.MuiInput-root:before': { 
+                            borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                        }
+                    }}
+                    onFocus={()=>setPriceError(false)}
+                />
+            </FormControl>
+                <FormControl fullWidth>
+                <TextField
+                    label="Description"
+                    variant="standard"
+                    name="description"
+                    value={description}
+                    helperText="Description is required"
+                    onChange={(e)=> setDescription(e.target.value)}
+                    required={admin}
+                    disabled={disabled}
+                    onFocus={()=>setDescriptionError(false)}
+                    sx={{
+                        '& .MuiFormHelperText-root': {
+                            visibility: descriptionError ? 'visible' : 'hidden',
+                            transition: 'visibility 0.2s ease-in',
+                        },
+                        '& .MuiInputBase-root.MuiInput-root:before': { 
+                            borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                        }
+                    }}
+                />
+            </FormControl>
+            <FormControl fullWidth>
+                <TextField
+                    fullWidth
+                    variant="standard"
+                    label="Image"
+                    name="image"
+                    type="text"
+                    value={image}
+                    disabled={disabled}
+                    helperText="Image must be a valid internet link"
+                    onChange={(e) => setImage(e.target.value)}
+                    sx={{
+                        '& .MuiFormHelperText-root': {
+                        visibility: imageError ? 'visible' : 'hidden',
+                        transition: 'visibility 0.2s ease-in',
+                        },
+                        '& .MuiInputBase-root.MuiInput-root:before': { 
+                            borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                        }
+                    }}
+                    onFocus={()=> setImageError(false)}
+                />
+            </FormControl> 
+            <FormControl variant="standard" fullWidth>
+                {
+                    admin ? 
+                    <>
+                        <InputLabel required id="category-label" disabled={disabled}>Category</InputLabel>
+                        <Select
+                            required
+                            disabled={disabled}
+                            onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value)}
                             label="Category"
-                            name="category"
-                            type="text"
                             value={categoryName}
-                            disabled
-                        />
-                    }
-                    
-                </FormControl>
-                <div className='btn-group'>  
-                    { admin && 
-                        <>
-                            { disabled && 
-                                <IconButton type ="button" onClick={()=> setDisabled(false)}>
-                                    <EditNoteIcon />
-                                </IconButton>
-                            }
-                            {
-                            !disabled && 
-                                <>
-                                    <IconButton 
-                                        type ="submit" 
-                                        disabled={err}
-                                    >
-                                        <BackupOutlinedIcon/>
-                                    </IconButton> 
-                                    <IconButton type ="button" onClick={()=> onCancel()}>
-                                        <HighlightOffIcon/>
-                                    </IconButton> 
-                                </>
-                            }
-                        </>   
-                    }
-                    
-                </div>
-            </form> 
-        </div>
-    
+                        >
+                            {ctgrs && ctgrs.map((ctgry: Category)=> {
+                                return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
+                            })}
+                        </Select>
+                    </>
+                    :
+                    <TextField
+                        fullWidth
+                        variant="standard"
+                        label="Category"
+                        name="category"
+                        type="text"
+                        value={categoryName}
+                        disabled
+                    />
+                }
+                
+            </FormControl>
+            <div className='btn-group'>  
+                { admin && 
+                    <>
+                        { disabled && 
+                            <IconButton type ="button" onClick={()=> setDisabled(false)}>
+                                <EditNoteIcon />
+                            </IconButton>
+                        }
+                        {
+                        !disabled && 
+                            <>
+                                <IconButton 
+                                    type ="submit" 
+                                    disabled={err}
+                                >
+                                    <BackupOutlinedIcon/>
+                                </IconButton> 
+                                <IconButton type ="button" onClick={()=> onCancel()}>
+                                    <HighlightOffIcon/>
+                                </IconButton> 
+                            </>
+                        }
+                    </>   
+                }
+                
+            </div>
+        </form> 
     );
 }
 

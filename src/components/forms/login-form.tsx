@@ -75,7 +75,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div className='form-container'>
+        <div className='form-container login-signup-form'>
             <h2>log in</h2>
             <form onSubmit={handleSubmit} ref={formRef}>
                 <FormControl fullWidth>
@@ -123,8 +123,8 @@ const LoginForm = () => {
                         <DoorBackOutlinedIcon/>
                     </IconButton>
                 </div>
-              </form>
-            </div>
+            </form>
+        </div>
     )
 }
 

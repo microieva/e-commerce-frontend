@@ -3,7 +3,7 @@ import TableHead from '@mui/material/TableHead';
 
 const CustomProductsTableHead = styled(TableHead)(({ theme }) => ({
   "& th": {
-    backgroundColor: 'rgb(255,201,126)',
+    backgroundColor: 'rgb(253, 139, 51)',
     fontSize: "16px",
     borderBottom: "1px solid black"
   },
@@ -11,7 +11,7 @@ const CustomProductsTableHead = styled(TableHead)(({ theme }) => ({
 
 const CustomCartTableHead = styled(TableHead)(({ theme }) => ({
   "& th": {
-    backgroundColor: 'rgb(255,201,126)',
+    backgroundColor: 'rgb(253, 139, 51)',
     fontSize: "16px",
     borderBottom: "1px solid black",
   },

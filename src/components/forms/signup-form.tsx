@@ -96,7 +96,7 @@ const SignupForm = () => {
     }
 
     return (
-        <div className='form-container'>
+        <div className='form-container login-signup-form'>
             <h2>create account</h2>
             <form onSubmit={handleSubmit} ref={formRef}>
                 <FormControl fullWidth>

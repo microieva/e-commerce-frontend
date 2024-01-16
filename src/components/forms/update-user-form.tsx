@@ -96,11 +96,22 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
         setErr(foundUndefined);
     }
 
+    const onCancel =() => {
+        setAdmin(user.role === "ADMIN");
+        setName(user.name);
+        setEmail(user.email);
+        setAvatar(user.avatar);
+        setPassword(undefined);
+        
+        setErr(false);
+        setDisabled(true);
+    }
+
     if (isLoading) {
         return <Loading />
     }
     return (
-        <div className='form-container' style={{margin: "0"}}>
+        <div className='form-container product-form' style={{margin: "0"}}>
             <form onSubmit={handleSubmit} ref={formRef}>
                 <FormControl fullWidth>
                     <TextField
@@ -212,7 +223,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                                     >
                                         <BackupOutlinedIcon/>
                                     </IconButton> 
-                                    <IconButton type ="button" onClick={()=> setDisabled(true)}>
+                                    <IconButton type ="button" onClick={()=> onCancel()}>
                                         <HighlightOffIcon/>
                                     </IconButton> 
                                 </>

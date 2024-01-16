@@ -54,9 +54,9 @@ const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChang
 			<div className="page-nrs">
 				<span>{startIndex} - {endIndex} of {totalItems}</span>
 			</div>
-			<div className="page-arrows">
-				<IconButton aria-label="go to previous page" size="large" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-					<NavigateNextIcon className="left"/>
+			<div className="btn-group">
+				<IconButton id="left" aria-label="go to previous page" size="large" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+					<NavigateNextIcon />
 				</IconButton>
 				<IconButton aria-label="go to next page" size="large" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
 					<NavigateNextIcon className="right"/>

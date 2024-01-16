@@ -12,7 +12,7 @@ const marineTheme = createTheme({
             borderBottom: '2px aquamarine solid', 
           },
           '& .MuiFormHelperText-root': {
-            color: 'orange'
+            color: 'rgb(253, 139, 51)'
           },
           '& .MuiFormControl-root.MuiTextField-root .MuiInputBase-root.MuiInput-root:before': {
             borderBottom: '1px darkgrey solid'
@@ -38,13 +38,13 @@ const orangeTheme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiInputLabel-root.Mui-focused': {
-            color: 'orange'
+            color: 'rgb(253, 139, 51)'
           },
           '&  .MuiInputBase-root.Mui-focused:after': {
             borderBottom: '2px orange solid', 
           },
           '& .MuiFormHelperText-root': {
-            color: 'orange'
+            color: 'rgb(253, 139, 51)'
           },
           '& .MuiFormControl-root.MuiTextField-root .MuiInputBase-root.MuiInput-root:before': {
             borderBottom: '1px darkgrey solid'

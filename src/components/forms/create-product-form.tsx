@@ -95,111 +95,109 @@ const CreateProductForm: FC = () => {
     }
 
     return (
-        <div className='form-container' style={{margin: "0"}}>
-            <form onSubmit={handleSubmit} ref={formRef}>
-                <FormControl fullWidth>
-                    <TextField
-                        fullWidth
-                        variant="standard"
-                        label="Title"
-                        name="title"
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                        helperText="Title is required"
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                              visibility: titleError ? 'visible' : 'hidden',
-                              transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                            }
-                        }}
-                        onFocus={()=>setTitleError(false)} 
-                    />
-                </FormControl>
-                <FormControl fullWidth>
-                    <TextField
-                        fullWidth
-                        variant="standard"
-                        label="Price"
-                        name="price"
-                        type="text"
-                        onChange={(e) => setPrice(e.target.value)}
-                        required
-                        helperText="Price is required"
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                              visibility: priceError ? 'visible' : 'hidden',
-                              transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                            }
-                        }}
-                        onFocus={()=>setPriceError(false)}
-                    />
-                </FormControl>
-                 <FormControl fullWidth>
-                    <TextField
-                        label="Description"
-                        variant="standard"
-                        name="description"
-                        helperText="Description is required"
-                        onChange={(e)=> setDescription(e.target.value)}
-                        required
-                        onFocus={()=>setDescriptionError(false)}
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                              visibility: descriptionError ? 'visible' : 'hidden',
-                              transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                            }
-                        }}
-                    />
-                </FormControl>
-                <FormControl fullWidth>
-                    <TextField
-                        fullWidth
-                        variant="standard"
-                        label="Image"
-                        name="image"
-                        type="text"
-                        helperText="Image must be a valid internet link"
-                        onChange={(e) => setImage(e.target.value)}
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                            visibility: imageError ? 'visible' : 'hidden',
+        <form className='form-container product-form' onSubmit={handleSubmit} ref={formRef}>
+            <FormControl fullWidth>
+                <TextField
+                    fullWidth
+                    variant="standard"
+                    label="Title"
+                    name="title"
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                    helperText="Title is required"
+                    sx={{
+                        '& .MuiFormHelperText-root': {
+                            visibility: titleError ? 'visible' : 'hidden',
                             transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                            }
-                        }}
-                        onFocus={()=> setImageError(false)}
-                    />
-                </FormControl> 
-                <FormControl variant="standard" fullWidth>
-                    <InputLabel required id="category-label">Category</InputLabel>
-                    <Select
-                        required
-                        onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value as string)}
-                        label="Category"
-                    >
-                        {ctgrs && ctgrs.map((ctgry: Category)=> {
-                            return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
-                        })}
-                    </Select>
-                </FormControl>
-                <div className='btn-group'>
-                    <IconButton type ="submit" disabled={err}>
-                        <BackupOutlinedIcon/>
-                    </IconButton>
-                </div>
-            </form> 
-        </div>
+                        },
+                        '& .MuiInputBase-root.MuiInput-root:before': { 
+                            borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                        }
+                    }}
+                    onFocus={()=>setTitleError(false)} 
+                />
+            </FormControl>
+            <FormControl fullWidth>
+                <TextField
+                    fullWidth
+                    variant="standard"
+                    label="Price"
+                    name="price"
+                    type="text"
+                    onChange={(e) => setPrice(e.target.value)}
+                    required
+                    helperText="Price is required"
+                    sx={{
+                        '& .MuiFormHelperText-root': {
+                            visibility: priceError ? 'visible' : 'hidden',
+                            transition: 'visibility 0.2s ease-in',
+                        },
+                        '& .MuiInputBase-root.MuiInput-root:before': { 
+                            borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                        }
+                    }}
+                    onFocus={()=>setPriceError(false)}
+                />
+            </FormControl>
+                <FormControl fullWidth>
+                <TextField
+                    label="Description"
+                    variant="standard"
+                    name="description"
+                    helperText="Description is required"
+                    onChange={(e)=> setDescription(e.target.value)}
+                    required
+                    onFocus={()=>setDescriptionError(false)}
+                    sx={{
+                        '& .MuiFormHelperText-root': {
+                            visibility: descriptionError ? 'visible' : 'hidden',
+                            transition: 'visibility 0.2s ease-in',
+                        },
+                        '& .MuiInputBase-root.MuiInput-root:before': { 
+                            borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                        }
+                    }}
+                />
+            </FormControl>
+            <FormControl fullWidth>
+                <TextField
+                    fullWidth
+                    variant="standard"
+                    label="Image"
+                    name="image"
+                    type="text"
+                    helperText="Image must be a valid internet link"
+                    onChange={(e) => setImage(e.target.value)}
+                    sx={{
+                        '& .MuiFormHelperText-root': {
+                        visibility: imageError ? 'visible' : 'hidden',
+                        transition: 'visibility 0.2s ease-in',
+                        },
+                        '& .MuiInputBase-root.MuiInput-root:before': { 
+                            borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                        }
+                    }}
+                    onFocus={()=> setImageError(false)}
+                />
+            </FormControl> 
+            <FormControl variant="standard" fullWidth>
+                <InputLabel required id="category-label">Category</InputLabel>
+                <Select
+                    required
+                    onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value as string)}
+                    label="Category"
+                >
+                    {ctgrs && ctgrs.map((ctgry: Category)=> {
+                        return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
+                    })}
+                </Select>
+            </FormControl>
+            <div className='btn-group'>
+                <IconButton type ="submit" disabled={err}>
+                    <BackupOutlinedIcon/>
+                </IconButton>
+            </div>
+        </form> 
     
     );
 }
