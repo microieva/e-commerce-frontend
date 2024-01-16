@@ -59,7 +59,7 @@ const Header: FC = () => {
     return (
         <header>
             { loggedInUser ? <h2>hello, {loggedInUser.name}</h2> : <h2>random shop</h2>}
-            <div className='header-group'>
+            {/* <div className='header-group'> */}
                 <div className='btn-group'>
                     { !loggedInUser ? 
                         <div >
@@ -99,7 +99,7 @@ const Header: FC = () => {
                         </Link>
                     }
                 </div>
-            </div>
+            {/* </div> */}
             <ThemeProvider theme={orangeTheme}>
                 <FormProvider form={form} onClose={handleClose}>
                     <Dialog fullWidth open={open} onClose={handleClose} >

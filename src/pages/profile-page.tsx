@@ -9,7 +9,7 @@ const ProfilePage: FC = () => {
 
     return (
         <>
-            <main>
+            <main className="main-container">
                 <Header/>
                 <div className='divider'>
                     <Divider />

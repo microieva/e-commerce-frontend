@@ -107,7 +107,7 @@ const ProductView: FC<Props> = ({ product }) => {
                         {product && <UpdateProductForm product={product} admin={admin}/>}
                     </ThemeProvider>
                     <div className="img-wrapper">
-                        <img src={`${product.images[product.images.length-1]}`} alt="profile" />
+                        <img className="circle-img" src={`${product.images[product.images.length-1]}`} alt="profile" />
                     </div>
                 </div>
             </div>

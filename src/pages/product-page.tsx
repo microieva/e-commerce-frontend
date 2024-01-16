@@ -14,7 +14,7 @@ const ProductPage: FC = () => {
 
     return (
         <>
-            <main>
+            <main className="main-container">
                 <Header/>
                 <div className='divider'>
                     <Divider />

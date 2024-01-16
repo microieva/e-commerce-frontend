@@ -8,7 +8,7 @@ const HomePage: FC = () => {
 
     return (
         <>
-            <main>
+            <main className="main-container">
                 <Header/>
                 <Section />
                 <div className='divider'>

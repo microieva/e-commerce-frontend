@@ -42,18 +42,22 @@ const MuiProductsTable = ({ data }: TableProps) => {
     const [rows, setRows] = useState<Product[]>(data);
 
     const columns: readonly TableColumn[] = [
-        { id: 'title', label: 'Title', minWidth: 170 },
+        { 
+            id: 'title', 
+            label: 'Title', 
+            //minWidth: 170 
+        },
         {
             id: 'price',
             label: 'Price',
-            minWidth: 170,
+            //minWidth: 170,
             align: 'right',
             render: (row: Product) => formatUiPrice(row.price)+ " €"
         },
         {
             id: 'category',
             label: 'Category',
-            minWidth: 170,
+            //minWidth: 170,
             align: 'right',
             render: (row: Product) => row.category.name,
         },

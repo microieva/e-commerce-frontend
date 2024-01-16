@@ -37,7 +37,7 @@ const AccountDetails = ({ user }: Props) => {
         return (
             <>
                 <div className='view-header'>
-                    <h2>profile</h2>
+                    <h2>your profile</h2>
                     <div className='btn-group'>
                         <IconButton onClick={()=> setIsDeleting(true)}>
                             <PersonOffIcon/>
@@ -52,7 +52,7 @@ const AccountDetails = ({ user }: Props) => {
                         {user && <UpdateUserForm user={user}/>}
                     </ThemeProvider>
                     <div className="img-wrapper">
-                        <img src={`${user.avatar}`} alt="profile picture" />
+                        <img className="circle-img" src={`${user.avatar}`} alt="profile picture" />
                     </div>
                 </div>
                 { isDeleting &&

@@ -40,25 +40,29 @@ const MuiTable = ({ data, disabled }: Props) => {
     }, [data, prevCart])
 
     const columns: readonly CartColumn[] = [
-        { id: 'title', label: 'Title', minWidth: 170 },
+        { 
+            id: 'title', 
+            label: 'Title', 
+            //minWidth: 170 
+        },
         {
             id: 'price',
             label: 'Price',
-            minWidth: 170,
+            //minWidth: 170,
             align: 'right',
             render: (row: CartItem) => formatUiPrice(row.price)+ " €"
         },
         {
             id: 'category',
             label: 'Category',
-            minWidth: 170,
+            //minWidth: 170,
             align: 'right',
             render: (row: CartItem) => row.category.name
         },
         {
           id: 'quantity',
           label: 'Quantity',
-          minWidth: 170,
+          //minWidth: 170,
           align: 'right'
       },
     ];

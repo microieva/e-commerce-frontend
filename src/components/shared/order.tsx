@@ -22,9 +22,11 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
     const uiPrice = formatUiPrice(order.totalPrice);
     const uiDate = useUiDate(order.createdAt);
     
-    const handleOpenItems = () => {
-        if (order.paid) {
+    const handleClick = () => {
+        if (order.paid && !open) {
             setOpen(true);
+        } else if (order.paid && open) {
+            setOpen(false);
         }
     }
 
@@ -35,7 +37,7 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
     return (
         <>
             <div className='order-container'>
-                <div className='order-wrapper' onClick={()=> handleOpenItems()}>
+                <div className='order-wrapper' onClick={()=> handleClick()}>
                     <div style={{display: "flex", flexDirection: "column", alignItems:"flex-start"}}>
                         {children}
                         <p style={{color: "darkgrey", marginLeft: "4rem"}}>{uiDate}</p> 
@@ -65,11 +67,7 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
                         </p>
                     </div>
                 </div>
-                    { open && 
-                        <div className='order-items-wrapper'>
-                            <OrderItems orderId={order._id} handleClose={handleClose}/>
-                        </div>
-                    }
+                { open && <OrderItems orderId={order._id} handleClose={handleClose}/> }
             </div>
         </>
     )
