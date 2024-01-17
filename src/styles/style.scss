@@ -105,7 +105,7 @@ header {
 .utilities-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
   form {
     width: 90%;
     box-shadow: none;
@@ -114,16 +114,14 @@ header {
       color: rgb(150, 150, 150);
     }
   }
-  .icons-container {
-    display: flex;
-    color: darkgray;
-    margin: 0 1rem;
-    justify-content: space-between;
+  .btn-group {
+    @include btn-group(2.1rem);
+    width: 8rem;
+    margin: auto;
+    justify-content: space-around;
     svg {
-      margin: 0 0 0 1rem;
-      height: 2.1rem;
-      width: 2.1rem;
-      padding: 0.6rem;
+      color: $light-font;
+      padding: 0.8rem;
       border-radius: $secondary-radius;
       border: $dark-gray-border;
       &:hover {
@@ -446,232 +444,4 @@ footer {
   margin: 10% 0;
 }
 
-
-
-//iPad Pro
-@media only screen and (max-width: 1023px) {
-  .main-container {
-    justify-content: flex-start;
-  }
-  .view-container {
-      width: 90%;
-  }
-  .view-details {
-    flex-direction: column-reverse;
-    & > * {
-      width: 100%;
-      margin-bottom: 2rem;
-    }
-    .circle-img { // changed from img
-      margin: auto;
-    }
-  }
-  .table-view {
-    width: 100%!important;
-  }
-  .cart-container {
-    width: 90%;
-  }
-  .order-items-wrapper {
-    width: 100%;
-  }
-}
-
-@media only screen and (max-width: 875px) {
-  .card-wrapper {
-    width: 20rem;
-    height: 12rem;
-  }
-  
-}
-
-//iPad Air
-@media only screen and (max-width: 820px) {
-  .footer-wrapper {
-    width: 90%;
-    & > * {
-      width: 50%;
-    }
-    & > p {
-      text-align: right;
-    }
-  }
-}
-
-@media only screen and (max-width: 750px) {
-  .card-wrapper {
-    width: 18rem;
-    height: 10rem;
-  }
-  .product-price {
-    width: 6rem!important; 
-  }
-  button {
-    height: 2rem;
-    width: 2rem;
-  }
-}
-
-@media only screen and (max-width: 680px) {
-  .card-wrapper {
-    width: 16rem;
-    height: 8rem;
-  }
-  .product-price {
-    width: 4.5rem!important; 
-    font-size: smaller;
-  }
-}
-
-@media only screen and (max-width: 610px) {
-  .card-wrapper {
-    width: 15rem;
-    height: 8rem;
-  }
-  .product-price {
-    width: 4.5rem!important; 
-    font-size: smaller;
-  }
-}
-@media only screen and (max-width: 580px) {
-  header {
-    font-size: smaller;
-    .btn-group {
-      width: 100%!important;
-      line-height: 4rem;
-      button {
-        height: 2rem!important;
-        width: 2rem!important;
-        margin: 0 0.5rem;
-      }
-    }
-  }
-  .card-wrapper {
-    width: 13rem;
-    height: 10rem;
-  }
-  .product-price {
-    width: 4.5rem!important; 
-    font-size: smaller;
-  }
-  .circle-img {
-    height: 20rem!important;
-    width: 20rem!important;
-    margin:auto;
-  }
-}
-@media only screen and (max-width: 520px) {
-  body{
-    margin: 0;
-  }
-  header {
-    margin: 0 0 2rem 0;
-    height:fit-content;
-    width: 100%;
-    display: block;
-    flex-wrap: wrap;
-    h2 {
-      padding: 1rem 0;
-    }
-    // on 520 header should get hamburger menu icon
-  }
-  .card-wrapper {
-    width: 12rem;
-    height: 12rem;
-  }
-  .product-price {
-    width: 4.5rem!important; 
-    font-size: smaller;
-  }
-  .circle-img {
-    height: 18rem!important;
-    width: 18rem!important;
-    margin:auto;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  .cards-view-wrapper {
-    padding: 2rem 0;
-  }
-  .card-wrapper {
-    width: 12rem;
-    height: 7rem;
-    .product-title {
-      font-size: 16px;
-    }
-    .product-category {
-      font-size: smaller;
-    }
-  }
-  .product-price {
-    width: 4.5rem!important; 
-    height: 3rem!important;
-    font-size: smaller;
-  }
-  .circle-img {
-    height: 16rem!important;
-    width: 16rem!important;
-    margin:auto;
-  }
-}
-
-@media only screen and (max-width: 420px) {
-  body {
-    margin: 0;
-  }
-  .card-wrapper {
-    width: 12rem;
-    height: 7rem;
-    .product-title {
-      font-size: 16px;
-    }
-    .product-category {
-      font-size: smaller;
-    }
-  }
-  .product-price {
-    width: 3.5rem!important; 
-    height: 2rem!important;
-    font-size: 12px;
-    line-height: 2rem!important;
-    margin-top: -20px!important;
-  }
-
-    button {
-      height: 2rem;
-      width: 2rem;
-    }
-    .circle-img {
-      height: 14rem!important;
-      width: 14rem!important;
-      margin:auto;
-    }
-}
-
-@media only screen and (max-width: 400px) {
-  .card-wrapper {
-    width: 10rem;
-    height: 6rem;
-    .product-title {
-      font-size: 16px;
-    }
-    .product-category {
-      font-size: smaller;
-    }
-  }
-  .circle-img {
-    height: 12rem!important;
-    width: 12rem!important;
-    margin:auto;
-  }
-}
-
-@media only screen and (max-width: 350px) {
-  .circle-img {
-    height: 10rem!important;
-    width: 10rem!important;
-    margin:auto;
-  }
-}
-
+@include responsiveness();

@@ -62,3 +62,19 @@
         }
     }
 }
+
+@mixin responsive-pagination($font-size, $btn-size) {
+    .pagination {
+        font-size: $font-size;
+        & > div {
+            margin: 0 0.3rem;
+        }
+        .items-per-page {
+            width: auto;
+        }
+        @include btn-group($btn-size);
+    }
+    .btn-group {
+        margin:0;
+    }
+}

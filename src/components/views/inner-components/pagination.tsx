@@ -37,19 +37,21 @@ const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChang
 		<div className="pagination">
 			<div className="items-per-page">
 				<p>Items per page:</p>
-				<FormControl>
-					<Select
-						sx={{ boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }}
-						id="select"
-						label={itemsPerPageOption}
-						onChange={handleItemsPerPageChange}
-						value={`${itemsPerPageOption}`}
-					>
-						{itemsPerPage.map((option, i) => (
-							<MenuItem key={i} value={option}>{option}</MenuItem>
-						))}
-  					</Select>
-				</FormControl>
+				<div className="pagination-select">
+					<FormControl>
+						<Select
+							sx={{ fontSize: "inherit", boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }}
+							id="select"
+							label={itemsPerPageOption}
+							onChange={handleItemsPerPageChange}
+							value={`${itemsPerPageOption}`}
+						>
+							{itemsPerPage.map((option, i) => (
+								<MenuItem key={i} value={option}>{option}</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+				</div>
 			</div>
 			<div className="page-nrs">
 				<span>{startIndex} - {endIndex} of {totalItems}</span>
