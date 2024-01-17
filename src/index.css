@@ -13,10 +13,13 @@ body {
   margin-bottom: 0;
 }
 
+<<<<<<< HEAD
 body {
   margin-bottom: 0;
 }
 
+=======
+>>>>>>> d26ad8b594e01b47fa3795e98e4c370865073d4d
 .app-container {
   position: relative;
   padding-bottom: 12rem;
@@ -452,10 +455,6 @@ footer {
   width: 4rem;
   height: 4rem;
 }
-.form-container form button {
-  width: 4rem;
-  height: 4rem;
-}
 .form-container form > div {
   margin-bottom: 1.2rem;
 }
@@ -463,8 +462,8 @@ footer {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-top: 60px;
-  margin-right: -20px;
+  align-items: center;
+  align-self: flex-end;
 }
 
 .view-container {
@@ -682,10 +681,6 @@ footer {
 .alert-container h2 {
   color: rgb(121, 121, 121);
   margin-bottom: 4rem;
-}
-.alert-container button {
-  height: 4rem;
-  width: 4rem;
 }
 .alert-container button {
   height: 4rem;
