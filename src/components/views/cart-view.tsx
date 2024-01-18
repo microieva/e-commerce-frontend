@@ -179,7 +179,9 @@ const CartView = () => {
                 </div>
 
             </div>
-            <MuiCartTable data={cart} disabled={disabled}/>
+            <div className="table-view">
+                <MuiCartTable data={cart} disabled={disabled}/>
+            </div>
             {!order &&
                 <h2 style={{visibility: cart.length === 0 ? "hidden" : "visible", color: "darkgrey", alignSelf: "flex-end"}}>
                     total amount: {iuTotalAmount} €

@@ -37,7 +37,7 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
     return (
         <>
             <div className='order-container'>
-                <div className='order-wrapper' onClick={()=> handleClick()}>
+                <div className='view-header' style={{marginBottom:0}} onClick={()=> handleClick()}>
                     <div style={{display: "flex", flexDirection: "column", alignItems:"flex-start"}}>
                         {children}
                         <p style={{color: "darkgrey", marginLeft: "4rem"}}>{uiDate}</p> 

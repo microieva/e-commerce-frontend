@@ -72,7 +72,7 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
     }
 
     return (
-        <div className='form-container' style={{margin: "0", width:"50%"}}>
+        <div className='form-container' style={{margin: "auto auto 3rem auto", width:"50%"}}>
             <form onSubmit={handleSubmit} ref={formRef}>
                 <FormControl fullWidth>
                     <TextField

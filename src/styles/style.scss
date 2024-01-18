@@ -23,7 +23,7 @@ body {
   margin: 4rem 0;
   @include btn-group(3rem);
   .table-view {
-    width: 80%;
+    width: 80%!important;
   }
 }
 
@@ -102,6 +102,13 @@ header {
   @include hover-transition(all, 0.2s, ease-in-out);
 }
 
+form {
+  .btn-group {
+    @include btn-group(4rem);
+
+  }
+}
+
 .utilities-container {
   display: flex;
   align-items: center;
@@ -170,6 +177,7 @@ header {
   background-color: $light-gray;
   z-index: 0;
   border-radius: $primary-radius;
+  width: 100%;
 }
 
 .card-wrapper {
@@ -237,13 +245,14 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3rem;
+  border: 2px red solid;
   h2 {
     margin: 0;
     padding-left: 1rem;
     width: 100%;
   }
   .btn-group {
-    @include btn-group();
+    @include btn-group(3rem);
   }
 }
 
@@ -361,12 +370,12 @@ header {
   }
   .order-items-wrapper {
     width: 90%;
-    margin: 1rem auto;
+    margin: auto;
     .btn-group {
       padding: 0;
     }
   }
-  & :hover {
+  .view-header:hover {
     cursor: pointer;
   }
   & h2{

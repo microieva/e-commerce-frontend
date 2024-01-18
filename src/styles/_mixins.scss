@@ -48,7 +48,7 @@
 @mixin product-form() {
     width: 50%;
     .btn-group {
-        margin-top: 4rem;
+        //margin-top: 4rem;
         @include btn-group();
     }
     h2 {

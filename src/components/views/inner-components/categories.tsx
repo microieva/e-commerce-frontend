@@ -66,8 +66,8 @@ const Categories = ({ categories }: Props) => {
                         <div className='devider'>
                             <Divider />
                         </div>
-                        <div className='view-header' style={{marginTop: "6rem", flexDirection:"column"}}>
-                            <div className="view-header-wrapper">
+                        <div className="view-header-wrapper" style={{marginTop: "6rem", flexDirection:"column"}}>
+                            <div className="view-header">
                                 <h2>categories</h2>
                                 <div className='btn-group'>
                                     <IconButton  disabled={disabled} onClick={()=> setOpen(true)}>
