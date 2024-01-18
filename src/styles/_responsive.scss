@@ -1,9 +1,10 @@
 @mixin responsiveness() {
 
 //iPad Pro
-    @media only screen and (max-width: 1023px) {
+    @media only screen and (max-width: 1026px) {
         body {
         margin: 0;
+        min-height: 100%;
         }
         .main-container {
         justify-content: flex-start;
@@ -24,8 +25,8 @@
         .cards-view-wrapper {
         padding: 0;
         }
-        .table-view {
-        width: 100%!important;
+        .grid-table-container.table-view {
+            width: 90%;
         }
         .cart-container {
         width: 90%;
@@ -108,6 +109,12 @@
         width: 4.5rem!important; 
         font-size: smaller;
         }
+        .grid-table-container{
+
+            .table-view {
+                width: 90%!important;
+            }
+            }
     }
     @media only screen and (max-width: 580px) {
         @include responsive-pagination(12px, 2rem);
@@ -136,16 +143,27 @@
         .view-header {
         width: 100%;
         }
+        .view-container {
+            width: 100%;
+        }
+        .grid-table-container{
+
+        .table-view {
+            width: 100%!important;
+        }
+        }
         .cart-container {
         font-size: smaller;
-        .btn-group {
-            @include btn-group(2rem);
-            button {
-            margin: 0 0.5rem;
-            padding: 0 0.5rem;
+        width: 100%;
+        //margin: 5rem 0 2rem 0;
+            .btn-group {
+                @include btn-group(2rem);
+                button {
+                margin: 0 0.5rem;
+                padding: 0 0.5rem;
+                }
+        
             }
-    
-        }
         }
     }
     @media only screen and (max-width: 520px) {
@@ -231,16 +249,17 @@
         }
     }
     
-    @media only screen and (max-width: 440px) {
-        body {
-        min-width: 440px;
-        }
-    }
+    // @media only screen and (max-width: 440px) {
+    //     body {
+    //         min-width: 429px;
+    //     }
+    // }
     
     @media only screen and (max-width: 420px) {
         body {
-        margin: 0;
-        min-width: 420px;
+            margin: 0;
+            //min-width: 420px;
+            font-size: smaller;
         }
         .card-wrapper {
         width: 12rem;
@@ -260,6 +279,15 @@
             height: 14rem!important;
             width: 14rem!important;
             margin:auto;
+        }
+        .view-header {
+            @include btn-group(0.5rem);
+            .btn-group {
+                margin-bottom: 0;
+            }
+        }
+        .cart-container {
+            font-size: x-small;
         }
     }
     
@@ -287,16 +315,16 @@
     }
     
     @media only screen and (max-width: 355px) {
-        body {
-        min-width: 356px;
-        }
+        // body {
+        //     min-width: 200px;
+        // }
         .cart-container {
         .view-header {
             display: block;
             line-height: 6rem;
         }
         .divider {
-            display: none;
+            display: none!important;
         }
         }
         .circle-img {
@@ -311,17 +339,17 @@
     }
     
     @media only screen and (max-width: 320px) {
-        .cart-container {
-        font-size: small;
-        .btn-group {
-            @include btn-group(1rem);
-            button {
-            margin: 0 0.5rem;
-            padding: 0 0.5rem;
-            }
+    //     .cart-container {
+    //     font-size: small;
+    //     .btn-group {
+    //         @include btn-group(1rem);
+    //         button {
+    //         margin: 0 0.5rem;
+    //         padding: 0 0.5rem;
+    //         }
     
-        }
-        }
+    //     }
+    //     }
     }
 }
 

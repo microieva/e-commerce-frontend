@@ -119,7 +119,8 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
         return <Loading />
     }
     return (
-        <form className='form-container product-form' onSubmit={handleSubmit} ref={formRef}>
+    <div className='form-container product-form'>
+        <form onSubmit={handleSubmit} ref={formRef}>
             <FormControl fullWidth>
                 <TextField
                     fullWidth
@@ -242,7 +243,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                 }
                 
             </FormControl>
-            <div className='btn-group'>  
+            <div className='btn-group' style={{marginTop: "2rem"}}>  
                 { admin && 
                     <>
                         { disabled && 
@@ -269,6 +270,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                 
             </div>
         </form> 
+    </div>
     );
 }
 

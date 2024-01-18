@@ -95,7 +95,8 @@ const CreateProductForm: FC = () => {
     }
 
     return (
-        <form className='form-container product-form' onSubmit={handleSubmit} ref={formRef}>
+    <div className='form-container product-form'>
+        <form onSubmit={handleSubmit} ref={formRef}>
             <FormControl fullWidth>
                 <TextField
                     fullWidth
@@ -192,13 +193,13 @@ const CreateProductForm: FC = () => {
                     })}
                 </Select>
             </FormControl>
-            <div className='btn-group'>
+            <div className='btn-group' style={{marginTop: "2rem"}}>
                 <IconButton type ="submit" disabled={err}>
                     <BackupOutlinedIcon/>
                 </IconButton>
             </div>
         </form> 
-    
+    </div>
     );
 }
 

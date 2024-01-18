@@ -29,7 +29,7 @@ body {
   width: 3rem;
 }
 .grid-table-container .table-view {
-  width: 80%;
+  width: 80% !important;
 }
 
 .cards-view-wrapper {
@@ -115,6 +115,18 @@ header .btn-group svg:hover {
   transition: all 0.2s ease-in-out;
 }
 
+form .btn-group {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  align-self: flex-end;
+}
+form .btn-group button {
+  height: 4rem;
+  width: 4rem;
+}
+
 .utilities-container {
   display: flex;
   align-items: center;
@@ -198,6 +210,7 @@ header .btn-group svg:hover {
   background-color: rgb(245, 245, 245);
   z-index: 0;
   border-radius: 7px;
+  width: 100%;
 }
 
 .card-wrapper {
@@ -273,6 +286,7 @@ header .btn-group svg:hover {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3rem;
+  border: 2px red solid;
 }
 .view-header h2 {
   margin: 0;
@@ -287,8 +301,8 @@ header .btn-group svg:hover {
   align-self: flex-end;
 }
 .view-header .btn-group button {
-  height: 4rem;
-  width: 4rem;
+  height: 3rem;
+  width: 3rem;
 }
 
 .view-container {
@@ -394,7 +408,6 @@ header .btn-group svg:hover {
   width: 50%;
 }
 .product-form .btn-group {
-  margin-top: 4rem;
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -450,12 +463,12 @@ header .btn-group svg:hover {
 }
 .order-container .order-items-wrapper {
   width: 90%;
-  margin: 1rem auto;
+  margin: auto;
 }
 .order-container .order-items-wrapper .btn-group {
   padding: 0;
 }
-.order-container :hover {
+.order-container .view-header:hover {
   cursor: pointer;
 }
 .order-container h2 {
@@ -557,9 +570,10 @@ footer {
   margin: 10% 0;
 }
 
-@media only screen and (max-width: 1023px) {
+@media only screen and (max-width: 1026px) {
   body {
     margin: 0;
+    min-height: 100%;
   }
   .main-container {
     justify-content: flex-start;
@@ -580,8 +594,8 @@ footer {
   .cards-view-wrapper {
     padding: 0;
   }
-  .table-view {
-    width: 100% !important;
+  .grid-table-container.table-view {
+    width: 90%;
   }
   .cart-container {
     width: 90%;
@@ -655,6 +669,9 @@ footer {
     width: 4.5rem !important;
     font-size: smaller;
   }
+  .grid-table-container .table-view {
+    width: 90% !important;
+  }
 }
 @media only screen and (max-width: 580px) {
   .pagination {
@@ -702,8 +719,15 @@ footer {
   .view-header {
     width: 100%;
   }
+  .view-container {
+    width: 100%;
+  }
+  .grid-table-container .table-view {
+    width: 100% !important;
+  }
   .cart-container {
     font-size: smaller;
+    width: 100%;
   }
   .cart-container .btn-group {
     width: 100%;
@@ -813,15 +837,10 @@ footer {
     margin: auto;
   }
 }
-@media only screen and (max-width: 440px) {
-  body {
-    min-width: 440px;
-  }
-}
 @media only screen and (max-width: 420px) {
   body {
     margin: 0;
-    min-width: 420px;
+    font-size: smaller;
   }
   .card-wrapper {
     width: 12rem;
@@ -841,6 +860,23 @@ footer {
     height: 14rem !important;
     width: 14rem !important;
     margin: auto;
+  }
+  .view-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    align-self: flex-end;
+  }
+  .view-header button {
+    height: 0.5rem;
+    width: 0.5rem;
+  }
+  .view-header .btn-group {
+    margin-bottom: 0;
+  }
+  .cart-container {
+    font-size: x-small;
   }
 }
 @media only screen and (max-width: 400px) {
@@ -864,40 +900,17 @@ footer {
   }
 }
 @media only screen and (max-width: 355px) {
-  body {
-    min-width: 356px;
-  }
   .cart-container .view-header {
     display: block;
     line-height: 6rem;
   }
   .cart-container .divider {
-    display: none;
+    display: none !important;
   }
   .circle-img {
     height: 10rem !important;
     width: 10rem !important;
     margin: auto;
-  }
-}
-@media only screen and (max-width: 320px) {
-  .cart-container {
-    font-size: small;
-  }
-  .cart-container .btn-group {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    align-self: flex-end;
-  }
-  .cart-container .btn-group button {
-    height: 1rem;
-    width: 1rem;
-  }
-  .cart-container .btn-group button {
-    margin: 0 0.5rem;
-    padding: 0 0.5rem;
   }
 }
 
