@@ -286,6 +286,7 @@ form .btn-group button {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 3rem;
+  border: 2px red solid;
 }
 .view-header h2 {
   margin: 0;
