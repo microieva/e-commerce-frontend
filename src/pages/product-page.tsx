@@ -16,18 +16,18 @@ const ProductPage: FC = () => {
         <>
             <main className="main-container">
                 <Header/>
+                {/* <div className='divider'>
+                    <Divider />
+                </div> */}
+                {isLoading && <Loading />}
+                {data && 
+                    <div className='product-container'>
+                        <ProductView product={data}/>    
+                    </div>
+                }
                 <div className='divider'>
                     <Divider />
                 </div>
-                {isLoading && <Loading />}
-                {data && 
-                    <>
-                        <ProductView product={data}/>
-                        <div className='divider'>
-                            <Divider />
-                        </div>
-                    </>
-                }
             </main>
             <Footer />
         </>

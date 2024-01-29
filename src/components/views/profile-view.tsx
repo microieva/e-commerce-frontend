@@ -33,7 +33,7 @@ const ProfileView: FC = () => {
     }, [token])
 
     return (
-        <div className="view-container">
+        <div className="view-wrapper">
             { isLoading ? <Loading /> :
                 <>
                     {user && <AccountDetails user={user}/>}

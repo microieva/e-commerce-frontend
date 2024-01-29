@@ -1,0 +1,22 @@
+.cart-container { // cart-container = product-container
+    border-radius: $primary-radius;
+    margin: auto;
+    // margin-bottom: 2rem;
+    // margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    padding: 4rem 0;
+    background-color: rgb(245, 245, 245);
+    width: 100%;
+    .profile-section {
+      margin: 0 2rem;
+    }
+    .view-wrapper {
+        width: 70%;
+        margin: auto;
+        h2 {
+            float: right;
+        }
+    }
+  }
+

@@ -159,7 +159,7 @@ const CartView = () => {
     }
 
     return (
-        <div className="cart-container">
+        <div className="view-wrapper">
             <div className="view-header">
                 {   cart.length === 0 ? 
                     <h2>your cart is empty</h2>
@@ -225,7 +225,7 @@ const CartView = () => {
                 </ThemeProvider>
                 <Outlet />
             </>
-        </div>    
+        </div>
     )
 }
 

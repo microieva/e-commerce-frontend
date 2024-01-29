@@ -10,10 +10,12 @@ const ProductFormPage: FC = () => {
         <>
             <main className="main-container">
                 <Header/>
-                <div className='divider'>
+                {/* <div className='divider'>
                     <Divider />
+                </div> */}
+                <div className="product-form-container"> 
+                    <ProductFormView />
                 </div>
-                <ProductFormView />
                 <div className='divider'>
                     <Divider />
                 </div>

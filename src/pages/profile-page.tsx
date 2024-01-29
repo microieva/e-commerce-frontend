@@ -11,10 +11,12 @@ const ProfilePage: FC = () => {
         <>
             <main className="main-container">
                 <Header/>
-                <div className='divider'>
+                {/* <div className='divider'>
                     <Divider />
+                </div> */}
+                <div className="profile-container">
+                    <ProfileView />
                 </div>
-                <ProfileView />
                 <div className='divider'>
                     <Divider />
                 </div>
