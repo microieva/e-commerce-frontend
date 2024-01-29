@@ -11,10 +11,8 @@ const HomePage: FC = () => {
             <main className="main-container">
                 <Header/>
                 <Section />
-                <div className='divider'>
-                    <Divider />
-                </div>
             </main>
+            <Divider className='bottom-divider'/>
             <Footer />
         </>
     ) 

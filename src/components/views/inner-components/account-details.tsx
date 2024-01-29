@@ -37,7 +37,7 @@ const AccountDetails = ({ user }: Props) => {
         return (
             <>
                 <div className='view-header'>
-                    <h2>your profile</h2>
+                    <h2>account details</h2>
                     <div className='btn-group'>
                         <IconButton onClick={()=> setIsDeleting(true)}>
                             <PersonOffIcon/>

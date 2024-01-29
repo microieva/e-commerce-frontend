@@ -11,16 +11,14 @@ const CartPage: FC = () => {
         <>
             <main className="main-container">
                 <Header/>
-                {/* <div className='divider'>
-                    <Divider />
-                </div> */}
-                <div className="cart-container">
-                    <CartView /> 
-                </div>
                 <div className='divider'>
                     <Divider />
                 </div>
+                <div className="cart-container">
+                    <CartView /> 
+                </div>
             </main>
+            <Divider className='bottom-divider'/>
             <Footer />
         </>
     ) 
