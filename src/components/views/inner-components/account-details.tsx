@@ -3,7 +3,7 @@ import { Backdrop, Dialog, IconButton, ThemeProvider } from '@mui/material';
 import { Outlet, useNavigate } from 'react-router-dom';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
-import { marineTheme } from '../../../shared/theme';
+import { orangeTheme } from '../../../shared/theme';
 import { User } from '../../../@types/user';
 import UpdateUserForm from '../../forms/update-user-form';
 import { useDeleteUserMutation } from '../../../redux/api-queries/user-queries';
@@ -48,7 +48,7 @@ const AccountDetails = ({ user }: Props) => {
                     </div>
                 </div>
                 <div className='view-details'>
-                    <ThemeProvider theme={marineTheme}>
+                    <ThemeProvider theme={orangeTheme}>
                         {user && <UpdateUserForm user={user}/>}
                     </ThemeProvider>
                     <div className="img-wrapper">
@@ -57,7 +57,7 @@ const AccountDetails = ({ user }: Props) => {
                 </div>
                 { isDeleting &&
                     <>
-                        <ThemeProvider theme={marineTheme}>
+                        <ThemeProvider theme={orangeTheme}>
                                 <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                     <Alert 
                                         text={'are you sure you want to delete your account?'}

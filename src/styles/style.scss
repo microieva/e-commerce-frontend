@@ -6,6 +6,7 @@
 @import 'product-page-styles';
 @import 'profile-page-styles';
 @import 'product-form-page-styles';
+@import 'home-page-styles';
 
 *{
   font-family: $main-font;
@@ -17,25 +18,13 @@
   height: 100vh;;
 }
 body {
-  //margin-bottom: 0;
   margin:0;
 }
 
 .app-container { 
-  // position: relative;
-  // padding-bottom: 12rem;
   display: flex;
   flex-direction: column;
   min-height: 100%;
-}
-
-.grid-table-container { 
-  display: flex;
-  flex-direction: column;
-  @include btn-group(3rem);
-  .table-view {
-    width: 80%!important;
-  }
 }
 
 .cards-view-wrapper {
@@ -53,11 +42,6 @@ main {
   justify-content: space-between;
   width: 99%;
   margin: 0 auto;
-  //padding: 1rem 1rem 0 1rem;
-  //height: 100%;
-  //min-height: 80vh;
-  //margin: auto;
-  //margin-bottom: 10rem;
 }
 
 header {
@@ -65,7 +49,6 @@ header {
   background-color: darkgray;
   width: 100%;
   height: $btn-height;
-  //margin-bottom: 3rem;
   margin-top: 0.5rem;
   border-radius: $secondary-radius;
   display: flex;
@@ -74,6 +57,9 @@ header {
   .header-group {
     display: flex;
     align-items: center;
+    .btn {
+      margin: 0 1rem;
+    }
   }
   h2 {
     letter-spacing: 2px;
@@ -108,9 +94,8 @@ header {
   border-radius: $secondary-radius;
   letter-spacing: 1px;
   font-size: 16px;
-  margin: 0 1rem;
 }
-.btn:hover{
+.btn:not(#btn-disabled):hover{
   color: $light-gray;
   border: $light-gray-border;
   cursor: pointer;
@@ -119,6 +104,9 @@ header {
 }
 
 form {
+  & .MuiInputBase-input.MuiInput-input.Mui-disabled{
+    -webkit-text-fill-color: $dark-font;
+  }
   .btn-group {
     @include btn-group(4rem);
 
@@ -138,16 +126,14 @@ form {
     }
   }
   .btn-group {
-    @include btn-group(2.1rem);
-    width: 8rem;
+    @include btn-group(3rem);
+    width: 9rem;
     margin: auto;
     justify-content: space-around;
-    svg {
-      color: $light-font;
-      padding: 0.8rem;
+    button:not(.active-icon) {
       border-radius: $secondary-radius;
       border: $dark-gray-border;
-      &:hover {
+      &:not(.active-icon):hover {
         cursor: pointer;
         border-radius: $circle-radius;
         @include hover-transition();
@@ -160,7 +146,7 @@ form {
         cursor: default;
       }
     } 
-  }
+  } 
 }
 
 .pagination-container {
@@ -197,19 +183,25 @@ form {
 }
 
 .card-wrapper {
+  position: relative;
   height: $mid-height;
   width: 24rem;
   margin: 2rem 0;
   border: $light-gray-border;
   border-radius: $primary-radius;
+  overflow: hidden;
+  //box-shadow: inset 0 -4rem 60px rgb(245, 245, 245);
   img {
     border-radius: inherit;
     height: inherit;
     width: inherit;
     z-index: -1;
     position: absolute;
-    opacity: 0.5;
+    opacity: 0.6;
     object-fit: cover;
+    // -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(245, 245, 245, 0));
+    // mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
+
   }
 
   &:hover {
@@ -218,7 +210,9 @@ form {
     border-radius: $primary-radius;
     cursor: pointer;
     img {
-      opacity: 0.3;
+      opacity: 0.5;
+      transform: scale(1.3);
+      object-fit: cover;
       @include hover-transition();
     }
   }
@@ -230,19 +224,8 @@ form {
   justify-content: space-around;
   padding: 0 0 0 1rem;
   .btn-group {
-    margin-bottom: -1rem;
+    margin-bottom: -3rem;
     @include btn-group();
-  }
-  .product-price {
-    align-self: flex-end;
-    border-radius: 25px;
-    background-color: $orange;
-    height: $small-height;
-    width: 8rem;
-    line-height: $small-height;
-    text-align: center;
-    margin-top: -30px;
-    margin-right: -10px;
   }
   .product-title {
     font-size: x-large;
@@ -253,6 +236,18 @@ form {
     margin: 0;
     bottom: 5px;
   }
+}
+.product-price {
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  right: -10px;
+  border-radius: 25px;
+  background-color: $orange;
+  height: $small-height;
+  width: 8rem;
+  line-height: $small-height;
+  text-align: center;
 }
 
 .view-header {
@@ -269,7 +264,7 @@ form {
   .btn-group {
     @include btn-group(4rem);
   }
-  // &:hover {
+  // &:hover { // in order component need hover effect on this header
   //   cursor: pointer;
   // }
 }
@@ -288,6 +283,7 @@ form {
 }
 
 .order-container {
+  background-color: white;
   border-radius: $primary-radius;
   margin: auto;
   margin-bottom: 2rem;
@@ -298,8 +294,16 @@ form {
   border: 1px solid rgba(0,0,0,0.2);
   .order-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
+    & div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  #hover:hover {
+    cursor: pointer;
   }
   p {
     font-size: 16px;
@@ -347,26 +351,15 @@ form {
     border-radius: $circle-radius;
   }
 }
-// .view-header-wrapper {
-//   display: flex;
-//   flex-direction: row;
-//   width: 100%;
-//   justify-content: space-between;
-// }
 
 footer {
   font-family: $footer-font;
-  //left: 0;
-  //bottom: 0;
   background-color: $mid-gray;
   height: $mid-height;
   width: 100%;
   display: flex;
   justify-content: space-around;
-  //margin: -1rem;
   margin-top: auto;
-  //position: absolute; 
-  //padding: 0 1rem 1rem 1rem;
 }
 
 .footer-wrapper {
@@ -380,17 +373,13 @@ footer {
   width: 30%;
   margin: 3rem auto;
 }
-.bottom-divider {
- width: 30%;
- //padding: 3rem 0;
- margin: 10% auto;
- //height: 100%;
-}
+
 .loading {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 10% 0;
+  //margin: 10% 0;
+  margin: 20rem auto;
 }
 
 @include responsiveness();

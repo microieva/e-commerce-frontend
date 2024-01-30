@@ -12,7 +12,7 @@ const HomePage: FC = () => {
                 <Header/>
                 <Section />
             </main>
-            <Divider className='bottom-divider'/>
+            <Divider className='bottom-divider' style={{width: "30%", margin: "10% auto"}}/>
             <Footer />
         </>
     ) 

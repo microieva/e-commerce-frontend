@@ -1,0 +1,14 @@
+.products-container {
+    @include btn-group(3rem);
+    border-radius: $primary-radius;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    //padding: 4rem 0;
+    background-color: rgb(245, 245, 245);
+    width: 100%;
+    .view-wrapper {
+        width: 80%;
+        margin: 4rem 0;
+    }
+}

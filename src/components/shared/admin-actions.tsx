@@ -57,6 +57,12 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
                     aria-label="add" 
                     size="large" 
                     onClick={handleUpdate}
+                    sx={{
+                        '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
+                            {
+                                backgroundColor: "rgb(61,61,61, 0.2)"
+                            }
+                    }}
                 >
                     <EditNoteIcon/>
                 </IconButton>
@@ -64,6 +70,12 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
                     aria-label="delete" 
                     size="large" 
                     onClick={(e)=> onDelete(e)}
+                    sx={{
+                        '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
+                            {
+                                backgroundColor: "rgb(61,61,61, 0.2)"
+                            }
+                    }}
                 >
                     <DeleteForeverIcon />
                 </IconButton>

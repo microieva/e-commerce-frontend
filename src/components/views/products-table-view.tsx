@@ -18,7 +18,7 @@ const Table: FC<TableProps> = ({ searchWord }: TableProps) => {
     return (
         <>
             { isLoading ? <Loading /> : 
-                <div className='table-view'>
+                <div className='view-wrapper'>
                     <MuiProductsTable data={products} />
                 </div>
             }

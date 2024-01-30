@@ -65,9 +65,11 @@ const CardsView = ({ searchWord }: ViewProps) => {
 					<div className="cards-view-wrapper">
 						{currentProducts.length > 0 && currentProducts.map((product: Product, i) => {
 							return (
-								<Link key={i} style={{textDecoration: "none", color: "black"}} to={`/products/${product._id}`}>
-									<ProductCard key={product._id} product={product} admin={admin}/>
-								</Link>
+								<div style={{position: "relative"}}>
+									<Link key={i} style={{textDecoration: "none", color: "black"}} to={`/products/${product._id}`}>
+										<ProductCard key={product._id} product={product} admin={admin}/>
+									</Link>
+								</div>
 							);
 						})}
 					</div> 

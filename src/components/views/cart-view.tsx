@@ -193,9 +193,8 @@ const CartView = () => {
                         order={newOrder} 
                         handleCheckout={handleCheckout}
                         handleDeleteOrder={handleDeleteOrder}>
-                        <div>
-                            <h2>your order <span style={{color: "darkgrey"}}>/ {numberOfItems} {numberOfItems>1 ? 'items' : 'item'}</span> </h2>   
-                        </div> 
+
+                        <h2>your order <span style={{color: "darkgrey"}}>/ {numberOfItems} {numberOfItems>1 ? 'items' : 'item'}</span> </h2>   
                     </OrderComponent>
                 </div>
             }

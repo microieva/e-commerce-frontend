@@ -17,6 +17,7 @@ export type SearchBarProps = {
 }
 
 export type ButtonProps = {
+  disabled?: boolean,
   text: string,
   width?: string,
   height?: string,

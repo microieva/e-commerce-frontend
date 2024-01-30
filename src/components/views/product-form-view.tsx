@@ -9,7 +9,6 @@ import { orangeTheme } from '../../shared/theme';
 const ProductFormView: FC = () => {  
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const navigate = useNavigate();
-    //const history = useHistory();
 
     useEffect(()=> {
         const handleStorage = () => {
