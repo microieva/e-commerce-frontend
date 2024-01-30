@@ -38,6 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "prebuild": "sass src/styles/style.scss:src/index.css",
     "compile": "sass src/styles/style.scss:src/index.css",
     "sass:watch": "sass --watch src/styles/style.scss:src/index.css"
   },

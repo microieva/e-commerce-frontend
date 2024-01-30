@@ -14,11 +14,11 @@ const ProfilePage: FC = () => {
                 <div className='divider'>
                     <Divider />
                 </div>
-                <ProfileView />
-                <div className='divider'>
-                    <Divider />
+                <div className="profile-container">
+                    <ProfileView />
                 </div>
             </main>
+            <Divider className='bottom-divider' style={{width: "30%", margin: "10% auto"}}/>
             <Footer />
         </>
     ) 

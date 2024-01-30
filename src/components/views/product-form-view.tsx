@@ -9,7 +9,6 @@ import { orangeTheme } from '../../shared/theme';
 const ProductFormView: FC = () => {  
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const navigate = useNavigate();
-    //const history = useHistory();
 
     useEffect(()=> {
         const handleStorage = () => {
@@ -24,27 +23,24 @@ const ProductFormView: FC = () => {
     }, [token]);
 
     return (
-        <>
-            <div className="view-container">
-                <div className='view-header'>
-                    <h2>new product</h2>
-                    <div className="btn-group">
-                        <IconButton onClick={()=> navigate('/')} style={{padding: "0.8rem"}}>
-                            <DoorBackOutlinedIcon/>
-                        </IconButton>
-                    </div>
-                </div>
-                <div className='view-details'>
-                    <ThemeProvider theme={orangeTheme}>
-                        <CreateProductForm />
-                    </ThemeProvider>
-                    <div className="img-wrapper__empty">
-                        <div className="img-placeholder"/>
-                    </div>
+        <div className="view-wrapper">
+            <div className='view-header'>
+                <h2>new product</h2>
+                <div className="btn-group">
+                    <IconButton onClick={()=> navigate('/')} style={{padding: "0.8rem"}}>
+                        <DoorBackOutlinedIcon/>
+                    </IconButton>
                 </div>
             </div>
-            
-        </>
+            <div className='view-details'>
+                <ThemeProvider theme={orangeTheme}>
+                    <CreateProductForm />
+                </ThemeProvider>
+                <div className="img-wrapper__empty">
+                    <div className="img-placeholder"/>
+                </div>
+            </div>
+        </div>
     )
 }
 

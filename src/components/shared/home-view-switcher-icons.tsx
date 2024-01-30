@@ -48,33 +48,33 @@ const HomeViewSwitcherIcons: FC<SwitcherProps> = ({ switchView }: SwitcherProps)
     }
 
     return (
-        <>
+        <div className='btn-group'>
             {
                 !mobileView ? 
-                <div className='btn-group'>
-                    <IconButton onClick={handleGridClick}>
-                        <GridViewIcon className={activeView === 'grid' ? 'active-icon' : ''} />
+                <>
+                    <IconButton onClick={handleGridClick} className={activeView === 'grid' ? 'active-icon' : ''}>
+                        <GridViewIcon />
                     </IconButton>
-                    <IconButton onClick={handleTableClick}>
-                        <TableRowsIcon className={activeView === 'table' ? 'active-icon' : ''}/>
+                    <IconButton onClick={handleTableClick} className={activeView === 'table' ? 'active-icon' : ''}>
+                        <TableRowsIcon />
                     </IconButton>
-                </div>
+                </>
                 : 
-                <div className='btn-group'>
+                <>
                     {
                         activeView === 'grid' ? 
-                            <IconButton onClick={handleClick}>
-                                <GridViewIcon className={activeView === 'grid' ? 'active-icon' : ''} />
+                            <IconButton onClick={handleClick} className={activeView === 'grid' ? 'active-icon' : ''}>
+                                <GridViewIcon  />
                             </IconButton>
                         :
-                            <IconButton onClick={handleClick}>
-                                <TableRowsIcon className={activeView === 'table' ? 'active-icon' : ''}/>
+                            <IconButton onClick={handleClick} className={activeView === 'table' ? 'active-icon' : ''}>
+                                <TableRowsIcon />
                             </IconButton>
                     }
-                </div>
+                </>
 
             }
-        </>
+        </div>
     );
 };
 

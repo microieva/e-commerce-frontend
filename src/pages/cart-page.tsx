@@ -14,11 +14,11 @@ const CartPage: FC = () => {
                 <div className='divider'>
                     <Divider />
                 </div>
-                <CartView /> 
-                <div className='divider'>
-                    <Divider />
+                <div className="cart-container">
+                    <CartView /> 
                 </div>
             </main>
+            <Divider className='bottom-divider' style={{width: "30%", margin: "10% auto"}}/>
             <Footer />
         </>
     ) 

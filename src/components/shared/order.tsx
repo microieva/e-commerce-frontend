@@ -33,24 +33,30 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
     const handleClose = () => {
         setOpen(false);
     }
+
+    const handleEdit = () => {
+        
+    }
     
     return (
-        <>
             <div className='order-container'>
-                <div className='view-header' style={{marginBottom:0}} onClick={()=> handleClick()}>
-                    <div style={{display: "flex", flexDirection: "column", alignItems:"flex-start"}}>
-                        {children}
-                        <p style={{color: "darkgrey", marginLeft: "4rem"}}>{uiDate}</p> 
+                <div className="order-wrapper" id={order.paid ? "hover" : ""} onClick={()=> handleClick()} style={{}}>
+                    <div>
+                        {children}   
+                        <h2 style={{color: "darkgrey"}}>
+                            total price: {uiPrice} €
+                        </h2>
                     </div>
-                    <div style={{display: "flex", flexDirection: "column", alignItems:"flex-end"}}>  
+                    <div>  
+                        <h2 style={{color: "darkgrey", fontSize:"18px"}}>{uiDate}</h2> 
                         {order && 
-                            <div className="btn-group" style={{float: "right"}}>
+                            <div className="btn-group">
                                 {!order.paid &&
                                 <>
                                     <IconButton  onClick={handleCheckout}>
                                         <PaymentIcon/>
                                     </IconButton>
-                                    <IconButton  onClick={()=> console.log('snackbar update')}>
+                                    <IconButton  onClick={handleEdit}>
                                         <EditNoteIcon/>
                                     </IconButton>
                                     <IconButton  onClick={handleDeleteOrder}>
@@ -62,14 +68,11 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
                                 </IconButton>}
                             </div>
                         }
-                         <p style={{color: "darkgrey", alignSelf: "flex-end", marginRight: "4rem"}}>
-                            total price: {uiPrice} €
-                        </p>
+                        
                     </div>
                 </div>
                 { open && <OrderItems orderId={order._id} handleClose={handleClose}/> }
             </div>
-        </>
     )
 }  
 

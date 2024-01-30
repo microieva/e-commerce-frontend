@@ -73,7 +73,7 @@ const ProductView: FC<Props> = ({ product }) => {
 
     return (
         <>
-            <div className="view-container">
+            <div className="view-wrapper">
                 <div className='view-header'>
                     <h2>{product.title.toLowerCase()}</h2>
                     <div className="btn-group">

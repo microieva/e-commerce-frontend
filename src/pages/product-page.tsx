@@ -21,14 +21,12 @@ const ProductPage: FC = () => {
                 </div>
                 {isLoading && <Loading />}
                 {data && 
-                    <>
-                        <ProductView product={data}/>
-                        <div className='divider'>
-                            <Divider />
-                        </div>
-                    </>
+                    <div className='product-container'>
+                        <ProductView product={data}/>    
+                    </div>
                 }
             </main>
+            <Divider className='bottom-divider' style={{width: "30%", margin: "10% auto"}}/>
             <Footer />
         </>
     ) 
