@@ -1,19 +1,35 @@
+// LIGHT THEME
+
 $main-font: 'Roboto', sans-serif;
 $footer-font: Arial, Helvetica, sans-serif;
 
+
+$white: white;
 $light-gray: rgb(245,245,245);
 $mid-gray: rgb(219,219,219);
-
-$light-gray-border: 1px solid $light-gray;
-$dark-gray-border: 1px solid darkgray;
-$dashed-border: 1px lightgrey dashed;
-$dotted-border: 1px darkgray dotted;
-
+$darkgray: darkgray;
 
 $light-font: rgb(121, 121, 121);
 $dark-font: rgb(61,61,61);
 
 $orange: rgb(253, 139, 51);
+
+/*$white: #09121B;
+$light-gray: #212931;
+$mid-gray: #52595f;
+$darkgray: #84888d;
+
+$light-font: rgb(121, 121, 121);
+$dark-font: #84888d;
+
+$orange: #429F42;*/
+
+$light-gray-border: 1px solid $light-gray;
+$dark-gray-border: 1px solid $darkgray;
+$dashed-border: 1px $mid-gray dashed;
+$dotted-border: 1px $darkgray dotted;
+
+
 
 $circle-radius: 50%;
 $primary-radius: 7px;
@@ -26,4 +42,8 @@ $mid-height: 16rem;
 
 $iPad-width: 1024px;
 
+// DARK THEME
+
 // dark theme base color-darkest #1F2129
+// #09121B
+

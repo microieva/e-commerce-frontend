@@ -1,10 +1,12 @@
+@import 'variables';
+
 .cart-container { // cart-container = product-container
     border-radius: $primary-radius;
     margin: auto;
     display: flex;
     flex-direction: column;
     padding: 4rem 0;
-    background-color: rgb(245, 245, 245);
+    background-color: $light-gray;
     width: 100%;
     .profile-section {
       margin: 0 2rem;
