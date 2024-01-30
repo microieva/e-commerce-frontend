@@ -145,24 +145,54 @@ const Header: FC = () => {
                             </div>
                             :
                             <>
-                                <IconButton onClick={onLogout}>
+                                <IconButton 
+                                    onClick={onLogout}
+                                    sx={{
+                                        '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
+                                            {
+                                                backgroundColor: "rgb(61,61,61, 0.2)"
+                                            }
+                                    }}
+                                >
                                     <LogoutOutlinedIcon />
                                 </IconButton> 
                                 <Link to={`/auth/profile`}>
-                                    <IconButton id="profile-icon">
+                                    <IconButton 
+                                        id="profile-icon"
+                                        sx={{
+                                            '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
+                                                {
+                                                    backgroundColor: "rgb(61,61,61, 0.2)"
+                                                }
+                                        }}
+                                    >
                                         <AccountCircleOutlinedIcon />
                                     </IconButton>
                                 </Link>    
                             </>
                         }
                         <Link to={`/`}>
-                            <IconButton>
+                            <IconButton 
+                                sx={{
+                                    '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
+                                        {
+                                            backgroundColor: "rgb(61,61,61, 0.2)"
+                                        }
+                                }}
+                            >
                                 <RoofingIcon />
                             </IconButton>
                         </Link>   
                         {loggedInUser?.role !== "ADMIN" && 
                             <Link to='/cart'>
-                                <IconButton>
+                                <IconButton
+                                    sx={{
+                                        '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
+                                            {
+                                                backgroundColor: "rgb(61,61,61, 0.2)"
+                                            }
+                                    }}
+                                >
                                     <Badge 
                                         overlap="circular" 
                                         badgeContent={amount}

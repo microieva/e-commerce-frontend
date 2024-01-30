@@ -10,6 +10,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Loading from '../shared/loading';
 import { User } from '../../@types/user';
 import { useUpdateUserMutation } from '../../redux/api-queries/user-queries';
+import Button from '../shared/button';
 
 interface Props {
     user: User
@@ -28,6 +29,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
     const [ emailError, setEmailError ] = useState<boolean>(false);
     const [ avatarError, setAvatarError ] = useState<boolean>(false);
     const [ passwordError, setPasswordError ] = useState<boolean>(false);
+    const [ isChangingPassword, setIsChangingPassword ] = useState<boolean>(false);
 
     const [ updateUser, {data, error, isLoading} ] = useUpdateUserMutation();
 
@@ -102,6 +104,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
         setEmail(user.email);
         setAvatar(user.avatar);
         setPassword(undefined);
+        setIsChangingPassword(false);
         
         setErr(false);
         setDisabled(true);
@@ -183,29 +186,33 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                         onFocus={()=> setAvatarError(false)}
                     />
                 </FormControl> 
-                <FormControl fullWidth>
-                    <TextField
-                        fullWidth
-                        variant="standard"
-                        label="Password"
-                        name="password"
-                        type="text"
-                        placeholder="**********"
-                        disabled={disabled}
-                        helperText="Password is required"
-                        onChange={(e) => setPassword(e.target.value)}
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                            visibility: passwordError ? 'visible' : 'hidden',
-                            transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                            }
-                        }}
-                        onFocus={()=> setPasswordError(false)}
-                    />
-                </FormControl> 
+                {isChangingPassword ? 
+                    <FormControl fullWidth>
+                        <TextField
+                            fullWidth
+                            variant="standard"
+                            label="Password"
+                            name="password"
+                            type="text"
+                            placeholder="**********"
+                            disabled={disabled}
+                            helperText="Password is required"
+                            onChange={(e) => setPassword(e.target.value)}
+                            sx={{
+                                '& .MuiFormHelperText-root': {
+                                visibility: passwordError ? 'visible' : 'hidden',
+                                transition: 'visibility 0.2s ease-in',
+                                },
+                                '& .MuiInputBase-root.MuiInput-root:before': { 
+                                    borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                                }
+                            }}
+                            onFocus={()=> setPasswordError(false)}
+                        />
+                    </FormControl> 
+                    :
+                    <Button width={"10rem"} disabled={disabled} text="Change Password" onClick={()=> setIsChangingPassword(true)}/>
+                }
                 <div className='btn-group'>  
                    
                         <>

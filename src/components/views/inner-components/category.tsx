@@ -10,6 +10,10 @@ interface Props {
 
 const CategoryComponent = ({category, handleDelete}: Props) => {
 
+    const handleEdit = () => {
+        
+    }
+
     return (
         <div className="category-container">
             <div style={{display: "flex", alignItems: 'center'}}>
@@ -17,7 +21,7 @@ const CategoryComponent = ({category, handleDelete}: Props) => {
                 <h2>{category.name}</h2> 
             </div>
             <div className="btn-group">
-                <IconButton  onClick={()=> console.log('snackbar update')}>
+                <IconButton  onClick={handleEdit}>
                     <EditNoteIcon/>
                 </IconButton>
                 <IconButton  onClick={()=>handleDelete(category._id)}>

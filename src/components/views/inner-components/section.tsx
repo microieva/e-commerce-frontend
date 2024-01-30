@@ -22,7 +22,7 @@ const Section: FC = () => {
                 <SearchBar onSearchInputChange={handleSearchInputChange} />
                 <HomeViewSwitcherIcons switchView={switchView}/>
             </div>
-            <div className='grid-table-container'>
+            <div className='products-container'>
                 {activeView === 'grid' && <CardsView searchWord={searchWord}/>}
                 {activeView === 'table' && <TableView searchWord={searchWord}/>}
             </div>  

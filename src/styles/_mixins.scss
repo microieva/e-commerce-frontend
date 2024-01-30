@@ -4,7 +4,6 @@
   }
 
 @mixin btn-group($height: $btn-height) {
-    width: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;

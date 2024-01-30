@@ -54,6 +54,12 @@ const CartActions: FC<CartActionsProps> = ({product, cartDisabled, children}: Ca
                 size="large" 
                 disabled={cartDisabled}
                 onClick={(e)=>addToCart(e)}
+                sx={{
+                    '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
+                        {
+                            backgroundColor: "rgb(61,61,61, 0.2)"
+                        }
+                }}
             >
                 <AddCircleOutlineIcon/>
             </IconButton>
@@ -62,6 +68,12 @@ const CartActions: FC<CartActionsProps> = ({product, cartDisabled, children}: Ca
                 size="large" 
                 onClick={removeFromCart} 
                 disabled={!isInCart || cartDisabled} 
+                sx={{
+                    '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
+                        {
+                            backgroundColor: "rgb(61,61,61, 0.2)"
+                        }
+                }}
             >
                 <DeleteOutlineIcon />
             </IconButton>
