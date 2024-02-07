@@ -1,4 +1,4 @@
-import { FC, ReactNode, createContext, useState } from 'react';
+import { FC, ReactNode, createContext } from 'react';
 import { TypeForm, TypeFormContext } from '../@types/types';
 
 export const FormContext = createContext<TypeFormContext | null>(null); 

@@ -1,0 +1,88 @@
+
+$main-font: 'Roboto', sans-serif;
+$footer-font: Arial, Helvetica, sans-serif;
+
+// light
+
+// $white: white;
+// $light-gray: rgb(245,245,245);
+// $mid-gray: rgb(219,219,219);
+// $darkgray: darkgray;
+
+// $light-font: rgb(121, 121, 121);
+// $dark-font: rgb(61,61,61);
+
+// $orange: rgb(253, 139, 51);
+
+$themes: (
+    light: (
+        // 'text': dodgerblue,
+        // 'back': whitesmoke 
+        'light-font': rgb(121, 121, 121),
+        'dark-font': rgb(61,61,61),
+        'white': white,
+        'light-gray': rgb(245,245,245),
+        'mid-gray': rgb(219,219,219),
+        'darkgray': darkgray,
+        'orange': rgb(253, 139, 51),
+
+        'light-gray-border': 1px solid rgb(245,245,245),
+        'dark-gray-border': 1px solid darkgray,
+        'dashed-border': 1px rgb(219,219,219) dashed,
+        'dotted-border': 1px darkgray dotted
+    ),
+    dark: (
+      'light-font': rgb(121, 121, 121),
+      'dark-font': #84888d,
+       'white': #272a2e,
+       'light-gray': #232629,
+       'mid-gray': #181818,
+       'darkgray': #1b1b1b,
+       'orange': #429F42,
+
+       'light-gray-border': 1px solid #232629,
+        'dark-gray-border': 1px solid #1b1b1b,
+        'dashed-border': 1px #181818 dashed,
+        'dotted-border': 1px #1b1b1b dotted
+    )
+);
+
+
+// $light-gray-border: 1px solid $light-gray;
+// $dark-gray-border: 1px solid $darkgray;
+// $dashed-border: 1px $mid-gray dashed;
+// $dotted-border: 1px $darkgray dotted;
+
+$circle-radius: 50%;
+$primary-radius: 7px;
+$secondary-radius: 4px;
+
+$btn-height: 4rem;
+$btn-width: 4rem;
+$small-height: 3rem;
+$mid-height: 16rem;
+
+$iPad-width: 1024px;
+
+// DARK THEME
+
+
+// DARK THEME:
+// header color = dark-font: #1B1B1B
+// header font-color = light-font #84888C
+
+// light-font: #84888C: header icons; searchbar colors; pagination; divider;
+// dark-font: #1B1B1B: product-card text; product-price text;
+
+/*$light-gray: #232629;
+$white: #272a2e; // +++
+$mid-gray: #181818; // footer +++
+$darkgray: #1b1b1b; // header +++
+
+$light-font: rgb(121, 121, 121);
+$dark-font: #84888d;
+
+$orange: #429F42;*/
+
+
+

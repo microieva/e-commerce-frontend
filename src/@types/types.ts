@@ -31,8 +31,7 @@ export type TypeFormContext = {
   onClose: ()=> void,
 }
 
-export type TypeUserContext = {
-  user: User | undefined,
-  onLogout: ()=> void,
-  onLogin: ()=> void
+export type TypeThemeContext = {
+  theme: 'light' | 'dark',
+  setTheme: () => void
 }

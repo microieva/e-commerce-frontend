@@ -1,5 +1,5 @@
 @import 'variables';
-@import 'mixins';
+@import 'mixins_global';
 @import 'responsive';
 
 @import 'cart-page-styles';
@@ -11,9 +11,6 @@
 
 *{
   font-family: $main-font;
-  h1, h2, div, p {
-    color: $dark-font;
-  }
 }
 #root {
   height: 100vh;
@@ -219,6 +216,7 @@ form {
   width: 8rem;
   line-height: $small-height;
   text-align: center;
+  color: #1B1B1B; // need to stay in same color $dark-font
 }
 
 .view-header {
@@ -235,9 +233,6 @@ form {
   .btn-group {
     @include btn-group(4rem);
   }
-  // &:hover { // in order component need hover effect on this header
-  //   cursor: pointer;
-  // }
 }
 
 
@@ -320,7 +315,6 @@ form {
 
 footer {
   font-family: $footer-font;
-  background-color: $mid-gray;
   height: $mid-height;
   width: 100%;
   display: flex;

@@ -1,16 +1,19 @@
 @import 'variables';
+@import '_mixins_themes';
 
-.products-container {
-    @include btn-group(3rem);
-    border-radius: $primary-radius;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    //padding: 4rem 0;
-    background-color: $light-gray;
-    width: 100%;
-    .view-wrapper {
-        width: 80%;
-        margin: 4rem 0;
+@include themed {
+    .products-container {
+        @include btn-group(3rem);
+        border-radius: $primary-radius;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        //padding: 4rem 0;
+        background-color: $light-gray;
+        width: 100%;
+        .view-wrapper {
+            width: 80%;
+            margin: 4rem 0;
+        }
     }
 }

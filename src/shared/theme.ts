@@ -1,36 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
-
-const StatRoot = styled('div', {
-  name: 'MuiStat', // The component name
-  slot: 'root', // The slot name
-})(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(0.5),
-  padding: theme.spacing(3, 4),
-  backgroundColor: theme.palette.background.paper,
-  borderRadius: theme.shape.borderRadius,
-  boxShadow: theme.shadows[2],
-  letterSpacing: '-0.025em',
-  fontWeight: 600,
-}));
-
-/*const StatValue = styled('div', {
-  name: 'MuiStat',
-  slot: 'value',
-})(({ theme }) => ({
-  ...theme.typography.h3,
-}));
-
-const StatUnit = styled('div', {
-  name: 'MuiStat',
-  slot: 'unit',
-})(({ theme }) => ({
-  ...theme.typography.body2,
-  color: theme.palette.text.secondary,
-}));*/
-
+import { useMemo } from 'react';
 
 const marineTheme = createTheme({
   components: {
@@ -97,6 +66,22 @@ const orangeTheme = createTheme({
   },
 });
 
-export { marineTheme, orangeTheme }
+/*const theme = useMemo(() =>
+createTheme({
+    palette: {
+        type: 'body',
+        background: {
+        // dark: "hsl(230, 17%, 14%)",
+        // light: "hsl(0, 0%, 100%)"
+        dark: "#272a2e",
+        light: "white"
+        }
+    }
+    }),
+[mode]
+);*/
+
+
+export { orangeTheme, marineTheme };
 
 

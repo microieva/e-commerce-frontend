@@ -1,77 +1,81 @@
 @import 'variables';
+@import '_mixins_themes';
 
-.product-form-container {
-    border-radius: $primary-radius;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 4rem 0;
-    background-color: $light-gray;
-    width: 100%;
-    .view-wrapper {
-        border: $dark-gray-border;
-        background-color: white;
-        border-radius: $primary-radius;
-        margin: auto;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        width: 70%;
-        .view-details{
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin: 0 2rem 2rem 2rem;
-            textarea {
-              background-color: transparent;
-              font-family: $main-font;
-              font-size: 1rem;
-              letter-spacing: 1px;
-              padding: 1rem 0;
-              border: none;
-              border-bottom: $dark-gray-border;
-              &:focus {
-                border: none;
-                outline: none;
-                border-bottom: 2px aquamarine solid;
-                @include hover-transition();
-              }
-              &:disabled {  
-                border: none;
-                border-bottom: $dotted-border;
-                color: darkgray;
-              }
-            }
-            .profile-details-text {
-              margin: auto 0;
-              span {
-                color: darkgray;
-              }
-            }
-            .img-wrapper {
-              padding-left: 4rem;
-        
+@include themed {
+  .product-form-container {
+      border-radius: $primary-radius;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 4rem 0;
+      background-color: $light-gray;
+      width: 100%;
+      .view-wrapper {
+          border: $dark-gray-border;
+          background-color: $white;
+          border-radius: $primary-radius;
+          margin: auto;
+          padding: 1rem;
+          display: flex;
+          flex-direction: column;
+          width: 70%;
+          .view-details{
               display: flex;
-              justify-content: space-between;
+              justify-content: space-around;
               align-items: center;
-              & img {
-                width: 25rem;
-                height: 25rem;
-                border-radius: $circle-radius;
-                object-fit: cover;
+              margin: 0 2rem 2rem 2rem;
+              textarea {
+                background-color: transparent;
+                font-family: $main-font;
+                font-size: 1rem;
+                letter-spacing: 1px;
+                padding: 1rem 0;
+                border: none;
+                border-bottom: $dark-gray-border;
+                &:focus {
+                  border: none;
+                  outline: none;
+                  border-bottom: 2px $orange solid;
+                  @include hover-transition();
+                }
+                &:disabled {  
+                  border: none;
+                  border-bottom: $dotted-border;
+                  color: $darkgray;
+                }
               }
-              &img::before {
-                content: '';
-                display: block;
-                padding-bottom: 100%;
+              .profile-details-text {
+                margin: auto 0;
+                span {
+                  color: $darkgray;
+                }
               }
-              &__empty{
-                border: $dashed-border;
-                width: 25rem;
-                height: 25rem;
-                border-radius: $circle-radius;
+              .img-wrapper {
+                padding-left: 4rem;
+          
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                & img {
+                  width: 25rem;
+                  height: 25rem;
+                  border-radius: $circle-radius;
+                  object-fit: cover;
+                }
+                &img::before {
+                  content: '';
+                  display: block;
+                  padding-bottom: 100%;
+                }
+                &__empty{
+                  border: $dashed-border;
+                  width: 25rem;
+                  height: 25rem;
+                  border-radius: $circle-radius;
+                }
               }
             }
-          }
-    }
+      }
+  }
+
 }

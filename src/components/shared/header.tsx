@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 
 import { IconButton, ThemeProvider, Backdrop, Dialog, Badge, FormGroup, FormControlLabel } from '@mui/material';
-import Switch, { SwitchProps } from '@mui/material/Switch';
+import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import RoofingIcon from '@mui/icons-material/Roofing';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -13,18 +13,21 @@ import Menu from '@mui/material/Menu';
 
 import { orangeTheme } from '../../shared/theme';
 import { useAppSelector } from '../../hooks/useAppSelector';
+//import { useThemeToggle } from '../../hooks/useTheme';
 import FormProvider from '../../contexts/form';
 
 import Button from './button';
 import FormSwitcher from '../views/inner-components/form-switcher';
-import { TypeForm } from '../../@types/types';
+import { TypeForm, TypeThemeContext } from '../../@types/types';
 import { User } from '../../@types/user';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
+import {ThemeContext} from '../../contexts/theme';
 
 
 const Header: FC = () => {
     const [state, setState] = useState({mobileView: false});
+    //const { theme, toggleTheme } = useTheme();
     const { mobileView } = state;
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
@@ -38,6 +41,13 @@ const Header: FC = () => {
     const amount = cart.reduce((curr, item) => curr + item.quantity, 0);
     const navigate = useNavigate();
 
+    const { theme, setTheme } = useContext(ThemeContext);
+
+  const handleThemeChange = () => {
+    const isCurrentDark = theme === 'dark';
+    setTheme(isCurrentDark ? 'light' : 'dark');
+    localStorage.setItem('default-theme', isCurrentDark ? 'light' : 'dark');
+  };
 
     const handleOpen = (form: TypeForm) => {
         setOpen(true);
@@ -139,7 +149,7 @@ const Header: FC = () => {
         <header>
              <FormGroup>
                 <FormControlLabel
-                    control={<MaterialUISwitch sx={{ m: 4 }} defaultChecked />}
+                    control={<MaterialUISwitch sx={{ m: 4 }} checked={theme === 'light'} onChange={handleThemeChange}/>}
                     label=""
                 />
             </FormGroup>
