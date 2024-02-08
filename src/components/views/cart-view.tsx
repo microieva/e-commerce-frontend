@@ -21,7 +21,7 @@ import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import Loading from '../shared/loading';
 import { formatUiPrice } from '../../shared/formatUiPrice';
 import Alert from '../shared/alert';
-import { marineTheme } from '../../shared/theme';
+import { lightTheme } from '../../shared/theme';
 import { TypeForm } from '../../@types/types';
 import FormProvider from '../../contexts/form';
 import FormSwitcher from './inner-components/form-switcher';
@@ -200,7 +200,7 @@ const CartView = () => {
             }
             { showAlert &&
                 <>
-                    <ThemeProvider theme={marineTheme}>
+                    <ThemeProvider theme={lightTheme}>
                             <Dialog fullWidth open={showAlert} onClose={handleClose} >
                                 <Alert 
                                     text={'signup or login to order'}
@@ -214,7 +214,7 @@ const CartView = () => {
                 </>
             }
             <>
-                <ThemeProvider theme={marineTheme}>
+                <ThemeProvider theme={lightTheme}>
                     <FormProvider form={form} onClose={handleClose}>
                         <Dialog fullWidth open={openForm} onClose={handleClose} >
                             <FormSwitcher />

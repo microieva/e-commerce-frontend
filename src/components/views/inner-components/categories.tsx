@@ -7,7 +7,7 @@ import { useDeleteCategoriesMutation, useDeleteCategoryMutation } from '../../..
 import CategoryComponent from './category';
 import { Category } from '../../../@types/product';
 import CreateCategoryForm from '../../forms/create-category-form';
-import { marineTheme, orangeTheme } from '../../../shared/theme';
+import { lightTheme } from '../../../shared/theme';
 import Alert from '../../shared/alert';
 
 interface Props {
@@ -79,7 +79,7 @@ const Categories = ({ categories }: Props) => {
                                 </div> 
                             </div>
                                 { open && 
-                                    <ThemeProvider theme={orangeTheme}>
+                                    <ThemeProvider theme={lightTheme}>
                                         <CreateCategoryForm handleCancel={handleCancel}/>
                                     </ThemeProvider>
                                 }
@@ -97,7 +97,7 @@ const Categories = ({ categories }: Props) => {
                 }
                 { isDeleting &&
                     <>
-                        <ThemeProvider theme={marineTheme}>
+                        <ThemeProvider theme={lightTheme}>
                                 <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                     <Alert 
                                         text={`are you sure you want to delete all categories from the system permanently?`}

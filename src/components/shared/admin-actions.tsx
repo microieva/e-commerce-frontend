@@ -9,7 +9,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useDeleteProductMutation } from '../../redux/api-queries/product-queries';
 import { Backdrop, Dialog, ThemeProvider } from '@mui/material';
 import Alert from './alert';
-import { marineTheme } from '../../shared/theme';
+import { lightTheme } from '../../shared/theme';
 import Loading from './loading';
 
 interface Props {
@@ -82,7 +82,7 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
             </div>
             { isDeleting &&
                 <>
-                    <ThemeProvider theme={marineTheme}>
+                    <ThemeProvider theme={lightTheme}>
                             <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                 <Alert 
                                     text={`delete product "${product.title}" permanently?`}

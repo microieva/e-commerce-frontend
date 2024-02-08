@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { IconButton, ThemeProvider } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import CreateProductForm from '../forms/create-product-form';
-import { orangeTheme } from '../../shared/theme';
+import { lightTheme } from '../../shared/theme';
 
 const ProductFormView: FC = () => {  
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
@@ -33,7 +33,7 @@ const ProductFormView: FC = () => {
                 </div>
             </div>
             <div className='view-details'>
-                <ThemeProvider theme={orangeTheme}>
+                <ThemeProvider theme={lightTheme}>
                     <CreateProductForm />
                 </ThemeProvider>
                 <div className="img-wrapper__empty">

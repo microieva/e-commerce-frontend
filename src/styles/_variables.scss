@@ -26,10 +26,10 @@ $themes: (
         'darkgray': darkgray,
         'orange': rgb(253, 139, 51),
 
-        'light-gray-border': 1px solid rgb(245,245,245),
-        'dark-gray-border': 1px solid darkgray,
-        'dashed-border': 1px rgb(219,219,219) dashed,
-        'dotted-border': 1px darkgray dotted
+        // 'light-gray-border': 1px solid rgb(245,245,245),
+        // 'dark-gray-border': 1px solid darkgray,
+        // 'dashed-border': 1px rgb(219,219,219) dashed,
+        // 'dotted-border': 1px darkgray dotted
     ),
     dark: (
       'light-font': rgb(121, 121, 121),
@@ -40,10 +40,10 @@ $themes: (
        'darkgray': #1b1b1b,
        'orange': #429F42,
 
-       'light-gray-border': 1px solid #232629,
-        'dark-gray-border': 1px solid #1b1b1b,
-        'dashed-border': 1px #181818 dashed,
-        'dotted-border': 1px #1b1b1b dotted
+    //    'light-gray-border': 1px solid #232629,
+    //     'dark-gray-border': 1px solid #1b1b1b,
+    //     'dashed-border': 1px #181818 dashed,
+    //     'dotted-border': 1px #1b1b1b dotted
     )
 );
 

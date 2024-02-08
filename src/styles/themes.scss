@@ -1,20 +1,18 @@
-  //CHANGE to dark-theme values
-
-  @import 'variables';
-  @import '_mixins_themes';
-  @import 'responsive';
-
-  // need these ???????
-  //  @import 'cart-page-styles';
-  //  @import 'product-page-styles';
-  //  @import 'profile-page-styles';
-  //  @import 'product-form-page-styles';
-  //  @import 'home-page-styles';
+@import 'variables';
+@import '_mixins_themes';
+@import 'responsive';
 
 @include themed {
   *{
     h1, h2, div, p {
       color: $dark-font;
+    }
+  }
+  svg {
+    color: $light-font;
+    &:hover {
+      cursor: pointer;
+      color: inherit;
     }
   }
 
@@ -27,7 +25,6 @@
   }
 
   header {
-    border: $dark-gray-border;
     background-color: $darkgray;
     .btn-group {
       span.MuiBadge-badge {
@@ -38,29 +35,28 @@
       svg {
         height: $small-height;
         width: 3rem;
-        color: $mid-gray;
-        
-        &:hover {
-          cursor: pointer;
-          color: $light-gray;
-        }
+        //color: $mid-gray;
       }
     }
+    
   }
 
   .btn {
-  background-color: $light-gray;
-  border: none;
+    background-color: darkgray;
+    border: none;
   }
   .btn:not(#btn-disabled):hover{
-      color: $light-gray;
-      border: $light-gray-border;
-      background-color: $darkgray;
+      //color: $light-font;
+      //border: $light-gray-border;
+      background-color: $mid-gray;
   }
 
     form {
       & .MuiInputBase-input.MuiInput-input.Mui-disabled{
         -webkit-text-fill-color: $dark-font;
+      }
+      svg {
+        color: $light-font;
       }
     }
 
@@ -68,8 +64,7 @@
       form {
         background-color: transparent;
         & input::placeholder{
-          color: rgb(150, 150, 150);
-          color: $mid-gray;
+          color: $dark-font;
         }
       }
       .btn-group {
@@ -86,13 +81,8 @@
       background-color: $light-gray;
     }
 
-    .card-wrapper {
+    .card-wrapper:hover {
       border: $light-gray-border;
-      //box-shadow: inset 0 -4rem 60px rgb(245, 245, 245);
-      img {
-        // -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(245, 245, 245, 0));
-        // mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0));
-      }
     }
     .product-price {
       background-color: $orange;
@@ -101,6 +91,7 @@
 
     .order-container {
       background-color: $white;
+      border: $dark-gray-border;
     }
 
     .category-container {

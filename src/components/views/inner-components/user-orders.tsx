@@ -7,7 +7,7 @@ import { Order } from '../../../@types/cart';
 import OrderComponent from '../../shared/order';
 import { useDeleteOrderMutation, useDeleteUserOrdersMutation } from '../../../redux/api-queries/order-queries';
 import Alert from '../../shared/alert';
-import { marineTheme } from '../../../shared/theme';
+import { lightTheme } from '../../../shared/theme';
 import { useGetUserQuery } from '../../../redux/api-queries/auth-queries';
 
 interface Props {
@@ -85,7 +85,7 @@ const UserDetails = ({ orders }: Props) => {
                 </>}
                 { isDeleting &&
                     <>
-                        <ThemeProvider theme={marineTheme}>
+                        <ThemeProvider theme={lightTheme}>
                                 <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                     <Alert 
                                         text={`are you sure you want to delete all orders from the system permanently?`}

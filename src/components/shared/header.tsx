@@ -11,14 +11,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-import { orangeTheme } from '../../shared/theme';
+import { lightTheme } from '../../shared/theme';
 import { useAppSelector } from '../../hooks/useAppSelector';
-//import { useThemeToggle } from '../../hooks/useTheme';
 import FormProvider from '../../contexts/form';
 
 import Button from './button';
 import FormSwitcher from '../views/inner-components/form-switcher';
-import { TypeForm, TypeThemeContext } from '../../@types/types';
+import { TypeForm } from '../../@types/types';
 import { User } from '../../@types/user';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
@@ -27,7 +26,6 @@ import {ThemeContext} from '../../contexts/theme';
 
 const Header: FC = () => {
     const [state, setState] = useState({mobileView: false});
-    //const { theme, toggleTheme } = useTheme();
     const { mobileView } = state;
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
@@ -273,7 +271,7 @@ const Header: FC = () => {
                     </div>
                 }
             </div>
-            <ThemeProvider theme={orangeTheme}>
+            <ThemeProvider theme={lightTheme}>
                 <FormProvider form={form} onClose={handleClose}>
                     <Dialog fullWidth open={open} onClose={handleClose} >
                         <FormSwitcher />

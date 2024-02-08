@@ -27,8 +27,8 @@
         $darkgray: themed('darkgray') !global;
         $orange:  themed('orange') !global;
 
-        $light-gray-border: 1px solid themed('light-gray') !global;
-        $dark-gray-border: 1px solid themed('darkgray') !global;
+        $light-gray-border: 1px solid themed('light-font') !global;
+        $dark-gray-border: 1px solid themed('dark-font') !global;
         $dashed-border: 1px dashed themed('mid-gray') !global;
         $dotted-border: 1px dotted themed('darkgray') !global;
         @content;

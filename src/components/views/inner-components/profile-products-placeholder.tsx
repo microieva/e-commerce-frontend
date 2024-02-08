@@ -4,7 +4,7 @@ import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Outlet, useNavigate } from "react-router-dom"
 import Alert from "../../shared/alert";
-import { marineTheme } from "../../../shared/theme";
+import { lightTheme } from "../../../shared/theme";
 import { useDeleteProductsMutation } from "../../../redux/api-queries/product-queries";
 
 export const ProfileProductsPlaceholder: FC = () => {
@@ -44,7 +44,7 @@ export const ProfileProductsPlaceholder: FC = () => {
             </div> 
             { isDeleting &&
                 <>
-                    <ThemeProvider theme={marineTheme}>
+                    <ThemeProvider theme={lightTheme}>
                             <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                 <Alert 
                                     text={`are you sure you want to delete all products permanently?`}

@@ -6,7 +6,7 @@ import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDeleteProductMutation } from '../../redux/api-queries/product-queries';
-import { marineTheme, orangeTheme } from '../../shared/theme';
+import { lightTheme } from '../../shared/theme';
 
 import UpdateProductForm from '../forms/update-product-form';
 import CartActions from '../shared/cart-actions';
@@ -103,7 +103,7 @@ const ProductView: FC<Props> = ({ product }) => {
                     </div>
                 </div>
                 <div className='view-details'>
-                    <ThemeProvider theme={orangeTheme}>
+                    <ThemeProvider theme={lightTheme}>
                         {product && <UpdateProductForm product={product} admin={admin}/>}
                     </ThemeProvider>
                     <div className="img-wrapper">
@@ -113,7 +113,7 @@ const ProductView: FC<Props> = ({ product }) => {
             </div>
             { isDeleting &&
                 <>
-                    <ThemeProvider theme={marineTheme}>
+                    <ThemeProvider theme={lightTheme}>
                             <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                 <Alert 
                                     text={`delete product "${product.title}" permanently?`}
