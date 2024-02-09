@@ -69,6 +69,11 @@ header {
     width: 100%;
   }
 }
+button:disabled {
+  svg {
+    opacity:0.4;
+  }
+}
 
 .btn{
   height: $small-height;
@@ -99,7 +104,7 @@ form {
     height: $small-height;
   }
   .btn-group {
-    @include btn-group(3rem);
+    @include btn-group(2.85rem);
     width: 9rem;
     margin: auto;
     justify-content: space-around;

@@ -1,5 +1,4 @@
 import PaymentIcon from '@mui/icons-material/Payment';
-import EditNoteIcon from '@mui/icons-material/EditNote';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { IconButton } from '@mui/material';
@@ -33,10 +32,6 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
     const handleClose = () => {
         setOpen(false);
     }
-
-    const handleEdit = () => {
-        
-    }
     
     return (
             <div className='order-container'>
@@ -55,9 +50,6 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
                                 <>
                                     <IconButton  onClick={handleCheckout}>
                                         <PaymentIcon/>
-                                    </IconButton>
-                                    <IconButton  onClick={handleEdit}>
-                                        <EditNoteIcon/>
                                     </IconButton>
                                     <IconButton  onClick={handleDeleteOrder}>
                                         <RemoveShoppingCartIcon/>

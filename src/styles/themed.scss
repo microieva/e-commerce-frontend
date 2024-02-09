@@ -7,10 +7,10 @@
   h1, h2 {
     color: $dark-font;
   }
-  span, p, a, #select{
+  p, a, #select{
     color: $light-font;
   }
-  svg, .btn {
+  span, svg, .btn {
     color: $light-font;
     &:not(:disabled):hover {
       cursor: pointer;
@@ -20,7 +20,6 @@
   body {
     background-color: $white;
   }
-
   .app-container {
     background-color: $white;
   }

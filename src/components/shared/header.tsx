@@ -223,7 +223,7 @@ const Header: FC = () => {
                             <Link to='/cart'>
                                 <IconButton
                                     sx={{
-                                        '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
+                                        '&.MuiButtonBase-root.MuiIconButton-root:hover': 
                                             {
                                                 backgroundColor: "rgb(61,61,61, 0.2)"
                                             }
@@ -232,9 +232,6 @@ const Header: FC = () => {
                                     <Badge 
                                         overlap="circular" 
                                         badgeContent={amount}
-                                        // sx={{
-                                        //     "&.css-z5pebr-MuiBadge-badge": {backgroundColor: "orange"}
-                                        // }}
                                     >
                                         <ShoppingCartOutlinedIcon />
                                     </Badge>

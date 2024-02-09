@@ -5,15 +5,6 @@ export const getThemePalette = (mode: PaletteMode) => ({
   ...(mode === 'light' ? 
   {
     components: {
-      MuiButtonBase: {
-        styleOverrides: {
-          root: {
-            '& .MuiButtonBase-root.MuiIconButton-root.Mui-disabled': {
-                color: 'red'
-            }
-          }
-        }
-      },
       MuiTable: {
         styleOverrides: {
           root: {
@@ -30,10 +21,7 @@ export const getThemePalette = (mode: PaletteMode) => ({
         styleOverrides: {
           root: {
             '& svg': {
-              color: 'rgb(133, 133, 133)',
-              '&:disabled': {
-                color: 'red'
-              }
+              color: 'rgb(133, 133, 133)'
             },
             '& .MuiToolbar-root': {
               backgroundColor: 'white'
@@ -47,16 +35,13 @@ export const getThemePalette = (mode: PaletteMode) => ({
       MuiPaper: {
         styleOverrides: {
           root: {
-            '& .MuiPaper-root': {
-              backgroundColor: '#272a2e',
+            '&.MuiPaper-root:not(.MuiDialog-paper)': {
+              backgroundColor: 'rgba(255, 255, 255, 0.08)',
               backgroundImage:'none',
-              border: '1px solid rgb(61,61,61)',
-              '& :hover': {
+              border: '1px solid rgb(61, 61, 61)',
+              '&:hover': {
                 backgroundColor: 'rgba(0, 0, 0, 0.04)'
               }
-            },
-            '& form .MuiPaper-root:hover': {
-              backgroundColor: 'rgba(0, 0, 0, 0.04)'
             }
           }
         }
@@ -64,6 +49,9 @@ export const getThemePalette = (mode: PaletteMode) => ({
       MuiFormControl: {
         styleOverrides: {
           root: {
+            '& .MuiInputLabel-root': {
+              color: 'rgb(61,61,61)'
+            },
             '& .MuiInputLabel-root.Mui-focused': {
               color: 'orange'
             },
@@ -74,7 +62,7 @@ export const getThemePalette = (mode: PaletteMode) => ({
               color: 'rgb(253, 139, 51)'
             },
             '& .MuiFormControl-root.MuiTextField-root .MuiInputBase-root.MuiInput-root:before': {
-              borderBottom: '1px darkgrey solid'
+              borderBottom: '1px rgb(61,61,61) solid'
             }
           }
         },
@@ -94,10 +82,22 @@ export const getThemePalette = (mode: PaletteMode) => ({
   : 
   {
     components: {
+      MuiButtonBase: {
+        styleOverrides: {
+          root: {
+            '& .MuiButtonBase-root.MuiIconButton-root:not(svg):hover ': {
+              backgroundColor: 'rgb(163 163 163 / 30%)'
+            },
+            '& .Mui-disabled': {
+              color:'red'
+            }
+          }
+        }
+      },
       MuiPaper: {
         styleOverrides: {
           root: {
-            '&.MuiPaper-root': {
+            '&.MuiPaper-root:not(.MuiDialog-paper)': {
               backgroundColor: '#272a2e',
               backgroundImage:'none',
               border: '1px solid #84888d',
@@ -145,7 +145,7 @@ export const getThemePalette = (mode: PaletteMode) => ({
               color: 'rgb(253, 139, 51)'
             },
             '& .MuiFormControl-root.MuiTextField-root .MuiInputBase-root.MuiInput-root:before': {
-              borderBottom: '2px #84888d solid'
+              borderBottom: '1px #84888d solid'
             }
           }
         },
