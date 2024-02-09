@@ -112,7 +112,7 @@ const MuiTable = ({ data }: Props) => {
                                                     <TableCell  key={`${i}`} align={column.align}>
                                                         <Link  
                                                             key={`${i}-${column.id}`}  
-                                                            style={{textDecoration: "none", color: "black"}} 
+                                                            style={{textDecoration: "none"}} 
                                                             to={`/products/${row._id}`}
                                                         >
                                                             { value }

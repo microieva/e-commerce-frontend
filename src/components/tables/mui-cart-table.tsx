@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 
 import CartActions from '../shared/cart-actions';
-import { CustomCartTableHead } from './custom-table-head';
+import { CustomTableHead } from './custom-table-head';
 import { CartColumn } from '../../@types/table';
 import { CartItem } from '../../@types/cart';
 
@@ -76,7 +76,7 @@ const MuiTable = ({ data, disabled }: Props) => {
         <Paper sx={{  overflow: 'hidden', boxShadow:"none", border: "1px solid darkgray", borderRadius:"7px"}}>
             <TableContainer sx={{ maxHeight: "40rem" }}>
                 <Table stickyHeader aria-label="sticky table">
-                    <CustomCartTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
+                    <CustomTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
                         <TableRow>
                             {columns.map((column: CartColumn, i) => (
                                 <TableCell
@@ -89,7 +89,7 @@ const MuiTable = ({ data, disabled }: Props) => {
                             ))}
                                 <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
                             </TableRow>
-                        </CustomCartTableHead>
+                        </CustomTableHead>
                         <TableBody sx={{ "& tbody": {height: ""}}}>
                         { rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -115,7 +115,7 @@ const MuiTable = ({ data, disabled }: Props) => {
                                                     <TableCell  key={`${i}`} align={column.align}>
                                                         <Link  
                                                             key={`${i}-${column.id}`}  
-                                                            style={{textDecoration: "none", color: "black"}} 
+                                                            style={{textDecoration: "none"}} 
                                                             to={`/products/${row._id}`}
                                                         >
                                                             { value }

@@ -1,15 +1,16 @@
-import { FC, useState, MouseEvent } from "react"
+import { FC, useState, MouseEvent, useContext } from "react"
 import { Backdrop, Dialog, Divider, IconButton, ThemeProvider } from "@mui/material"
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Outlet, useNavigate } from "react-router-dom"
 import Alert from "../../shared/alert";
-import { lightTheme } from "../../../shared/theme";
 import { useDeleteProductsMutation } from "../../../redux/api-queries/product-queries";
+import { ThemeContext } from "../../../contexts/theme";
 
 export const ProfileProductsPlaceholder: FC = () => {
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const [ deleteProducts, { data, error, isLoading}] = useDeleteProductsMutation();
+    const { theme } = useContext(ThemeContext);
     
     const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ export const ProfileProductsPlaceholder: FC = () => {
             </div> 
             { isDeleting &&
                 <>
-                    <ThemeProvider theme={lightTheme}>
+                    <ThemeProvider theme={theme}>
                             <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                 <Alert 
                                     text={`are you sure you want to delete all products permanently?`}

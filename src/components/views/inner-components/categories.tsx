@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useContext } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Backdrop, Dialog, Divider, IconButton, ThemeProvider } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -7,7 +7,7 @@ import { useDeleteCategoriesMutation, useDeleteCategoryMutation } from '../../..
 import CategoryComponent from './category';
 import { Category } from '../../../@types/product';
 import CreateCategoryForm from '../../forms/create-category-form';
-import { lightTheme } from '../../../shared/theme';
+import {ThemeContext} from '../../../contexts/theme';
 import Alert from '../../shared/alert';
 
 interface Props {
@@ -23,6 +23,7 @@ const Categories = ({ categories }: Props) => {
     const navigate = useNavigate();
     const [ open, setOpen ] = useState<boolean>(false);
     const [ disabled, setDisabled ] = useState<boolean>(false);
+    const { theme } = useContext(ThemeContext);
 
     const handleDeleteCategory = async (categoryId: string) => {
         if (categoryId) {       
@@ -79,7 +80,7 @@ const Categories = ({ categories }: Props) => {
                                 </div> 
                             </div>
                                 { open && 
-                                    <ThemeProvider theme={lightTheme}>
+                                    <ThemeProvider theme={theme}>
                                         <CreateCategoryForm handleCancel={handleCancel}/>
                                     </ThemeProvider>
                                 }
@@ -97,7 +98,7 @@ const Categories = ({ categories }: Props) => {
                 }
                 { isDeleting &&
                     <>
-                        <ThemeProvider theme={lightTheme}>
+                        <ThemeProvider theme={theme}>
                                 <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                     <Alert 
                                         text={`are you sure you want to delete all categories from the system permanently?`}

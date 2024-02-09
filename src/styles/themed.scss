@@ -3,19 +3,20 @@
 @import 'responsive';
 
 @include themed {
-  *{
-    h1, h2, div, p {
-      color: $dark-font;
-    }
+
+  h1, h2 {
+    color: $dark-font;
   }
-  svg {
+  span, p, a, #select{
     color: $light-font;
-    &:hover {
+  }
+  svg, .btn {
+    color: $light-font;
+    &:not(:disabled):hover {
       cursor: pointer;
       color: inherit;
     }
   }
-
   body {
     background-color: $white;
   }
@@ -26,6 +27,9 @@
 
   header {
     background-color: $darkgray;
+    .btn {
+      color: $dark-font;
+    }
     .btn-group {
       span.MuiBadge-badge {
         background-color: $orange;
@@ -35,20 +39,18 @@
       svg {
         height: $small-height;
         width: 3rem;
-        //color: $mid-gray;
       }
     }
     
   }
 
   .btn {
-    background-color: darkgray;
+    background-color: rgb(61,61,61, 0.2);
     border: none;
+    color: $light-font;
   }
   .btn:not(#btn-disabled):hover{
-      //color: $light-font;
-      //border: $light-gray-border;
-      background-color: $mid-gray;
+      background-color: rgb(61,61,61, 0.2); // header icon hover
   }
 
     form {
@@ -62,7 +64,6 @@
 
     .utilities-container {
       form {
-        background-color: transparent;
         & input::placeholder{
           color: $dark-font;
         }
@@ -80,13 +81,16 @@
     .cards-container {
       background-color: $light-gray;
     }
-
+    .card-content {
+      p, svg{
+        color: $dark-font;
+      }
+    }
     .card-wrapper:hover {
       border: $light-gray-border;
     }
     .product-price {
       background-color: $orange;
-      //color: #1B1B1B;  dark-theme
     }
 
     .order-container {

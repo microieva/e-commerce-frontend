@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, MouseEvent } from 'react';
+import { FC, useEffect, useState, MouseEvent, useContext } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Backdrop, Dialog, IconButton, ThemeProvider } from '@mui/material';
@@ -6,7 +6,6 @@ import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDeleteProductMutation } from '../../redux/api-queries/product-queries';
-import { lightTheme } from '../../shared/theme';
 
 import UpdateProductForm from '../forms/update-product-form';
 import CartActions from '../shared/cart-actions';
@@ -15,6 +14,7 @@ import { Product } from '../../@types/product';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import Alert from '../shared/alert';
 import Loading from '../shared/loading';
+import { ThemeContext } from '../../contexts/theme';
 
 
 interface Props {
@@ -28,6 +28,7 @@ const ProductView: FC<Props> = ({ product }) => {
     
     const [ admin, setAdmin ] = useState<boolean>(false);
     const [ deleteProduct, { data, error, isLoading } ] = useDeleteProductMutation();
+    const { theme } = useContext(ThemeContext);
     const navigate = useNavigate();
 
     const handleClose = () => {
@@ -103,7 +104,7 @@ const ProductView: FC<Props> = ({ product }) => {
                     </div>
                 </div>
                 <div className='view-details'>
-                    <ThemeProvider theme={lightTheme}>
+                    <ThemeProvider theme={theme}>
                         {product && <UpdateProductForm product={product} admin={admin}/>}
                     </ThemeProvider>
                     <div className="img-wrapper">
@@ -113,7 +114,7 @@ const ProductView: FC<Props> = ({ product }) => {
             </div>
             { isDeleting &&
                 <>
-                    <ThemeProvider theme={lightTheme}>
+                    <ThemeProvider theme={theme}>
                             <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                 <Alert 
                                     text={`delete product "${product.title}" permanently?`}

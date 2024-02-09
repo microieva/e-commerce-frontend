@@ -1,5 +1,5 @@
 
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useContext } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Backdrop, Dialog, Divider, IconButton, ThemeProvider } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -7,7 +7,7 @@ import { Order } from '../../../@types/cart';
 import OrderComponent from '../../shared/order';
 import { useDeleteOrderMutation, useDeleteOrdersMutation } from '../../../redux/api-queries/order-queries';
 import Alert from '../../shared/alert';
-import { lightTheme } from '../../../shared/theme';
+import { ThemeContext } from '../../../contexts/theme';
 
 interface Props {
     orders: Order[],
@@ -19,6 +19,7 @@ const AdminOrders = ({ orders }: Props) => {
     const [ deleteOrders, { data: deleteAllOrdersData, error: deleteAllOrdersError, isLoading}] = useDeleteOrdersMutation();
     const [ deleteOrder, { data, error }] = useDeleteOrderMutation();
     const [ lastOrder, setLastOrder ] = useState<boolean>(false);
+    const { theme } = useContext(ThemeContext);
     const navigate = useNavigate();
 
     const handleDeleteOrder = async (orderId: string) => {
@@ -77,7 +78,7 @@ const AdminOrders = ({ orders }: Props) => {
                 </>}
                 { isDeleting &&
                     <>
-                        <ThemeProvider theme={lightTheme}>
+                        <ThemeProvider theme={theme}>
                                 <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                                     <Alert 
                                         text={`are you sure you want to delete all orders from the system permanently?`}

@@ -1,28 +1,25 @@
+
 import { styled } from '@mui/material/styles';
 import TableHead from '@mui/material/TableHead';
 
-const CustomProductsTableHead = styled(TableHead)(({ theme }) => ({
+const CustomTableHead = styled(TableHead)(({ theme }) => ({
   "& th": {
-    backgroundColor: 'rgb(253, 139, 51)',
-    fontSize: "16px",
-    borderBottom: "1px solid black"
-  },
-}));
-
-const CustomCartTableHead = styled(TableHead)(({ theme }) => ({
-  "& th": {
-    backgroundColor: 'rgb(253, 139, 51)',
+    backgroundColor: theme.palette.mode === 'light' ? 'rgb(253, 139, 51)' : '#429F42',
+    color: 'black',
     fontSize: "16px",
     borderBottom: "1px solid black",
+    fontWeight:'900'
   },
 }));
 
 const CustomOrderItemsTableHead = styled(TableHead)(({ theme }) => ({
   "& th": {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: theme.palette.mode === 'light' ? '#e0e0e0' : '#84888d',
     fontSize: "16px",
     borderBottom: "1px solid black",
+    color: 'black',
+    fontWeight:'900'
   },
 }));
 
-export { CustomProductsTableHead, CustomCartTableHead, CustomOrderItemsTableHead };
+export { CustomTableHead, CustomOrderItemsTableHead };

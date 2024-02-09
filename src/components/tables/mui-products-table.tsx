@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { visuallyHidden } from '@mui/utils';
@@ -14,7 +14,7 @@ import {
     Box
 } from '@mui/material';
 
-import { CustomProductsTableHead } from './custom-table-head';
+import { CustomTableHead } from './custom-table-head';
 import { getSorted } from '../../redux/selectors/getSorted';
 import CartActions from '../shared/cart-actions';
 import { Product } from '../../@types/product';
@@ -107,7 +107,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
         <Paper sx={{ width: 'inherit', overflow: 'hidden', margin: "auto", boxShadow:"none", border: "1px solid darkgray", borderRadius:"7px"}}>
             <TableContainer sx={{ maxHeight: "40rem" }}>
                 <Table stickyHeader aria-label="sticky table">
-                    <CustomProductsTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
+                    <CustomTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
                         <TableRow>
                             {columns.map((column: TableColumn) => (
                                 <TableCell
@@ -132,7 +132,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                 ))}
                                 <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
                             </TableRow>
-                        </CustomProductsTableHead>
+                        </CustomTableHead>
                         <TableBody sx={{ "& tbody": {height: ""}}}>
                         { rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -154,7 +154,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                         const value = column.render ? column.render(row) : row[column.id].toString();
                                         return (
                                             <TableCell key={column.id} align={column.align}>
-                                                <Link style={{textDecoration: "none", color: "black"}} to={`/products/${row._id}`}>
+                                                <Link style={{textDecoration: "none" }} to={`/products/${row._id}`}>
                                                     {value}
                                                 </Link>
                                             </TableCell>    

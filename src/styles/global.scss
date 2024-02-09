@@ -50,28 +50,23 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  .header-group {
+  padding: 0 1rem;
+  .btn-group {
+    @include btn-group(4rem);
     display: flex;
     align-items: center;
-    .btn {
-      margin: 0 1rem;
+    button {
+      margin-left: 0.4rem;
+    }
+    .btn { 
+      border-radius: $circle-radius;
+      font-size: 21px;
     }
   }
   h2 {
     letter-spacing: 2px;
     margin: 0 1rem;
     width: 100%;
-  }
-  .btn-group {
-    margin-right: 1rem;
-    @include btn-group();
-    svg {
-      height: $small-height;
-      width: 3rem;    
-      &:hover {
-        cursor: pointer;
-      }
-    }
   }
 }
 
@@ -80,6 +75,7 @@ header {
   border-radius: $secondary-radius;
   letter-spacing: 1px;
   font-size: 16px;
+  font-weight: 900;
 }
 .btn:not(#btn-disabled):hover{
   cursor: pointer;
@@ -170,7 +166,7 @@ form {
     width: inherit;
     z-index: -1;
     position: absolute;
-    opacity: 0.6;
+    opacity: 0.5;
     object-fit: cover;
   }
 
