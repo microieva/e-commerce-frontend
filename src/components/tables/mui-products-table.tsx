@@ -150,10 +150,10 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                             }
                                         }}
                                     >    
-                                    {columns.map((column: TableColumn) => {
+                                    {columns.map((column: TableColumn, i) => {
                                         const value = column.render ? column.render(row) : row[column.id].toString();
                                         return (
-                                            <TableCell key={column.id} align={column.align}>
+                                            <TableCell key={i+column.id} align={column.align}>
                                                 <Link style={{textDecoration: "none" }} to={`/products/${row._id}`}>
                                                     {value}
                                                 </Link>

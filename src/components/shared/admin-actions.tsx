@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent, useContext } from 'react';
+import { FC, useState, MouseEvent } from 'react';
 
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -7,9 +7,8 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import { Product } from '../../@types/product';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDeleteProductMutation } from '../../redux/api-queries/product-queries';
-import { Backdrop, Dialog, ThemeProvider } from '@mui/material';
+import { Backdrop, Dialog } from '@mui/material';
 import Alert from './alert';
-import { ThemeContext } from '../../contexts/theme';
 import Loading from './loading';
 
 interface Props {
@@ -19,7 +18,6 @@ interface Props {
 const AdminActions: FC<Props> = ({ product }: Props) => {
     const [ deleteProduct, { data, error, isLoading}] = useDeleteProductMutation();
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
-    const { theme } = useContext(ThemeContext);
     const navigate = useNavigate();
 
     const handleUpdate = () => {
@@ -83,16 +81,14 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
             </div>
             { isDeleting &&
                 <>
-                    <ThemeProvider theme={theme}>
-                            <Dialog fullWidth open={isDeleting} onClose={handleClose} >
-                                <Alert 
-                                    text={`delete product "${product.title}" permanently?`}
-                                    handleCancel={handleClose} 
-                                    handleConfirm={handleDelete}
-                                />
-                            </Dialog>
-                            <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                    </ThemeProvider>
+                    <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                        <Alert 
+                            text={`delete product "${product.title}" permanently?`}
+                            handleCancel={handleClose} 
+                            handleConfirm={handleDelete}
+                        />
+                    </Dialog>
+                    <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
                     <Outlet />
                 </>
             }

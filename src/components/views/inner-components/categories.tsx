@@ -1,6 +1,6 @@
 import { useEffect, useState, MouseEvent, useContext } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Backdrop, Dialog, Divider, IconButton, ThemeProvider } from '@mui/material';
+import { Backdrop, Dialog, Divider, IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import { useDeleteCategoriesMutation, useDeleteCategoryMutation } from '../../../redux/api-queries/category-queries';
@@ -80,34 +80,30 @@ const Categories = ({ categories }: Props) => {
                                 </div> 
                             </div>
                                 { open && 
-                                    <ThemeProvider theme={theme}>
-                                        <CreateCategoryForm handleCancel={handleCancel}/>
-                                    </ThemeProvider>
+                                    <CreateCategoryForm handleCancel={handleCancel}/>
                                 }
                         </div> 
                         <div className="profile-section">
-                                {categories.map((category, i) => {
-                                    return <CategoryComponent 
-                                        key={i}
-                                        category={category} 
-                                        handleDelete={handleDeleteCategory}
-                                    />                  
-                                })}
-                            </div>    
+                            {categories.map((category, i) => {
+                                return <CategoryComponent 
+                                    key={i}
+                                    category={category} 
+                                    handleDelete={handleDeleteCategory}
+                                />                  
+                            })}
+                        </div>    
                     </>
                 }
                 { isDeleting &&
                     <>
-                        <ThemeProvider theme={theme}>
-                                <Dialog fullWidth open={isDeleting} onClose={handleClose} >
-                                    <Alert 
-                                        text={`are you sure you want to delete all categories from the system permanently?`}
-                                        handleCancel={handleClose} 
-                                        handleConfirm={handleDelete}
-                                    />
-                                </Dialog>
-                                <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                        </ThemeProvider>
+                        <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                            <Alert 
+                                text={`are you sure you want to delete all categories from the system permanently?`}
+                                handleCancel={handleClose} 
+                                handleConfirm={handleDelete}
+                            />
+                        </Dialog>
+                        <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
                         <Outlet />
                     </>
                 }

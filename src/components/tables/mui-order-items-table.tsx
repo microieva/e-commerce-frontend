@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import {
@@ -7,7 +7,6 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TablePagination,
     TableRow
 } from '@mui/material';
 
@@ -61,15 +60,6 @@ const MuiTable = ({ data }: Props) => {
       },
     ];
     
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    }
-    
-    const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    }
-    
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: "none", border: "1px solid darkgray", borderRadius:"7px"}}>
             <TableContainer sx={{ maxHeight: "40rem" }}>
@@ -109,7 +99,7 @@ const MuiTable = ({ data }: Props) => {
                                             {columns.map((column: CartColumn, i) => {
                                                 const value = column.render ? column.render(row) : row[column.id].toString();
                                                 return (
-                                                    <TableCell  key={`${i}`} align={column.align}>
+                                                    <TableCell key={i} align={column.align}>
                                                         <Link  
                                                             key={`${i}-${column.id}`}  
                                                             style={{textDecoration: "none"}} 

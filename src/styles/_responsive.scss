@@ -1,6 +1,10 @@
 @mixin responsiveness() {
 
-//iPad Pro
+    // @media only screen and (min-width:1919px) {
+    //     header {
+    //         height: 6rem;
+    //     }
+    // }
     @media only screen and (max-width: 1026px) {
         body {
         margin: 0;
@@ -8,6 +12,9 @@
         }
         .main-container {
         justify-content: flex-start;
+        }
+        header {
+            height: 6rem;
         }
         .view-container {
             width: 90%;
@@ -63,6 +70,13 @@
         }
         }
     }
+    @media only screen and (max-width: 800px) {
+        .cart-container, .profile-container, .products-container {
+         .view-wrapper {
+             width:95%!important;
+         }
+        }
+     }
     
     @media only screen and (max-width: 750px) {
         .card-wrapper {
@@ -166,12 +180,14 @@
             }
         }
     }
+    @media only screen and (max-width: 540px) {
+       body {
+        min-width: 540px;
+       }
+     }
     @media only screen and (max-width: 520px) {
         // cart page: font size, icon size, table-header height
-        body{
-        margin: 0;
-        min-width: 520px;
-        }
+
         header {
         margin: 0 0 2rem 0;
         height:fit-content;

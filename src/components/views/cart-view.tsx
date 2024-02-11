@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-import { Backdrop, Dialog, IconButton, ThemeProvider } from '@mui/material';
+import { Backdrop, Dialog, IconButton } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import RemoveShoppingCartOutlinedIcon from '@mui/icons-material/RemoveShoppingCartOutlined';
@@ -21,7 +21,6 @@ import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import Loading from '../shared/loading';
 import { formatUiPrice } from '../../shared/formatUiPrice';
 import Alert from '../shared/alert';
-import { ThemeContext } from '../../contexts/theme';
 import { TypeForm } from '../../@types/types';
 import FormProvider from '../../contexts/form';
 import FormSwitcher from './inner-components/form-switcher';
@@ -43,7 +42,6 @@ const CartView = () => {
     const [ showAlert, setShowAlert ] = useState<boolean>(false);
     const [ openForm, setOpenForm ] = useState<boolean>(false);
     const [ form, setForm ] = useState<TypeForm>(null);
-    const { theme } = useContext(ThemeContext);
     const dispatch = useAppDispatch();
 
     const numberOfItems = cart.reduce((total, cartItem) => {
@@ -201,28 +199,24 @@ const CartView = () => {
             }
             { showAlert &&
                 <>
-                    <ThemeProvider theme={theme}>
-                            <Dialog fullWidth open={showAlert} onClose={handleClose} >
-                                <Alert 
-                                    text={'signup or login to order'}
-                                    handleCancel={handleClose} 
-                                    handleConfirm={handleConfirm}
-                                />
-                            </Dialog>
-                            <Backdrop open={showAlert} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                    </ThemeProvider>
+                    <Dialog fullWidth open={showAlert} onClose={handleClose} >
+                        <Alert 
+                            text={'signup or login to order'}
+                            handleCancel={handleClose} 
+                            handleConfirm={handleConfirm}
+                        />
+                    </Dialog>
+                    <Backdrop open={showAlert} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
                     <Outlet />
                 </>
             }
             <>
-                <ThemeProvider theme={theme}>
-                    <FormProvider form={form} onClose={handleClose}>
-                        <Dialog fullWidth open={openForm} onClose={handleClose} >
-                            <FormSwitcher />
-                        </Dialog>
-                        <Backdrop open={openForm} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                    </FormProvider>
-                </ThemeProvider>
+                <FormProvider form={form} onClose={handleClose}>
+                    <Dialog fullWidth open={openForm} onClose={handleClose} >
+                        <FormSwitcher />
+                    </Dialog>
+                    <Backdrop open={openForm} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                </FormProvider>
                 <Outlet />
             </>
         </div>

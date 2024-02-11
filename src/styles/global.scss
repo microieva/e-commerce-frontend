@@ -40,6 +40,7 @@ main {
   justify-content: space-between;
   width: 99%;
   margin: 0 auto;
+  max-width: 1920px;
 }
 
 header {
@@ -327,6 +328,7 @@ footer {
   justify-content: space-between;
   display: flex;
   align-items: center;
+  max-width: 1920px;
 }
 
 .divider {
@@ -340,6 +342,15 @@ footer {
   justify-content: space-around;
   //margin: 10% 0;
   margin: 20rem auto;
+}
+.drawer {
+  svg {
+    font-size: 2rem;
+  }
+  span {
+    font-size: 2rem;
+    padding-left: 2rem;
+  }
 }
 
 @include responsiveness();

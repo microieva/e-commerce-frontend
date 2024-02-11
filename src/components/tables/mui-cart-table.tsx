@@ -87,7 +87,7 @@ const MuiTable = ({ data, disabled }: Props) => {
                                     {column.label}  
                                 </TableCell>
                             ))}
-                                <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
+                                <TableCell key={'n'} colSpan={1} style={{ minWidth: 50 }}></TableCell>
                             </TableRow>
                         </CustomTableHead>
                         <TableBody sx={{ "& tbody": {height: ""}}}>

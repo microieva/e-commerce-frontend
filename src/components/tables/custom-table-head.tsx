@@ -8,7 +8,10 @@ const CustomTableHead = styled(TableHead)(({ theme }) => ({
     color: 'black',
     fontSize: "16px",
     borderBottom: "1px solid black",
-    fontWeight:'900'
+    fontWeight:'900',
+    '& td': {
+      color: 'black'
+    }
   },
 }));
 

@@ -1,15 +1,16 @@
 import { FC, useContext, useEffect, useState } from 'react';
 
-import { IconButton, ThemeProvider, Backdrop, Dialog, Badge } from '@mui/material';
+import { IconButton, Backdrop, Dialog, Badge, Box, List, ListItem } from '@mui/material';
 import RoofingIcon from '@mui/icons-material/Roofing';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
 import FormProvider from '../../contexts/form';
@@ -97,7 +98,8 @@ const Header: FC = () => {
 
     return (
         <header>
-            <div className='btn-group'>
+            { !mobileView &&
+                <div className='btn-group'>
                 {
                     theme === 'light' ?
                     <IconButton onClick={handleThemeChange}
@@ -123,54 +125,78 @@ const Header: FC = () => {
                     </IconButton>
                 }
                
-            </div>
+                </div>
+            }
             { loggedInUser ? <h2>hello, {loggedInUser.name}</h2> : <h2>random shop</h2>}
             <div className='btn-group'> 
                 {mobileView ? 
                     <>
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleOpenMenu}
-                        color="inherit"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorEl}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorEl)}
-                        onClose={handleCloseMenu}
-                    >
-                        <MenuItem onClick={()=>navigate(`/`)}>home</MenuItem>
-                        { !loggedInUser ? 
-                            <>
-                                <MenuItem onClick={()=> handleOpen('signup')}>signup</MenuItem>
-                                <MenuItem onClick={()=>handleOpen('login')}>login</MenuItem>
-                            </>
-                            :
-                            <>
-                                <MenuItem onClick={()=>navigate(`/auth/profile`)}>profile</MenuItem>
-                                <MenuItem onClick={onLogout}>logout</MenuItem>
-                            </>
-                        }
-                        <>
-                            { loggedInUser?.role !== "ADMIN" && 
-                                <MenuItem onClick={()=>navigate(`/cart`)}>cart ({cart.length})</MenuItem>
-                            }
-                        </>
-                    </Menu>
+                        <IconButton
+                            size="large"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <SwipeableDrawer
+                            anchor="right"
+                            open={Boolean(anchorEl)}
+                            onClose={handleCloseMenu}
+                            onOpen={handleOpenMenu}
+                            className="drawer"
+                        >
+                            <Box
+                                role="presentation"
+                                onClick={handleCloseMenu}
+                                onKeyDown={handleCloseMenu}
+                            >
+                                <List>
+                                    <ListItem onClick={()=>navigate(`/`)}>
+                                        <RoofingIcon /> 
+                                        <span>home</span>
+                                    </ListItem>
+                                    { !loggedInUser ? 
+                                        <>
+                                            <ListItem onClick={()=> handleOpen('signup')}>
+                                                <PersonAddAltIcon/> 
+                                                <span>sign up</span>
+                                            </ListItem>
+                                            <ListItem onClick={()=>handleOpen('login')}>
+                                                <LoginIcon /> 
+                                                <span>log in</span>
+                                            </ListItem>
+                                        </>
+                                        :
+                                        <>
+                                            <ListItem onClick={()=>navigate(`/auth/profile`)}>
+                                                <AccountCircleOutlinedIcon /> 
+                                                <span>profile</span>
+                                            </ListItem>
+                                            <ListItem onClick={onLogout}>
+                                                <LogoutOutlinedIcon />
+                                                <span>log out</span>
+                                            </ListItem>
+                                        </>
+                                    }
+                                     <>
+                                        { loggedInUser?.role !== "ADMIN" && 
+                                            <ListItem onClick={()=>navigate(`/cart`)}>
+                                                <ShoppingCartOutlinedIcon />
+                                                <span>cart ({cart.length})</span> 
+                                            </ListItem>
+                                        }
+                                        <ListItem onClick={handleThemeChange}>
+                                            {
+                                                theme === 'light' ?<DarkModeIcon />:<LightModeIcon />
+                                            }
+                                                <span>switch theme</span>
+                                        </ListItem>
+                                    </>
+                                </List>
+                            </Box>
+                        </SwipeableDrawer>
                     </>
                     :
                     <>
@@ -241,14 +267,12 @@ const Header: FC = () => {
                     </>
                 }
             </div>
-            <ThemeProvider theme={theme}>
                 <FormProvider form={form} onClose={handleClose}>
                     <Dialog fullWidth open={open} onClose={handleClose} >
                         <FormSwitcher />
                     </Dialog>
                     <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
                 </FormProvider>
-            </ThemeProvider>
             <Outlet />
         </header>
     )

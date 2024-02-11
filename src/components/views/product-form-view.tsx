@@ -1,14 +1,13 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { IconButton, ThemeProvider } from '@mui/material';
+import { IconButton } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import CreateProductForm from '../forms/create-product-form';
 import { ThemeContext } from '../../contexts/theme';
 
 const ProductFormView: FC = () => {  
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
-    const { theme } = useContext(ThemeContext);
     const navigate = useNavigate();
 
     useEffect(()=> {
@@ -34,9 +33,7 @@ const ProductFormView: FC = () => {
                 </div>
             </div>
             <div className='view-details'>
-                <ThemeProvider theme={theme}>
-                    <CreateProductForm />
-                </ThemeProvider>
+                <CreateProductForm />
                 <div className="img-wrapper__empty">
                     <div className="img-placeholder"/>
                 </div>

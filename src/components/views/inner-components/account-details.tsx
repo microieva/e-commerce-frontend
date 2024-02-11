@@ -1,14 +1,13 @@
 
-import { Backdrop, Dialog, IconButton, ThemeProvider } from '@mui/material';
+import { Backdrop, Dialog, IconButton } from '@mui/material';
 import { Outlet, useNavigate } from 'react-router-dom';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import { User } from '../../../@types/user';
 import UpdateUserForm from '../../forms/update-user-form';
 import { useDeleteUserMutation } from '../../../redux/api-queries/user-queries';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Alert from '../../shared/alert';
-import { ThemeContext } from '../../../contexts/theme';
 
 interface Props {
     user: User
@@ -17,7 +16,6 @@ interface Props {
 const AccountDetails = ({ user }: Props) => {
     const [ deleteUser, { data, error, isLoading }] = useDeleteUserMutation();
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
-    const { theme } = useContext(ThemeContext);
     const navigate = useNavigate();
 
     const handleDeleteUser = async () => {
@@ -49,25 +47,21 @@ const AccountDetails = ({ user }: Props) => {
                     </div>
                 </div>
                 <div className='view-details'>
-                    <ThemeProvider theme={theme}>
                         {user && <UpdateUserForm user={user}/>}
-                    </ThemeProvider>
                     <div className="img-wrapper">
                         <img className="circle-img" src={`${user.avatar}`} alt="profile picture" />
                     </div>
                 </div>
                 { isDeleting &&
                     <>
-                        <ThemeProvider theme={theme}>
-                                <Dialog fullWidth open={isDeleting} onClose={handleClose} >
-                                    <Alert 
-                                        text={'are you sure you want to delete your account?'}
-                                        handleCancel={handleClose} 
-                                        handleConfirm={handleDeleteUser}
-                                    />
-                                </Dialog>
-                                <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                        </ThemeProvider>
+                        <Dialog fullWidth open={isDeleting} onClose={handleClose} >
+                            <Alert 
+                                text={'are you sure you want to delete your account?'}
+                                handleCancel={handleClose} 
+                                handleConfirm={handleDeleteUser}
+                            />
+                        </Dialog>
+                        <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
                         <Outlet />
                     </>
                 }

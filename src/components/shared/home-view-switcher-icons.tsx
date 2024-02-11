@@ -14,7 +14,7 @@ const HomeViewSwitcherIcons: FC<SwitcherProps> = ({ switchView }: SwitcherProps)
 
     useEffect(() => {
         const setResponsiveness = () => {
-          return window.innerWidth < 520
+          return window.innerWidth < 700
             ? setState((prevState) => ({ ...prevState, mobileView: true }))
             : setState((prevState) => ({ ...prevState, mobileView: false }));
         };
