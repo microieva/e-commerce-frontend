@@ -179,21 +179,19 @@ const Header: FC = () => {
                                                 <span>log out</span>
                                             </ListItem>
                                         </>
-                                    }
-                                     <>
-                                        { loggedInUser?.role !== "ADMIN" && 
-                                            <ListItem onClick={()=>navigate(`/cart`)}>
-                                                <ShoppingCartOutlinedIcon />
-                                                <span>cart ({cart.length})</span> 
-                                            </ListItem>
-                                        }
-                                        <ListItem onClick={handleThemeChange}>
-                                            {
-                                                theme === 'light' ?<DarkModeIcon />:<LightModeIcon />
-                                            }
-                                                <span>switch theme</span>
+                                    } 
+                                    { loggedInUser?.role !== "ADMIN" && 
+                                        <ListItem onClick={()=>navigate(`/cart`)}>
+                                            <ShoppingCartOutlinedIcon />
+                                            <span>cart ({cart.length})</span> 
                                         </ListItem>
-                                    </>
+                                    }
+                                    <ListItem onClick={handleThemeChange}>
+                                        {
+                                            theme === 'light' ?<DarkModeIcon />:<LightModeIcon />
+                                        }
+                                            <span>switch theme</span>
+                                    </ListItem>   
                                 </List>
                             </Box>
                         </SwipeableDrawer>
@@ -267,12 +265,12 @@ const Header: FC = () => {
                     </>
                 }
             </div>
-                <FormProvider form={form} onClose={handleClose}>
-                    <Dialog fullWidth open={open} onClose={handleClose} >
-                        <FormSwitcher />
-                    </Dialog>
-                    <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                </FormProvider>
+            <FormProvider form={form} onClose={handleClose}>
+                <Dialog fullWidth open={open} onClose={handleClose} >
+                    <FormSwitcher />
+                </Dialog>
+                <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+            </FormProvider>
             <Outlet />
         </header>
     )

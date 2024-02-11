@@ -1,5 +1,7 @@
 import { PaletteMode } from "@mui/material";
 
+const isMobile = window.innerWidth < 700;
+
 export const getThemePalette = (mode: PaletteMode) => ({
 
   ...(mode === 'light' ? 
@@ -36,7 +38,7 @@ export const getThemePalette = (mode: PaletteMode) => ({
         styleOverrides: {
           root: {
             '&.MuiPaper-root:not(.MuiDialog-paper)': {
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+              backgroundColor: !isMobile? 'rgba(255, 255, 255, 0.08)':'none',
               backgroundImage:'none',
               border: '1px solid rgb(61, 61, 61)',
               '&:hover': {
