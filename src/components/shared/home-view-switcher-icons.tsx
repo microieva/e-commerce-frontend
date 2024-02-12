@@ -64,11 +64,11 @@ const HomeViewSwitcherIcons: FC<SwitcherProps> = ({ switchView }: SwitcherProps)
                     {
                         activeView === 'grid' ? 
                             <IconButton onClick={handleClick} className={activeView === 'grid' ? 'active-icon' : ''}>
-                                <GridViewIcon  />
+                                <TableRowsIcon />
                             </IconButton>
                         :
                             <IconButton onClick={handleClick} className={activeView === 'table' ? 'active-icon' : ''}>
-                                <TableRowsIcon />
+                                <GridViewIcon  />
                             </IconButton>
                     }
                 </>

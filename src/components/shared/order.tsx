@@ -38,12 +38,12 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
                 <div className="order-wrapper" id={order.paid ? "hover" : ""} onClick={()=> handleClick()} style={{}}>
                     <div>
                         {children}   
-                        <h2 style={{color: "darkgrey"}}>
-                            total price: {uiPrice} €
-                        </h2>
+                        <h2 style={{color: "darkgrey", fontSize:"18px"}}>{uiDate}</h2> 
                     </div>
                     <div>  
-                        <h2 style={{color: "darkgrey", fontSize:"18px"}}>{uiDate}</h2> 
+                        <h2 style={{color: "darkgrey"}}>
+                            total price: {uiPrice} €
+                        </h2>    
                         {order && 
                             <div className="btn-group">
                                 {!order.paid &&

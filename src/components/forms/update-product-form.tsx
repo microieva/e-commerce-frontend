@@ -190,29 +190,31 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                     }}
                 />
             </FormControl>
-            <FormControl fullWidth>
-                <TextField
-                    fullWidth
-                    variant="standard"
-                    label="Image"
-                    name="image"
-                    type="text"
-                    value={image}
-                    disabled={disabled}
-                    helperText="Image must be a valid internet link"
-                    onChange={(e) => setImage(e.target.value)}
-                    sx={{
-                        '& .MuiFormHelperText-root': {
-                        visibility: imageError ? 'visible' : 'hidden',
-                        transition: 'visibility 0.2s ease-in',
-                        },
-                        '& .MuiInputBase-root.MuiInput-root:before': { 
-                            borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                        }
-                    }}
-                    onFocus={()=> setImageError(false)}
-                />
-            </FormControl> 
+            { admin && !disabled && 
+                <FormControl fullWidth>
+                    <TextField
+                        fullWidth
+                        variant="standard"
+                        label="Image"
+                        name="image"
+                        type="text"
+                        value={image}
+                        disabled={disabled}
+                        helperText="Image must be a valid internet link"
+                        onChange={(e) => setImage(e.target.value)}
+                        sx={{
+                            '& .MuiFormHelperText-root': {
+                            visibility: imageError ? 'visible' : 'hidden',
+                            transition: 'visibility 0.2s ease-in',
+                            },
+                            '& .MuiInputBase-root.MuiInput-root:before': { 
+                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                            }
+                        }}
+                        onFocus={()=> setImageError(false)}
+                    />
+                </FormControl> 
+            }
             <FormControl variant="standard" fullWidth>
                 {
                     admin ? 

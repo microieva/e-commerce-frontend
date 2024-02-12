@@ -68,10 +68,8 @@ const AdminOrders = ({ orders }: Props) => {
                                         order={order} 
                                         handleDeleteOrder={()=>handleDeleteOrder(order._id)}
                                     >
-                                        <div>
-                                            <h2>user's order</h2>       
-                                        </div> 
-                                     </OrderComponent>
+                                        <h2>user's order</h2>        
+                                    </OrderComponent>
                                 )
                             }
                         })}

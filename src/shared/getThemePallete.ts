@@ -7,6 +7,15 @@ export const getThemePalette = (mode: PaletteMode) => ({
   ...(mode === 'light' ? 
   {
     components: {
+      MuiFormLabel: {
+        styleOverrides: {
+          root: {
+            '& .MuiFormLabel-root.MuiInputLabel-root.Mui-disabled': {
+              color: 'black'
+            }
+          }
+        }
+      },
       MuiTable: {
         styleOverrides: {
           root: {
@@ -52,7 +61,7 @@ export const getThemePalette = (mode: PaletteMode) => ({
         styleOverrides: {
           root: {
             '& .MuiInputLabel-root': {
-              color: 'rgb(61,61,61)'
+              color: 'black'
             },
             '& .MuiInputLabel-root.Mui-focused': {
               color: 'orange'

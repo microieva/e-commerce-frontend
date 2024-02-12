@@ -74,9 +74,7 @@ const UserDetails = ({ orders }: Props) => {
                                                 order={order} 
                                                 handleDeleteOrder={()=>handleDeleteOrder(order._id)}
                                             >
-                                                <div>
-                                                    <h2>your order</h2>
-                                                </div> 
+                                                <h2>your order</h2>  
                                             </OrderComponent>
                             }
                             })}

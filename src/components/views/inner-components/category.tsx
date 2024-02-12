@@ -17,7 +17,7 @@ const CategoryComponent = ({category, handleDelete}: Props) => {
     return (
         <div className="category-container">
             <div style={{display: "flex", alignItems: 'center'}}>
-                <div className="category-icon"><img src={category.image}/></div>
+                <img src={category.image}/>
                 <h2>{category.name}</h2> 
             </div>
             <div className="btn-group">
