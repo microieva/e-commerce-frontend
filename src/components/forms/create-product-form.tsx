@@ -14,10 +14,10 @@ import Loading from '../shared/loading';
 
 const CreateProductForm: FC = () => {
 
-    const [ title, setTitle ] = useState<string | undefined>(undefined);
-    const [ price, setPrice ] = useState<string | undefined>(undefined);
-    const [ description, setDescription ] = useState<string | undefined>(undefined);
-    const [ image, setImage ] = useState<string | undefined>(undefined);
+    const [ title, setTitle ] = useState<string>('');
+    const [ price, setPrice ] = useState<string>('');
+    const [ description, setDescription ] = useState<string>('');
+    const [ image, setImage ] = useState<string>('');
     const [ categoryName, setCategoryName ] = useState<string>('');
     const [ categoryId, setCategoryId ] = useState<string | undefined>(undefined);
     
@@ -31,10 +31,12 @@ const CreateProductForm: FC = () => {
 
     const [ createProduct, {data, error, isLoading} ] = useCreateProductMutation();
 
-    const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(true);
     const navigate = useNavigate();
+
+    const priceRegex = new RegExp('^[0-9.,]+$');
+    const imageRegex = new RegExp('^(https?|ftp)://[^\s/$.?#].[^\s]*');
 
     
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -46,26 +48,13 @@ const CreateProductForm: FC = () => {
             categoryId,
             images: image ? [image] : ["https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg"]
         };
-        validate(obj);
-        !err && setNewProduct(obj);
+        setNewProduct(obj);
     }
 
     useEffect(()=> {
         const categoryObj = ctgrs && ctgrs.find((c: Category) => c.name === categoryName);
         categoryObj && setCategoryId(categoryObj._id);
     }, [categoryName]);
-
-    useEffect(() => {
-        const obj = {
-            title,
-            price,
-            description,
-            categoryId,
-            images: image ? [image] : ["https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg"]
-        };
-        validate(obj);
-        err && setDisabled(false);
-    }, [ title, price, description, categoryId ])
 
     useEffect(()=> {
         const submit = async() => {
@@ -77,18 +66,26 @@ const CreateProductForm: FC = () => {
     }, [newProduct]);
 
     useEffect(()=> {
+        if (
+            title !== '' && 
+            price !== '' && 
+            !priceError && 
+            image !== '' && 
+            !imageError &&
+            description !== '' &&
+            categoryName !== ''
+        ) {
+            setDisabled(false);
+        } else {
+            setDisabled(true);
+        }
+    }, [title, description, price, priceError, image, imageError, categoryName])
+
+    useEffect(()=> {
         if (data) {
             !isLoading && navigate(`/products/${data._id}`);
         }
-        error && setErr(Boolean(error));
-    }, [data, error])
-
-    const validate = (obj: any) => {
-        //setErr(titleError && priceError && descriptionError);
-        //temporary : 
-        const foundUndefined = Object.values(obj).some(value => value === undefined);
-        setErr(foundUndefined);
-    }
+    }, [data])
 
     if (isLoading) {
         return <Loading />
@@ -126,8 +123,9 @@ const CreateProductForm: FC = () => {
                     name="price"
                     type="text"
                     onChange={(e) => setPrice(e.target.value)}
+                    onBlur={()=>price && setPriceError(!priceRegex.test(price))}
                     required
-                    helperText="Price is required"
+                    helperText="Price must be a number"
                     sx={{
                         '& .MuiFormHelperText-root': {
                             visibility: priceError ? 'visible' : 'hidden',
@@ -169,6 +167,7 @@ const CreateProductForm: FC = () => {
                     type="text"
                     helperText="Image must be a valid internet link"
                     onChange={(e) => setImage(e.target.value)}
+                    onBlur={()=>image && setImageError(!imageRegex.test(image))}
                     sx={{
                         '& .MuiFormHelperText-root': {
                         visibility: imageError ? 'visible' : 'hidden',
@@ -185,6 +184,7 @@ const CreateProductForm: FC = () => {
                 <InputLabel required id="category-label">Category</InputLabel>
                 <Select
                     required
+                    value={'' || categoryName}
                     onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value as string)}
                     label="Category"
                 >
@@ -194,7 +194,7 @@ const CreateProductForm: FC = () => {
                 </Select>
             </FormControl>
             <div className='btn-group' style={{marginTop: "2rem"}}>
-                <IconButton type ="submit" disabled={err}>
+                <IconButton type ="submit" disabled={disabled}>
                     <BackupOutlinedIcon/>
                 </IconButton>
             </div>
