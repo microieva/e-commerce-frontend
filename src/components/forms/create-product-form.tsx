@@ -48,7 +48,7 @@ const CreateProductForm: FC = () => {
         setPrice(event.target.value);
     }
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setDescriptionError(event.target.value === '');
+        setDescriptionError(event.target.value.length === 0);
         setDescription(event.target.value);
     }
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -104,13 +104,15 @@ const CreateProductForm: FC = () => {
     }, [title, titleError, description, price, priceError, categoryName])
 
     useEffect(()=> {
-        if (data) {
-            !isLoading && navigate(`/products/${data._id}`);
-        }
+        data && !isLoading && navigate(`/products/${data._id}`);
     }, [data])
 
     if (isLoading) {
-        return <Loading />
+        return (
+            <div className='form-container'>
+                <Loading />
+            </div>
+        )
     }
 
     return (
@@ -169,7 +171,7 @@ const CreateProductForm: FC = () => {
                     name="description"
                     helperText="Description is required"
                     onChange={handleDescriptionChange}
-                    onBlur={()=>setDescriptionError(false)}
+                    onBlur={()=>setDescriptionError(description.length<1)}
                     required
                     sx={{
                         '& .MuiFormHelperText-root': {

@@ -15,17 +15,26 @@ const LoginForm = () => {
 
     const [ request, setRequest ] = useState<LoginRequest | undefined>();
 
-    const [ email, setEmail ] = useState<string>();
-    const [ password, setPassword ] = useState<string>();
+    const [ email, setEmail ] = useState<string>('');
+    const [ password, setPassword ] = useState<string>('');
 
     const [ emailError, setEmailError ] = useState<boolean>(false);
     const [ passwordError, setPasswordError ] = useState<boolean>(false);
 
-    const [ err, setErr ] = useState<boolean>(false);
     const { onClose } = useContext(FormContext) as TypeFormContext;
     const [ login, { error }] = useLoginMutation();
     const formRef = useRef<HTMLFormElement>(null);
+    const [ disabled, setDisabled ] = useState<boolean>(true);
 
+    const emailRegex = new RegExp('^(?:[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2})');
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setPasswordError(!event.target.value);
+        setPassword(event.target.value);
+    }
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setEmail(event.target.value);
+    }
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setRequest({email, password});
@@ -33,46 +42,30 @@ const LoginForm = () => {
     };
 
     useEffect(()=> {
-        if (request) {
-            validate();
+        if (
+            email !== '' && !emailError &&
+            password !== '' && !passwordError
+        ) {
+            setDisabled(false);
+        } else {
+            setDisabled(true);
         }
+    }, [password, emailError, passwordError]);
+
+    useEffect(()=> {
         const initialLogin = async () => {
-            if (!err) {
+            if (request) {
                 try {
                     const token = request && await login(request).unwrap();
                     token && localStorage.setItem('token', JSON.stringify(token));
                     window.dispatchEvent(new Event('storage'))
                 } catch (error){
-                    setErr(true);
                     //formRef.current && formRef.current.reset();
                 }
             }
         }
         initialLogin();
-    }, [request, err]);
-
-    const validate = () => {
-        const emailRegex = new RegExp('^(?:[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2})');
-        const passWordRegex = new RegExp('^[a-zA-Z0-9]{4,}');
-
-        if (request) {
-            if (request.email) {
-                if (!request.email.match(emailRegex)) {
-                    setEmailError(true);
-                }
-            } else {
-                setEmailError(true);
-            }
-            if (request.password) {
-                if (!request.password.match(passWordRegex)) {
-                    setPasswordError(true);
-                }
-            } else {
-                setPasswordError(true);
-            }
-            setErr(emailError && passwordError);
-        }
-    }
+    }, [request]);
 
     return (
         <div className='form-container login-signup-form'>
@@ -81,15 +74,16 @@ const LoginForm = () => {
                 <FormControl fullWidth>
                     <TextField
                         fullWidth
-                        helperText={ "Must be a valid email address"}
+                        helperText={email==='' ? "Email is required" : "Must be a valid email address"}
                         variant="standard"
                         label="Email"
                         name="email"
-                        onChange={(e)=> setEmail(e.target.value)}
+                        onChange={handleEmailChange}
+                        onBlur={(event)=>setEmailError(!emailRegex.test(event.target.value))}
                         required
                         sx={{
                             '& .MuiFormHelperText-root': {
-                              visibility: error ? 'visible' : 'hidden',
+                              visibility: emailError ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             }
                         }}
@@ -103,12 +97,12 @@ const LoginForm = () => {
                         label="Password"
                         name="password"
                         type="password"
-                        onChange={(e)=> setPassword(e.target.value)}
+                        onChange={handlePasswordChange}
                         required
-                        helperText="Must be only letters and numbers, longer than 3 characters"
+                        helperText="Passowrd is required"
                         sx={{
                             '& .MuiFormHelperText-root': {
-                                visibility: !passwordError && !error ? 'hidden' : 'visible',
+                                visibility: passwordError ? 'visible' : 'hidden',
                                 transition: 'visibility 0.2s ease-in',
                             }
                         }}
@@ -116,7 +110,7 @@ const LoginForm = () => {
                     />
                 </FormControl>
                 <div className="btn-group">
-                    <IconButton  type="submit" onClick={() => handleSubmit}>
+                    <IconButton  type="submit" disabled={disabled}>
                         <LoginOutlinedIcon/>
                     </IconButton>
                     <IconButton onClick={()=> onClose()}>

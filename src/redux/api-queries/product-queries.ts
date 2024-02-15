@@ -10,7 +10,6 @@ const productQueries  = createApi({
     }),
     tagTypes: ['Products', 'Product'],
     endpoints: builder => ({
-        // this creates a hook from dispatch and async thunk action -> to return data error and loading
         getProducts: builder.query<Product[], undefined>({
             query: () => `/`,
             providesTags: ['Products']
@@ -78,4 +77,3 @@ export const {
     useDeleteProductsMutation
 } = productQueries;
 export default productQueries;
-

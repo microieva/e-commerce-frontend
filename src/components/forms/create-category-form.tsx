@@ -12,8 +12,8 @@ interface Props {
 
 const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
 
-    const [ name, setName ] = useState<string | undefined>(undefined);
-    const [ image, setImage ] = useState<string | undefined>(undefined);
+    const [ name, setName ] = useState<string>('');
+    const [ image, setImage ] = useState<string>('');
    
     
     const [ newCategory, setNewCategory ] = useState<Partial<Category>>();
@@ -23,10 +23,21 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
 
     const [ createCategory, {data, error, isLoading} ] = useCreateCategoryMutation();
 
-    const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(true);
 
+    const nameRegex = new RegExp('^[a-zA-Z]+$');
+    const imageRegex = new RegExp('^(https?|ftp)://[^\s/$.?#].[^\s]*');
+
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setNameError(!nameRegex.test(event.target.value));
+        setName(event.target.value);
+    }
+
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setImageError(!imageRegex.test(event.target.value));
+        setImage(event.target.value);
+    }
     
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -34,18 +45,8 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
             name,
             images: image ? [image] : ["https://api.lorem.space/image/fashion?w=640&h=480&r=7943"]
         };
-        validate(obj);
-        !err && setNewCategory(obj);
+        setNewCategory(obj);
     }
-
-    useEffect(() => {
-        const obj = {
-            name,
-            images: image ? [image] : ["https://api.lorem.space/image/fashion?w=640&h=480&r=7943"]
-        };
-        validate(obj);
-        err && setDisabled(false);
-    }, [ name, image ])
 
     useEffect(()=> {
         const submit = async() => {
@@ -57,15 +58,12 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
     }, [newCategory]);
 
     useEffect(()=> {
-        error && setErr(Boolean(error));
-    }, [data, error])
-
-    const validate = (obj: any) => {
-        //setErr(titleError && priceError && descriptionError);
-        //temporary : 
-        const foundUndefined = Object.values(obj).some(value => value === undefined);
-        setErr(foundUndefined);
-    }
+        if (name.length>2 && !nameError) {
+            setDisabled(false);
+        } else {
+            setDisabled(true);
+        }
+    }, [name, nameError])
 
     if (isLoading) {
         return <Loading />
@@ -80,9 +78,10 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
                         variant="standard"
                         label="Name"
                         name="name"
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={handleNameChange}
+                        onBlur={()=>setNameError(false)}
                         required
-                        helperText="Name is required"
+                        helperText="Name must be letters only, min 3 characters"
                         sx={{
                             '& .MuiFormHelperText-root': {
                               visibility: nameError ? 'visible' : 'hidden',
@@ -103,7 +102,7 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
                         name="image"
                         type="text"
                         helperText="Image must be a valid internet link"
-                        onChange={(e) => setImage(e.target.value)}
+                        onChange={handleImageChange}
                         sx={{
                             '& .MuiFormHelperText-root': {
                             visibility: imageError ? 'visible' : 'hidden',
@@ -117,7 +116,7 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
                     />
                 </FormControl> 
                 <div className='btn-group'>
-                    <IconButton type ="submit" disabled={err}>
+                    <IconButton type ="submit" disabled={disabled}>
                         <BackupOutlinedIcon/>
                     </IconButton>
                     <IconButton type ="button" onClick={handleCancel}>
