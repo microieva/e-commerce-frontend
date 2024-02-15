@@ -28,7 +28,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     const [ image, setImage ] = useState<string>(product.images[0]);
     const [ categoryName, setCategoryName ] = useState<string>(product.category.name);
     const [ categoryId, setCategoryId ] = useState<string>(product.category._id);
-     
+    
     const [ updates, setUpdates ] = useState<Partial<Product>>();
     const { data: ctgrs } = useGetCategoriesQuery(localStorage.getItem('token') || '');
 
@@ -36,33 +36,43 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     const [ priceError, setPriceError ] = useState<boolean>(false);
     const [ descriptionError, setDescriptionError ] = useState<boolean>(false);
     const [ imageError, setImageError ] = useState<boolean>(false);
-    const [ err, setErr ] = useState<boolean>(true);
 
     const [ updateProduct, {data, error, isLoading} ] = useUpdateProductMutation();
 
+    const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(true);
     const navigate = useNavigate();
-
-    const priceRegex = new RegExp('^[0-9.,]+$');
-    const imageRegex = new RegExp('^(https?|ftp)://[^\s/$.?#].[^\s]*');
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const obj = {
             title,
-            price: Number(price?.replace(/,/g, '.')),
+            price: Number(price.replace(/,/g, '.')),
             description,
             categoryId,
             images: image ? [image] : ["https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg"]
         };
-        setUpdates(obj);
+        validate(obj);
+        !err && setUpdates(obj);
     }
 
     useEffect(()=> {
         const categoryObj = ctgrs && ctgrs.find((c: Category) => c.name === categoryName);
         categoryObj && setCategoryId(categoryObj._id);
     }, [categoryName]);
+
+    useEffect(() => {
+        const obj = {
+            title,
+            price,
+            description,
+            categoryId,
+            images: image ? [image] : ["https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg"]
+        };
+        validate(obj);
+        err && setDisabled(false);
+    }, [ title, price, description, categoryId ])
 
     useEffect(()=> {
         const submit = async() => {
@@ -74,34 +84,26 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     }, [updates]);
 
     useEffect(()=> {
-        console.log('ref: ', formRef.current)
-        if (
-            title === '' || title === product.title ||
-            price === '' || price === product.price.toString() || priceError ||
-            image === '' || image === product.images[0] || imageError ||
-            description === '' || description === product.description ||
-            categoryName === '' || categoryName === product.category.name
-        ) {
-            setErr(true);
-        } else {
-            setErr(false);
-        }
-        
-    }, [title, description, price, priceError, image, imageError, categoryName])
-
-    useEffect(()=> {
         if (data) {
             !isLoading && navigate(`/products/${data._id}`);
             setPrice(data.price.toString());
             setDisabled(true);
         }
-    }, [data]);
+        error && setErr(Boolean(error));
+    }, [data, error]);
 
-    // useEffect(()=> {
-    //     if (!admin) {
-    //         setDisabled(true);
-    //     }
-    // }, [admin])
+    useEffect(()=> {
+        if (!admin) {
+            setDisabled(true);
+        }
+    }, [admin])
+
+    const validate = (obj: any) => {
+        //setErr(titleError && priceError && descriptionError);
+        //temporary : 
+        const foundUndefined = Object.values(obj).some(value => value === undefined);
+        setErr(foundUndefined);
+    }
 
     const onCancel =() => {
         setTitle(product.title);
@@ -109,13 +111,13 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
         setDescription(product.description);
         setImage(product.images[0]);
         setCategoryName(product.category.name);
+        setErr(false);
         setDisabled(true);
     }
 
     if (isLoading) {
         return <Loading />
     }
-
     return (
     <div className='form-container product-form'>
         <form onSubmit={handleSubmit} ref={formRef}>
@@ -151,10 +153,9 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                     type="text"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    onBlur={()=>price && setPriceError(!priceRegex.test(price))}
                     required={admin}
                     disabled={disabled}
-                    helperText="Price must be a number"
+                    helperText="Price is required"
                     sx={{
                         '& .MuiFormHelperText-root': {
                             visibility: priceError ? 'visible' : 'hidden',
@@ -201,7 +202,6 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                         disabled={disabled}
                         helperText="Image must be a valid internet link"
                         onChange={(e) => setImage(e.target.value)}
-                        onBlur={()=>image && setImageError(!imageRegex.test(image))}
                         sx={{
                             '& .MuiFormHelperText-root': {
                             visibility: imageError ? 'visible' : 'hidden',
@@ -225,7 +225,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                             disabled={disabled}
                             onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value)}
                             label="Category"
-                            value={'' || categoryName}
+                            value={categoryName}
                         >
                             {ctgrs && ctgrs.map((ctgry: Category)=> {
                                 return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
@@ -248,12 +248,13 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
             <div className='btn-group' style={{marginTop: "2rem"}}>  
                 { admin && 
                     <>
-                        { disabled ?
+                        { disabled && 
                             <IconButton type ="button" onClick={()=> setDisabled(false)}>
                                 <EditNoteIcon />
                             </IconButton>
-
-                        :
+                        }
+                        {
+                        !disabled && 
                             <>
                                 <IconButton 
                                     type ="submit" 
