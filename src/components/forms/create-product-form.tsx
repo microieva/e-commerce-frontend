@@ -1,7 +1,7 @@
 import { FC, FormEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { IconButton, TextField, FormControl, MenuItem, InputLabel } from '@mui/material';
+import { IconButton, TextField, FormControl, MenuItem, InputLabel, FormHelperText } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 
@@ -28,6 +28,7 @@ const CreateProductForm: FC = () => {
     const [ priceError, setPriceError ] = useState<boolean>(false);
     const [ descriptionError, setDescriptionError ] = useState<boolean>(false);
     const [ imageError, setImageError ] = useState<boolean>(false);
+    const [ categoryError, setCategoryError ] = useState<boolean>(false);
 
     const [ createProduct, {data, error, isLoading} ] = useCreateProductMutation();
 
@@ -38,8 +39,29 @@ const CreateProductForm: FC = () => {
     const priceRegex = new RegExp('^[0-9.,]+$');
     const imageRegex = new RegExp('^(https?|ftp)://[^\s/$.?#].[^\s]*');
 
-    
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=> {
+        setTitleError(event.target.value.length<3);
+        setTitle(event.target.value);
+    }
+    const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setPriceError(!priceRegex.test(event.target.value))
+        setPrice(event.target.value);
+    }
+    const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setDescriptionError(event.target.value === '');
+        setDescription(event.target.value);
+    }
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setImageError(!imageRegex.test(event.target.value));
+        setImage(event.target.value);
+    }
+
+    const handleCategoryChange = (event: SelectChangeEvent) => {
+        setCategoryError(!event.target.value)
+        setCategoryName(event.target.value);
+    }
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const obj = {
             title,
@@ -67,11 +89,11 @@ const CreateProductForm: FC = () => {
 
     useEffect(()=> {
         if (
-            title !== '' && 
+            title !== '' && !titleError &&
             price !== '' && 
             !priceError && 
-            image !== '' && 
-            !imageError &&
+            //image !== '' && 
+            //!imageError &&
             description !== '' &&
             categoryName !== ''
         ) {
@@ -79,7 +101,7 @@ const CreateProductForm: FC = () => {
         } else {
             setDisabled(true);
         }
-    }, [title, description, price, priceError, image, imageError, categoryName])
+    }, [title, titleError, description, price, priceError, categoryName])
 
     useEffect(()=> {
         if (data) {
@@ -100,9 +122,10 @@ const CreateProductForm: FC = () => {
                     variant="standard"
                     label="Title"
                     name="title"
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={handleTitleChange}
+                    onBlur={()=>setTitleError(false)}
                     required
-                    helperText="Title is required"
+                    helperText="Title min 3 characters"
                     sx={{
                         '& .MuiFormHelperText-root': {
                             visibility: titleError ? 'visible' : 'hidden',
@@ -122,10 +145,10 @@ const CreateProductForm: FC = () => {
                     label="Price"
                     name="price"
                     type="text"
-                    onChange={(e) => setPrice(e.target.value)}
-                    onBlur={()=>price && setPriceError(!priceRegex.test(price))}
+                    onChange={handlePriceChange}
+                    onBlur={()=>setPriceError(false)}
                     required
-                    helperText="Price must be a number"
+                    helperText={price === '' ? "Price is required": "Price must be a number"}
                     sx={{
                         '& .MuiFormHelperText-root': {
                             visibility: priceError ? 'visible' : 'hidden',
@@ -135,18 +158,19 @@ const CreateProductForm: FC = () => {
                             borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                         }
                     }}
-                    onFocus={()=>setPriceError(false)}
+                    onFocus={()=>setPriceError(false)} 
                 />
             </FormControl>
                 <FormControl fullWidth>
                 <TextField
                     label="Description"
+                    type="text"
                     variant="standard"
                     name="description"
                     helperText="Description is required"
-                    onChange={(e)=> setDescription(e.target.value)}
+                    onChange={handleDescriptionChange}
+                    onBlur={()=>setDescriptionError(false)}
                     required
-                    onFocus={()=>setDescriptionError(false)}
                     sx={{
                         '& .MuiFormHelperText-root': {
                             visibility: descriptionError ? 'visible' : 'hidden',
@@ -156,6 +180,7 @@ const CreateProductForm: FC = () => {
                             borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                         }
                     }}
+                    onFocus={()=>setDescriptionError(false)} 
                 />
             </FormControl>
             <FormControl fullWidth>
@@ -166,8 +191,7 @@ const CreateProductForm: FC = () => {
                     name="image"
                     type="text"
                     helperText="Image must be a valid internet link"
-                    onChange={(e) => setImage(e.target.value)}
-                    onBlur={()=>image && setImageError(!imageRegex.test(image))}
+                    onChange={handleImageChange}
                     sx={{
                         '& .MuiFormHelperText-root': {
                         visibility: imageError ? 'visible' : 'hidden',
@@ -177,7 +201,7 @@ const CreateProductForm: FC = () => {
                             borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                         }
                     }}
-                    onFocus={()=> setImageError(false)}
+                    onFocus={()=>setImageError(false)} 
                 />
             </FormControl> 
             <FormControl variant="standard" fullWidth>
@@ -185,13 +209,15 @@ const CreateProductForm: FC = () => {
                 <Select
                     required
                     value={'' || categoryName}
-                    onChange={(e: SelectChangeEvent) => setCategoryName(e.target.value as string)}
+                    onChange={handleCategoryChange}
+                    onBlur={(event)=> setCategoryError(!event.target.value)}
                     label="Category"
                 >
                     {ctgrs && ctgrs.map((ctgry: Category)=> {
                         return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
                     })}
                 </Select>
+                {categoryError && <FormHelperText>Category is required</FormHelperText>}
             </FormControl>
             <div className='btn-group' style={{marginTop: "2rem"}}>
                 <IconButton type ="submit" disabled={disabled}>
