@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Backdrop, Dialog, IconButton } from '@mui/material';
@@ -16,14 +16,14 @@ import {
 } from '../../redux/api-queries/order-queries';
 import OrderComponent from '../shared/order';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { Error } from '../../@types/error'
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import Loading from '../shared/loading';
 import { formatUiPrice } from '../../shared/formatUiPrice';
 import Alert from '../shared/alert';
-import { TypeForm } from '../../@types/types';
+import { TypeForm, TypeSnackBarContext } from '../../@types/types';
 import FormProvider from '../../contexts/form';
 import FormSwitcher from './inner-components/form-switcher';
+import { SnackBarContext } from '../../contexts/snackbar';
 
 const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
@@ -38,10 +38,11 @@ const CartView = () => {
     const [ updateOrder, { data: updatedOrder, error: updatedOrderError, isLoading: isLoadingUpdatedOrder }] = useUpdateOrderMutation();
     const [ deleteOrder, { data: deletedOrder, error: deletingError, isLoading: isDeletingOrder }] = useDeleteOrderMutation();
     const [loading, setLoading] = useState<boolean>(isLoadingUser || isLoadingNewOrder || isLoadingUpdatedOrder || isDeletingOrder);
-    const [ err, setErr ] = useState<Error | undefined>(undefined);
+
     const [ showAlert, setShowAlert ] = useState<boolean>(false);
     const [ openForm, setOpenForm ] = useState<boolean>(false);
     const [ form, setForm ] = useState<TypeForm>(null);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const dispatch = useAppDispatch();
 
     const numberOfItems = cart.reduce((total, cartItem) => {
@@ -68,19 +69,29 @@ const CartView = () => {
     const handleCheckout = async () => {
         if (newOrder) {
             const updates = { paid: true }
-            await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id});
-            setLoading(isLoadingNewOrder);
-            setOrder(false);
-            dispatch(emptyCart());
+            try {
+                await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id});
+                setLoading(isLoadingNewOrder);
+                setSnackBar({message: "Thank you for shopping! ", open: true});
+                setOrder(false);
+                dispatch(emptyCart());
+            } catch (error) {
+                setSnackBar({message: error as string, open: true});
+            }
         }
     }
 
     const handleDeleteOrder = async () => {
         if (newOrder) {
-            await deleteOrder({orderId: newOrder._id, token})
-            setOrder(false);
-            setLoading(isDeletingOrder);
-            setDisabled(false);
+            try {
+                await deleteOrder({orderId: newOrder._id, token})
+                setOrder(false);
+                setSnackBar({message: "Order cancelled", open: true});
+                setLoading(isDeletingOrder);
+                setDisabled(false);
+            } catch (error) {
+                setSnackBar({message: error as string, open: true});
+            }
         }
     }
 
@@ -125,21 +136,22 @@ const CartView = () => {
     useEffect(() => {
         const checkout = async() => {   
             if (user && orderRequestBody) {
-                await createOrder(
-                    { 
-                        token: localStorage.getItem('token') || '', 
-                        body: orderRequestBody, 
-                        userId: user._id
-                    }
-                );
-                setDisabled(true);
-                setLoading(isLoadingNewOrder);
+                try {
+                    await createOrder(
+                        { 
+                            token: localStorage.getItem('token') || '', 
+                            body: orderRequestBody, 
+                            userId: user._id
+                        }
+                    );
+                    setDisabled(true);
+                    setLoading(isLoadingNewOrder);
+                } catch (error) {
+                    setSnackBar({message:error as string, open: true});
+                }
             }
         }
         checkout();
-        if (newOrderError) {
-            setErr(newOrderError as Error);
-        }
     }, [orderRequestBody]);
 
     const handleClose = () => {

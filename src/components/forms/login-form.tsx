@@ -1,6 +1,6 @@
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 
-import { IconButton, TextField, FormControl } from '@mui/material';
+import { IconButton, TextField, FormControl, Box } from '@mui/material';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 
@@ -8,7 +8,8 @@ import { useLoginMutation } from '../../redux/api-queries/auth-queries';
 import { FormContext } from '../../contexts/form';
 
 import { LoginRequest } from '../../@types/auth';
-import { TypeFormContext } from '../../@types/types';
+import { TypeFormContext, TypeSnackBarContext } from '../../@types/types';
+import { SnackBarContext } from '../../contexts/snackbar';
 
 
 const LoginForm = () => {
@@ -22,7 +23,8 @@ const LoginForm = () => {
     const [ passwordError, setPasswordError ] = useState<boolean>(false);
 
     const { onClose } = useContext(FormContext) as TypeFormContext;
-    const [ login, { error }] = useLoginMutation();
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
+    const [ login, { status }] = useLoginMutation();
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(true);
 
@@ -60,7 +62,7 @@ const LoginForm = () => {
                     token && localStorage.setItem('token', JSON.stringify(token));
                     window.dispatchEvent(new Event('storage'))
                 } catch (error){
-                    //formRef.current && formRef.current.reset();
+                    setSnackBar({message: error as string, open: true});
                 }
             }
         }
@@ -118,6 +120,18 @@ const LoginForm = () => {
                     </IconButton>
                 </div>
             </form>
+            {/* {
+                Boolean(snackBar) &&
+                <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    open={Boolean(snackBar)}
+                    //onClose={handleClose}
+                    message={snackBar}
+                    //key={vertical + horizontal}
+                    autoHideDuration={4000}
+                    TransitionComponent={Slide}
+              />
+            } */}
         </div>
     )
 }

@@ -6,8 +6,9 @@ import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 
 import { useCreateUserMutation } from '../../redux/api-queries/auth-queries';
 import { FormContext } from '../../contexts/form';
-import { TypeFormContext } from '../../@types/types';
+import { TypeFormContext, TypeSnackBarContext } from '../../@types/types';
 import { User } from '../../@types/user';
+import { SnackBarContext } from '../../contexts/snackbar';
 
 
 const SignupForm = () => {
@@ -25,8 +26,9 @@ const SignupForm = () => {
     const [ avatarError, setAvatarError ] = useState<boolean>(false);
 
     const { onClose } = useContext(FormContext) as TypeFormContext;
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
+
     const [ createUser, { error }] = useCreateUserMutation();
-    const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(true);
 
@@ -87,10 +89,11 @@ const SignupForm = () => {
             if (newUser) {
                 try {
                     const token = newUser && await createUser(newUser).unwrap();
+                    token && setSnackBar({message: "Welcome!..", open: true});
                     token && localStorage.setItem('token', JSON.stringify(token));
                     window.dispatchEvent(new Event('storage'))
-                } catch (error: any) {
-                    setErr(true);
+                } catch (error) {
+                    setSnackBar({message: error as string, open: true});
                 }
             }
         }

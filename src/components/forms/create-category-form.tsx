@@ -1,10 +1,12 @@
-import { FC, FormEvent, useEffect, useRef, useState } from 'react';
+import { FC, FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { IconButton, TextField, FormControl } from '@mui/material';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useCreateCategoryMutation } from '../../redux/api-queries/category-queries';
 import { Category } from '../../@types/product';
 import Loading from '../shared/loading';
+import { SnackBarContext } from '../../contexts/snackbar';
+import { TypeSnackBarContext } from '../../@types/types';
 
 interface Props {
     handleCancel: ()=>void
@@ -24,6 +26,7 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
     const [ createCategory, {data, error, isLoading} ] = useCreateCategoryMutation();
 
     const formRef = useRef<HTMLFormElement>(null);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const [ disabled, setDisabled ] = useState<boolean>(true);
 
     const nameRegex = new RegExp('^[a-zA-Z]+$');
@@ -51,7 +54,12 @@ const CreateCategoryForm: FC<Props> = ({ handleCancel }: Props) => {
     useEffect(()=> {
         const submit = async() => {
             if (newCategory) {
-                await createCategory({ token: localStorage.getItem('token') || '', body: newCategory});
+                try {
+                    await createCategory({ token: localStorage.getItem('token') || '', body: newCategory});
+                    setSnackBar({message: "Category successfuly created", open: true})
+                } catch (error) {
+                    setSnackBar({message: error as string, open: true})
+                }
             }
         }
         submit();

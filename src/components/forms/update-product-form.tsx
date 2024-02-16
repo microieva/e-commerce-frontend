@@ -1,4 +1,4 @@
-import { FC, FormEvent, useEffect, useRef, useState } from 'react';
+import { FC, FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconButton, TextField, FormControl, MenuItem, InputLabel } from '@mui/material';
@@ -14,6 +14,8 @@ import { useGetCategoriesQuery } from '../../redux/api-queries/category-queries'
 import { Category, Product } from '../../@types/product';
 import Loading from '../shared/loading';
 import { formatUiPrice } from '../../shared/formatUiPrice';
+import { SnackBarContext } from '../../contexts/snackbar';
+import { TypeSnackBarContext } from '../../@types/types';
 
 interface Props {
     product: Product,
@@ -42,6 +44,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(true);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -77,8 +80,13 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     useEffect(()=> {
         const submit = async() => {
             if (updates) {
-                await updateProduct({ token: localStorage.getItem('token') || '', body: updates, productId: product?._id});
-            }
+                try {
+                    await updateProduct({ token: localStorage.getItem('token') || '', body: updates, productId: product?._id});
+                    setSnackBar({message: "Successfuly updated", open: true})
+                } catch (error) {
+                    setSnackBar({message: error as string, open: true})
+                }
+            } 
         }
         submit();
     }, [updates]);

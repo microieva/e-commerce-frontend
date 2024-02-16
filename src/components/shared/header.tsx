@@ -17,11 +17,12 @@ import FormProvider from '../../contexts/form';
 
 import Button from './button';
 import FormSwitcher from '../views/inner-components/form-switcher';
-import { TypeForm } from '../../@types/types';
+import { TypeForm, TypeSnackBarContext } from '../../@types/types';
 import { User } from '../../@types/user';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import {ThemeContext} from '../../contexts/theme';
+import { SnackBarContext } from '../../contexts/snackbar';
 
 
 const Header: FC = () => {
@@ -34,6 +35,8 @@ const Header: FC = () => {
     
     const [ open, setOpen ] = useState<boolean>(false);
     const [ form, setForm ] = useState<TypeForm>(null);
+
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
 
     const cart = useAppSelector(state => state.cart);
     const amount = cart.reduce((curr, item) => curr + item.quantity, 0);
@@ -61,6 +64,7 @@ const Header: FC = () => {
         localStorage.removeItem('token');
         setLoggedInUser(undefined);
         window.dispatchEvent(new Event('storage'))
+        setSnackBar({message: 'Logged out', open: true});
     }
 
     const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {

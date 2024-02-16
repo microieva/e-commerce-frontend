@@ -1,5 +1,5 @@
 
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState, MouseEvent, useContext } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Backdrop, Dialog, Divider, IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -7,6 +7,8 @@ import { Order } from '../../../@types/cart';
 import OrderComponent from '../../shared/order';
 import { useDeleteOrderMutation, useDeleteOrdersMutation } from '../../../redux/api-queries/order-queries';
 import Alert from '../../shared/alert';
+import { TypeSnackBarContext } from '../../../@types/types';
+import { SnackBarContext } from '../../../contexts/snackbar';
 
 interface Props {
     orders: Order[],
@@ -18,13 +20,19 @@ const AdminOrders = ({ orders }: Props) => {
     const [ deleteOrders, { data: deleteAllOrdersData, error: deleteAllOrdersError, isLoading}] = useDeleteOrdersMutation();
     const [ deleteOrder, { data, error }] = useDeleteOrderMutation();
     const [ lastOrder, setLastOrder ] = useState<boolean>(false);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
 
     const handleDeleteOrder = async (orderId: string) => {
-        if (orderId) {       
-            await deleteOrder({orderId, token: localStorage.getItem('token') || ''});
-            if (orders.length === 1) {
-                setLastOrder(true);
+        if (orderId) {  
+            try {
+                await deleteOrder({orderId, token: localStorage.getItem('token') || ''});
+                setSnackBar({message: "Order deleted successfuly", open: true})
+                if (orders.length === 1) {
+                    setLastOrder(true);
+                }  
+            } catch (error) {
+                setSnackBar({message: error as string, open: true});
             }  
         }
     }
@@ -40,7 +48,12 @@ const AdminOrders = ({ orders }: Props) => {
     }
 
     const handleDelete = async () => {
-        await deleteOrders({token: localStorage.getItem('token') || ''});
+        try {
+            await deleteOrders({token: localStorage.getItem('token') || ''});
+            setSnackBar({message: "Orders deleted successfuly", open: true});
+        } catch (error) {
+            setSnackBar({message: error as string, open: true});
+        }
     }
 
     useEffect(()=> {

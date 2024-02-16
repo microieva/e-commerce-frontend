@@ -1,7 +1,4 @@
 import { ChangeEvent } from "react"
-import { LoginResponse } from "./auth"
-import { Product } from "./product"
-import { User } from "./user"
 
 export type ErrorProps = {
   text: string | null,
@@ -34,4 +31,15 @@ export type TypeFormContext = {
 export type TypeThemeContext = {
   theme: 'light' | 'dark',
   setTheme: () => void
+}
+
+export interface Snack {
+    message: string,
+    open: boolean,
+    color?: string
+}
+
+export type TypeSnackBarContext = {
+  snack: Snack,
+  setSnackBar: (snack: Snack) => void
 }

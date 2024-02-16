@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, MouseEvent } from 'react';
+import { FC, useEffect, useState, MouseEvent, useContext } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Backdrop, Dialog, IconButton } from '@mui/material';
@@ -14,6 +14,8 @@ import { Product } from '../../@types/product';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import Alert from '../shared/alert';
 import Loading from '../shared/loading';
+import { SnackBarContext } from '../../contexts/snackbar';
+import { TypeSnackBarContext } from '../../@types/types';
 
 
 interface Props {
@@ -27,6 +29,7 @@ const ProductView: FC<Props> = ({ product }) => {
     
     const [ admin, setAdmin ] = useState<boolean>(false);
     const [ deleteProduct, { data, error, isLoading } ] = useDeleteProductMutation();
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
 
     const handleClose = () => {
@@ -57,6 +60,7 @@ const ProductView: FC<Props> = ({ product }) => {
 
     useEffect(()=> {
         if (data && !error && !isLoading) {
+            setSnackBar({message: `${product.title} deleted successfuly`, open: true})
             navigate('/');
         }
     }, [data]);

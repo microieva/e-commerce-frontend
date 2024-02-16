@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent } from 'react';
+import { FC, useState, MouseEvent, useContext } from 'react';
 
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -10,6 +10,8 @@ import { useDeleteProductMutation } from '../../redux/api-queries/product-querie
 import { Backdrop, Dialog } from '@mui/material';
 import Alert from './alert';
 import Loading from './loading';
+import { SnackBarContext } from '../../contexts/snackbar';
+import { TypeSnackBarContext } from '../../@types/types';
 
 interface Props {
     product: Omit<Product, "categoryId">
@@ -18,6 +20,7 @@ interface Props {
 const AdminActions: FC<Props> = ({ product }: Props) => {
     const [ deleteProduct, { data, error, isLoading}] = useDeleteProductMutation();
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
 
     const handleUpdate = () => {
@@ -25,8 +28,13 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
     }
 
     const handleDelete = async () => {
-        await deleteProduct({token: localStorage.getItem('token') || '', productId: product._id});
-        navigate('/');
+        try {
+            await deleteProduct({token: localStorage.getItem('token') || '', productId: product._id});
+            setSnackBar({message: `${product.title} successfuly deleted`, open: true})
+            navigate('/');
+        } catch (error) {
+            setSnackBar({message: error as string, open: true})
+        }
     }
 
     const handleClose = () => {

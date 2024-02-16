@@ -7,6 +7,21 @@ export const getThemePalette = (mode: PaletteMode) => ({
   ...(mode === 'light' ? 
   {
     components: {
+      MuiSnackbarContent: {
+        styleOverrides: {
+          root: {
+            height: '4rem',
+            width: '25rem',
+            fontWeight: 900,
+            fontSize: 'large',
+            '& .MuiPaper-root.MuiSnackbarContent-root': {
+              backgroundColor: 'rgb(27,27,27)',
+              backgroundImage: 'none',
+              color: 'white'
+            }
+          }
+        }
+      },
       MuiFormLabel: {
         styleOverrides: {
           root: {
@@ -46,7 +61,7 @@ export const getThemePalette = (mode: PaletteMode) => ({
       MuiPaper: {
         styleOverrides: {
           root: {
-            '&.MuiPaper-root:not(.MuiDialog-paper)': {
+            '&.MuiPaper-root:not(.MuiDialog-paper, .MuiSnackbarContent-root)': {
               backgroundColor: !isMobile? 'rgba(255, 255, 255, 0.08)':'none',
               backgroundImage:'none',
               border: '1px solid rgb(61, 61, 61)',
@@ -105,10 +120,24 @@ export const getThemePalette = (mode: PaletteMode) => ({
           }
         }
       },
+      MuiSnackbarContent: {
+        styleOverrides: {
+          root: {
+            height: '4rem',
+            width: '25rem',
+            fontWeight: 900,
+            fontSize: 'large',
+            '& .MuiPaper-root.MuiSnackbarContent-root': {
+              backgroundColor: 'white',
+              color: 'rgb(27,27,27)'
+            }
+          }
+        }
+      },
       MuiPaper: {
         styleOverrides: {
           root: {
-            '&.MuiPaper-root:not(.MuiDialog-paper)': {
+            '&.MuiPaper-root:not(.MuiDialog-paper, .MuiSnackbarContent-root)': {
               backgroundColor: '#272a2e',
               backgroundImage:'none',
               border: '1px solid #84888d',

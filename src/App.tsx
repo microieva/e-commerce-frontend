@@ -11,6 +11,7 @@ import { ThemeContext } from './contexts/theme';
 import CssBaseline from '@mui/material/CssBaseline';
 import { PaletteMode } from '@mui/material';
 import { getThemePalette } from './shared/getThemePallete';
+import { SnackBarProvider } from './contexts/snackbar';
 
 const App: FC = () => {
     const isBrowserDefaulDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -29,19 +30,21 @@ const App: FC = () => {
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <ThemeProvider theme={selectedTheme}>
             <CssBaseline />
-            <div className={`theme-${theme}`}>  
-              <div className='app-container'>
-                  <BrowserRouter>
-                      <Routes>
-                          <Route path="/products/new" element={<ProductFormPage />} /> 
-                          <Route path="/products/:productId" element={<ProductPage />} /> 
-                          <Route path="/auth/profile" element={<ProfilePage />}/>
-                          <Route path="/cart" element={<CartPage />}/>
-                          <Route path="/" element={<HomePage />}/>
-                      </Routes>
-                  </BrowserRouter>
-              </div>
-            </div> 
+            <SnackBarProvider>
+              <div className={`theme-${theme}`}>  
+                <div className='app-container'>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/products/new" element={<ProductFormPage />} /> 
+                            <Route path="/products/:productId" element={<ProductPage />} /> 
+                            <Route path="/auth/profile" element={<ProfilePage />}/>
+                            <Route path="/cart" element={<CartPage />}/>
+                            <Route path="/" element={<HomePage />}/>
+                        </Routes>
+                    </BrowserRouter>
+                </div>
+              </div> 
+            </SnackBarProvider>
           </ThemeProvider>
         </ThemeContext.Provider>
     )

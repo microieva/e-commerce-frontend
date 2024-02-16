@@ -31,6 +31,7 @@ const productQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(productRequest.token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Products']
         }),
         updateProduct: builder.mutation<Product, ProductRequest>({

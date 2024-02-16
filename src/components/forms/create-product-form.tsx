@@ -1,4 +1,4 @@
-import { FC, FormEvent, useEffect, useRef, useState } from 'react';
+import { FC, FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconButton, TextField, FormControl, MenuItem, InputLabel, FormHelperText } from '@mui/material';
@@ -10,6 +10,8 @@ import { useGetCategoriesQuery } from '../../redux/api-queries/category-queries'
 
 import { Category, Product } from '../../@types/product';
 import Loading from '../shared/loading';
+import { SnackBarContext } from '../../contexts/snackbar';
+import { TypeSnackBarContext } from '../../@types/types';
 
 
 const CreateProductForm: FC = () => {
@@ -34,6 +36,7 @@ const CreateProductForm: FC = () => {
 
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(true);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
 
     const priceRegex = new RegExp('^[0-9.,]+$');
@@ -81,7 +84,12 @@ const CreateProductForm: FC = () => {
     useEffect(()=> {
         const submit = async() => {
             if (newProduct) {
-                await createProduct({ token: localStorage.getItem('token') || '', body: newProduct});
+                try {
+                        await createProduct({ token: localStorage.getItem('token') || '', body: newProduct});
+                    }
+                catch (error) {
+                    setSnackBar({message: error as string, open: true})
+                }
             }
         }
         submit();
@@ -104,6 +112,7 @@ const CreateProductForm: FC = () => {
     }, [title, titleError, description, price, priceError, categoryName])
 
     useEffect(()=> {
+        data && setSnackBar({message: `${title} added to the database`, open: true})
         data && !isLoading && navigate(`/products/${data._id}`);
     }, [data])
 

@@ -1,4 +1,4 @@
-import { FC, FormEvent, useEffect, useRef, useState } from 'react';
+import { FC, FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { IconButton, TextField, FormControl } from '@mui/material';
@@ -11,6 +11,8 @@ import Loading from '../shared/loading';
 import { User } from '../../@types/user';
 import { useUpdateUserMutation } from '../../redux/api-queries/user-queries';
 import Button from '../shared/button';
+import { SnackBarContext } from '../../contexts/snackbar';
+import { TypeSnackBarContext } from '../../@types/types';
 
 interface Props {
     user: User
@@ -29,6 +31,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
     const [ emailError, setEmailError ] = useState<boolean>(false);
     const [ avatarError, setAvatarError ] = useState<boolean>(false);
     const [ passwordError, setPasswordError ] = useState<boolean>(false);
+    const [ repeatPasswordError, setRepeatPasswordError ] = useState<boolean>(false);
     const [ isChangingPassword, setIsChangingPassword ] = useState<boolean>(false);
 
     const [ updateUser, {data, error, isLoading} ] = useUpdateUserMutation();
@@ -36,7 +39,15 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
     const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(true);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
+
+    const handleRepeatPasswordChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        if (password && event.target.value.length >= password.length) {
+            setRepeatPasswordError(event.target.value !== password);
+
+        }
+    }
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -68,9 +79,16 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
     useEffect(()=> {
         const submit = async() => {
             if (updates) {
-                await updateUser({ token: localStorage.getItem('token') || '', body: updates, _id: user?._id});
-                if (updates.password !== undefined) {
-                    localStorage.removeItem('token');
+                try {
+                    await updateUser({ token: localStorage.getItem('token') || '', body: updates, _id: user?._id});
+                    setSnackBar({message: "Information saved", open: true});
+                    if (updates.password !== undefined) {
+                        localStorage.removeItem('token');
+                        navigate('/');
+                        setSnackBar({message: "Please login ..", open: true});
+                    }
+                } catch (error) {
+                    setSnackBar({message: error as string, open: true});
                 }
             }
         }
@@ -79,11 +97,9 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
 
     useEffect(()=> {
         if (data) {
-            !isLoading && navigate(`/`);
             setDisabled(true);
         }
-        error && setErr(Boolean(error));
-    }, [data, error]);
+    }, [data]);
 
     useEffect(()=> {
         if (!admin) {
@@ -187,29 +203,54 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                     />
                 </FormControl> 
                 {isChangingPassword ? 
-                    <FormControl fullWidth>
-                        <TextField
-                            fullWidth
-                            variant="standard"
-                            label="Password"
-                            name="password"
-                            type="text"
-                            placeholder="**********"
-                            disabled={disabled}
-                            helperText="Password is required"
-                            onChange={(e) => setPassword(e.target.value)}
-                            sx={{
-                                '& .MuiFormHelperText-root': {
-                                visibility: passwordError ? 'visible' : 'hidden',
-                                transition: 'visibility 0.2s ease-in',
-                                },
-                                '& .MuiInputBase-root.MuiInput-root:before': { 
-                                    borderBottom: disabled ? '1px darkgrey dotted' : 'none',
-                                }
-                            }}
-                            onFocus={()=> setPasswordError(false)}
-                        />
-                    </FormControl> 
+                    <>
+                        <FormControl fullWidth>
+                            <TextField
+                                fullWidth
+                                variant="standard"
+                                label="Password"
+                                name="password"
+                                type="password"
+                                placeholder="**********"
+                                disabled={disabled}
+                                helperText="Password is required"
+                                onChange={(e) => setPassword(e.target.value)}
+                                sx={{
+                                    '& .MuiFormHelperText-root': {
+                                    visibility: passwordError ? 'visible' : 'hidden',
+                                    transition: 'visibility 0.2s ease-in',
+                                    },
+                                    '& .MuiInputBase-root.MuiInput-root:before': { 
+                                        borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                                    }
+                                }}
+                                onFocus={()=> setPasswordError(false)}
+                            />
+                        </FormControl> 
+                        <FormControl fullWidth>
+                            <TextField
+                                fullWidth
+                                variant="standard"
+                                label="Repeat Password"
+                                name="password"
+                                type="password"
+                                placeholder="**********"
+                                disabled={disabled}
+                                helperText="Unmatching password"
+                                onChange={handleRepeatPasswordChange}
+                                sx={{
+                                    '& .MuiFormHelperText-root': {
+                                    visibility: repeatPasswordError ? 'visible' : 'hidden',
+                                    transition: 'visibility 0.2s ease-in',
+                                    },
+                                    '& .MuiInputBase-root.MuiInput-root:before': { 
+                                        borderBottom: disabled ? '1px darkgrey dotted' : 'none',
+                                    }
+                                }}
+                                onFocus={()=> setRepeatPasswordError(false)}
+                            />
+                        </FormControl> 
+                    </>
                     :
                     <Button width={"10rem"} disabled={disabled} text="Change Password" onClick={()=> setIsChangingPassword(true)}/>
                 }

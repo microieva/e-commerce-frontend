@@ -10,12 +10,18 @@ const authQueries = createApi({
   refetchOnMountOrArgChange: true,
   endpoints: (build) => ({
     login: build.mutation<string, LoginRequest>({
-      query: (body) => ({ url: '/login', method: 'POST', body }),
+      query: (body) => ({ 
+        url: '/login', 
+        method: 'POST', 
+        body
+      }),
+      transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
       invalidatesTags: ['User']
       }),
 
     createUser: build.mutation<string, Partial<User>>({ 
       query: (body) => ({url: `/signup`, method: 'POST', body}),
+      transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
       invalidatesTags: ['User']
     }),
     getUser: build.query<User, string>({

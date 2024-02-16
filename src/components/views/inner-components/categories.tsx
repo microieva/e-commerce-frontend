@@ -9,6 +9,8 @@ import { Category } from '../../../@types/product';
 import CreateCategoryForm from '../../forms/create-category-form';
 import {ThemeContext} from '../../../contexts/theme';
 import Alert from '../../shared/alert';
+import { SnackBarContext } from '../../../contexts/snackbar';
+import { TypeSnackBarContext } from '../../../@types/types';
 
 interface Props {
     categories: Category[]
@@ -20,16 +22,21 @@ const Categories = ({ categories }: Props) => {
     const [ deleteCategory, { data, error }] = useDeleteCategoryMutation();
     const [ deleteCategories, { data: deleteAllCategoriesData, error: deleteAllCategoriesError, isLoading}] = useDeleteCategoriesMutation();
     const [ lastCategory, setLastCategory ] = useState<boolean>(false);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
     const [ open, setOpen ] = useState<boolean>(false);
     const [ disabled, setDisabled ] = useState<boolean>(false);
-    const { theme } = useContext(ThemeContext);
 
     const handleDeleteCategory = async (categoryId: string) => {
-        if (categoryId) {       
-            await deleteCategory({categoryId, token: localStorage.getItem('token') || ''});
-            if (categories.length === 1) {
-                setLastCategory(true);
+        if (categoryId) {   
+            try {
+                await deleteCategory({categoryId, token: localStorage.getItem('token') || ''});
+                setSnackBar({message: "Successfuly deleted", open: true});
+                if (categories.length === 1) {
+                    setLastCategory(true);
+                }
+            } catch (error) {
+                setSnackBar({message: error as string, open: true})
             }  
         }
     }
@@ -47,7 +54,12 @@ const Categories = ({ categories }: Props) => {
         setIsDeleting(false);
     }
     const handleDelete = async () => {
-        await deleteCategories(localStorage.getItem('token') || '');
+        try {
+            await deleteCategories(localStorage.getItem('token') || '');
+            setSnackBar({message: "Categories deleted", open: true})
+        } catch (error) {
+            setSnackBar({message: error as string, open: true})
+        }
     }
 
     useEffect(()=> {
