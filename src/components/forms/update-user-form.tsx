@@ -36,12 +36,35 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
 
     const [ updateUser, {data, error, isLoading} ] = useUpdateUserMutation();
 
-    const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
+    const valuesRef = useRef<User>(user);
     const [ disabled, setDisabled ] = useState<boolean>(true);
+    const [ allowToSubmit, setAllowToSubmit ] = useState<boolean>(false);
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
 
+    const nameRegex = new RegExp('^[a-zA-Z]+$');
+    const passWordRegex = new RegExp('^[a-zA-Z0-9]{6,}');
+    const emailRegex = new RegExp('^(?:[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2})');
+    const avatarRegex = new RegExp('^(https?|ftp)://[^\s/$.?#].[^\s]*');
+
+
+
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=> {
+        setNameError(!nameRegex.test(event.target.value));
+        setName(event.target.value);
+    }
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setEmail(event.target.value);
+    }
+    const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setAvatarError(!avatarRegex.test(event.target.value));
+        setAvatar(event.target.value);
+    }
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setPasswordError(!passWordRegex.test(event.target.value))
+        setPassword(event.target.value);
+    }
     const handleRepeatPasswordChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (password && event.target.value.length >= password.length) {
             setRepeatPasswordError(event.target.value !== password);
@@ -56,25 +79,47 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
             email,
             avatar: avatar ? avatar : "https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg",
         };
-        validate(obj);
-        if (!err) {
-            if (password !== undefined) {
-                setUpdates({...obj, password});
-            } else {
-                setUpdates(obj);
-            }
+        if (password !== undefined) {
+            setUpdates({...obj, password});
+        } else {
+            setUpdates(obj);
         }
     }
-
     useEffect(() => {
-        const obj = {
+        valuesRef.current = user;
+    });
+    useEffect(()=> {
+        if (disabled) {
+            setNameError(false);
+            setPasswordError(false);
+            setEmailError(false);
+            setAvatarError(false);
+        }
+    }, [disabled]);
+
+    useEffect(()=> {
+        const prevValues= {
+            name: valuesRef.current.name,
+            password:  valuesRef.current.password,
+            email: valuesRef.current.email,
+            avata: valuesRef.current.avatar,
+        }
+        const currentValues = {
             name,
+            password,
             email,
-            avatar: avatar ? avatar : "https://cdn.pixabay.com/photo/2015/05/22/05/52/cat-778315_1280.jpg"
-        };
-        validate(obj);
-        err && setDisabled(false);
-    }, [ name, email, avatar ])
+            avatar
+        }
+        const prev = Object.values(prevValues).toString();
+        const curr = Object.values(currentValues).toString();
+        const isError = nameError || emailError || passwordError || avatarError;
+ 
+        if (prev !== curr && !isError) {
+            setAllowToSubmit(true);
+        } else {
+            setAllowToSubmit(false);
+        }
+    }, [[name, email, password, avatar]]);
 
     useEffect(()=> {
         const submit = async() => {
@@ -97,7 +142,9 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
 
     useEffect(()=> {
         if (data) {
-            setDisabled(true);
+            localStorage.removeItem('token');
+            setSnackBar({message: "Please login ..", open: true});
+            navigate('/');
         }
     }, [data]);
 
@@ -105,14 +152,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
         if (!admin) {
             setDisabled(true);
         }
-    }, [admin])
-
-    const validate = (obj: any) => {
-        //setErr(titleError && priceError && descriptionError);
-        //temporary : 
-        const foundUndefined = Object.values(obj).some(value => value === undefined);
-        setErr(foundUndefined);
-    }
+    }, [admin]);
 
     const onCancel =() => {
         setAdmin(user.role === "ADMIN");
@@ -122,7 +162,6 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
         setPassword(undefined);
         setIsChangingPassword(false);
         
-        setErr(false);
         setDisabled(true);
     }
 
@@ -139,10 +178,11 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                         label="Name"
                         name="name"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={handleNameChange}
+                        onBlur={()=>setNameError(name.length<1)}
                         required
                         disabled={disabled}
-                        helperText="Title is required"
+                        helperText={name==='' ? "Name is required":"Name must contain letters only"}
                         sx={{
                             '& .MuiFormHelperText-root': {
                               visibility: nameError ? 'visible' : 'hidden',
@@ -163,10 +203,11 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                         name="email"
                         type="text"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleEmailChange}
+                        onBlur={()=>email && setEmailError(!emailRegex.test(email) || email === '')}
                         required
                         disabled={disabled}
-                        helperText="Price is required"
+                        helperText={email === '' ? "Email is required": "Must be a valid email address"}
                         sx={{
                             '& .MuiFormHelperText-root': {
                               visibility: emailError ? 'visible' : 'hidden',
@@ -176,7 +217,6 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                                 borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                             }
                         }}
-                        onFocus={()=>setEmailError(false)}
                     />
                 </FormControl>
                 <FormControl fullWidth>
@@ -188,8 +228,9 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                         type="text"
                         value={avatar}
                         disabled={disabled}
-                        helperText="Image must be a valid internet link"
-                        onChange={(e) => setAvatar(e.target.value)}
+                        helperText="Avatar must be a valid internet link"
+                        onChange={handleAvatarChange}
+                        onBlur={()=>avatar && setAvatarError(!avatarRegex.test(avatar))}
                         sx={{
                             '& .MuiFormHelperText-root': {
                             visibility: avatarError ? 'visible' : 'hidden',
@@ -214,7 +255,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                                 placeholder="**********"
                                 disabled={disabled}
                                 helperText="Password is required"
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={handlePasswordChange}
                                 sx={{
                                     '& .MuiFormHelperText-root': {
                                     visibility: passwordError ? 'visible' : 'hidden',
@@ -267,7 +308,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                                 <>
                                     <IconButton 
                                     type ="submit" 
-                                    disabled={err}
+                                    disabled={!allowToSubmit}
                                     >
                                         <BackupOutlinedIcon/>
                                     </IconButton> 
