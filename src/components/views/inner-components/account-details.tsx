@@ -6,32 +6,34 @@ import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import { User } from '../../../@types/user';
 import UpdateUserForm from '../../forms/update-user-form';
 import { useDeleteUserMutation } from '../../../redux/api-queries/user-queries';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import Alert from '../../shared/alert';
+import { TypeSnackBarContext } from '../../../@types/types';
+import { SnackBarContext } from '../../../contexts/snackbar';
 
 interface Props {
     user: User
 }
 
 const AccountDetails = ({ user }: Props) => {
-    const [ deleteUser, { data, error, isLoading }] = useDeleteUserMutation();
+    const [ deleteUser ] = useDeleteUserMutation();
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
 
     const handleDeleteUser = async () => {
-        await deleteUser({ token: localStorage.getItem('token') || '', _id: user._id})
-        localStorage.removeItem('token');
+        try {
+            await deleteUser({ token: localStorage.getItem('token') || '', _id: user._id})
+            localStorage.removeItem('token');
+            setSnackBar({message: "Account deleted", open: true});
+            navigate('/');
+        } catch (error) {
+            setSnackBar({message: error as string, open: true});
+        }
     }
     const handleClose = () => {
         setIsDeleting(false);
     }
-
-    useEffect(()=> {
-        if (!error && data) {
-            // snackbar
-            navigate('/');
-        }
-    }, [ data ])
 
         return (
             <>
