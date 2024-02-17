@@ -27,6 +27,17 @@ const categoryQueries = createApi({
             ),
             invalidatesTags: ['Categories']
         }),
+        updateCategory: build.mutation<Category, CategoryRequest>({
+            query: (categoryRequest) => (categoryRequest && 
+                {
+                    url: `/${categoryRequest.categoryId}`, 
+                    method: 'PUT', 
+                    body: categoryRequest.body, 
+                    headers: { 'Authorization': `Bearer ${JSON.parse(categoryRequest.token)}`}
+                }
+            ),
+            invalidatesTags: ['Categories']
+        }),
         deleteCategory: build.mutation<{ msg: string}, CategoryRequest>({
             query: (categoryRequest) =>  (
                 {
@@ -54,6 +65,7 @@ export const {
     useGetCategoriesQuery,
     useGetCategoryByIdQuery,
     useCreateCategoryMutation,
+    useUpdateCategoryMutation,
     useDeleteCategoryMutation,
     useDeleteCategoriesMutation
  } = categoryQueries;

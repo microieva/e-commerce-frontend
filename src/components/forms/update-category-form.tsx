@@ -2,17 +2,18 @@ import { FC, FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { IconButton, TextField, FormControl } from '@mui/material';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-//import { useUpdateCategoryMutation } from '../../redux/api-queries/category-queries';
+import { useUpdateCategoryMutation } from '../../redux/api-queries/category-queries';
 import { Category } from '../../@types/product';
 import Loading from '../shared/loading';
 import { SnackBarContext } from '../../contexts/snackbar';
 import { TypeSnackBarContext } from '../../@types/types';
 
 interface Props {
-    category: Category
+    category: Category,
+    onClose:()=>void
 }
 
-const UpdateCategoryForm: FC<Props> = ({ category }: Props) => {
+const UpdateCategoryForm: FC<Props> = ({ category, onClose }: Props) => {
 
     const [ name, setName ] = useState<string>(category.name);
     const [ image, setImage ] = useState<string>(category.image);
@@ -22,19 +23,22 @@ const UpdateCategoryForm: FC<Props> = ({ category }: Props) => {
     const [ nameError, setNameError ] = useState<boolean>(false);
     const [ imageError, setImageError ] = useState<boolean>(false);
 
-    //const [ updateCategory, {data, error, isLoading} ] = useUpdateCategoryMutation();
+    const [ updateCategory, {data, error, isLoading} ] = useUpdateCategoryMutation();
     const [ allowToSubmit, setAllowToSubmit ] = useState<boolean>(false);
 
     const formRef = useRef<HTMLFormElement>(null);
     const valuesRef = useRef<Category>(category);
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
-    const [ disabled, setDisabled ] = useState<boolean>(true);
 
-    const nameRegex = new RegExp('^[a-zA-Z]+$');
     const imageRegex = new RegExp('^(https?|ftp)://[^\s/$.?#].[^\s]*');
 
-    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setNameError(!nameRegex.test(event.target.value));
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=> {
+        let isValid: boolean = true;
+        for (let i=0; i<=event.target.value.length-1; i++) {
+            isValid = isNaN(Number(event.target.value.charAt(i))) || event.target.value.charAt(i) === " "
+        }
+        
+        setNameError(!isValid);
         setName(event.target.value);
     }
 
@@ -51,34 +55,24 @@ const UpdateCategoryForm: FC<Props> = ({ category }: Props) => {
         };
         setUpdates(obj);
     }
-
-    const handleCancel = () => {
-        setName(category.name);
-        setImage(category.image);
-
-        setDisabled(true);
-    }
+    useEffect(() => {
+        valuesRef.current = category;
+    });
 
     useEffect(()=> {
         const submit = async() => {
             if (updates) {
                 try {
-                    //await updateCategory({ token: localStorage.getItem('token') || '', body: updates});
-                    setSnackBar({message: "Changes saved", open: true})
+                    await updateCategory({ token: localStorage.getItem('token') || '', body: updates, categoryId: category._id});
+                    setSnackBar({message: "Changes saved", open: true});
+                    onClose();
                 } catch (error) {
-                    setSnackBar({message: error as string, open: true})
+                    setSnackBar({message: error as string, open: true});
                 }
             }
         }
         submit();
     }, [updates]);
-
-    useEffect(()=> {
-        if (disabled) {
-            setNameError(false);
-            setImageError(false);
-        }
-    }, [disabled]);
 
     useEffect(()=> {
         const prevValues= {
@@ -98,11 +92,7 @@ const UpdateCategoryForm: FC<Props> = ({ category }: Props) => {
         } else {
             setAllowToSubmit(false);
         }
-    }, [[name, image]]);
-
-    // if (isLoading) {
-    //     return <Loading />
-    // }
+    }, [name, image]);
 
     return (
         <div className='form-container' style={{margin: "auto auto 3rem auto", width:"50%"}}>
@@ -113,6 +103,8 @@ const UpdateCategoryForm: FC<Props> = ({ category }: Props) => {
                         variant="standard"
                         label="Name"
                         name="name"
+                        type="text"
+                        value={name}
                         onChange={handleNameChange}
                         onBlur={()=>setNameError(false)}
                         required
@@ -121,9 +113,6 @@ const UpdateCategoryForm: FC<Props> = ({ category }: Props) => {
                             '& .MuiFormHelperText-root': {
                               visibility: nameError ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                             }
                         }}
                         onFocus={()=>setNameError(false)} 
@@ -136,15 +125,13 @@ const UpdateCategoryForm: FC<Props> = ({ category }: Props) => {
                         label="Image"
                         name="image"
                         type="text"
+                        value={image}
                         helperText="Image must be a valid internet link"
                         onChange={handleImageChange}
                         sx={{
                             '& .MuiFormHelperText-root': {
                             visibility: imageError ? 'visible' : 'hidden',
                             transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': { 
-                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                             }
                         }}
                         onFocus={()=> setImageError(false)}
@@ -154,7 +141,7 @@ const UpdateCategoryForm: FC<Props> = ({ category }: Props) => {
                     <IconButton type ="submit" disabled={!allowToSubmit}>
                         <BackupOutlinedIcon/>
                     </IconButton>
-                    <IconButton type ="button" onClick={handleCancel}>
+                    <IconButton type ="button" onClick={()=>onClose()}>
                         <HighlightOffIcon/>
                     </IconButton> 
                 </div>

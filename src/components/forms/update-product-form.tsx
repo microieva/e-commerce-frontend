@@ -45,7 +45,6 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
 
     const formRef = useRef<HTMLFormElement>(null);
     const valuesRef = useRef<Product>(product);
-    const titleRef = useRef<HTMLInputElement>(null)
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const [ disabled, setDisabled ] = useState<boolean>(true);
     const navigate = useNavigate();
@@ -179,7 +178,6 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
         <form onSubmit={handleSubmit} ref={formRef}>
             <FormControl fullWidth>
                 <TextField
-                    ref={titleRef}
                     fullWidth
                     variant="standard"
                     label="Title"

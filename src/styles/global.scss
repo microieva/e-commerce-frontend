@@ -303,9 +303,13 @@ form {
   margin-bottom: 2rem;
   padding: 0 3rem;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
   align-items: center;
+  .view-header {
+    width: inherit;
+  }
   .btn-group {
     margin: 0;
   }

@@ -43,7 +43,6 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const navigate = useNavigate();
 
-    const nameRegex = new RegExp('^[a-zA-Z]+$');
     const passWordRegex = new RegExp('^[a-zA-Z0-9]{6,}');
     const emailRegex = new RegExp('^(?:[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2})');
     const avatarRegex = new RegExp('^(https?|ftp)://[^\s/$.?#].[^\s]*');
@@ -51,7 +50,12 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
 
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=> {
-        setNameError(!nameRegex.test(event.target.value));
+        let isValid: boolean = true;
+        for (let i=0; i<=event.target.value.length-1; i++) {
+            isValid = isNaN(Number(event.target.value.charAt(i))) || event.target.value.charAt(i) === " "
+        }
+        
+        setNameError(!isValid);
         setName(event.target.value);
     }
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

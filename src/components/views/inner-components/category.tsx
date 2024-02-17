@@ -16,14 +16,18 @@ const CategoryComponent = ({category, handleDelete}: Props) => {
     const handleEdit = () => {
         setIsUpdating(true)
     }
+    const handleClose = ()=> {
+        setIsUpdating(false)
+    }
 
     return (
         <div className="category-container">
-                <div style={{display: "flex", alignItems: 'center'}}>
+            <div className="view-header" style={{margin: isUpdating ? "1rem 0":0, justifyContent: isUpdating ? "flex-end": "inherit"}}>
+                {!isUpdating && <div style={{display: "flex", alignItems: 'center'}}>
                     <img src={category.image}/>
-                    <h2>{category.name}</h2> 
-                </div>
-                <div className="btn-group">
+                    <h2>{category.name.toLowerCase()}</h2> 
+                </div>}
+                <div className="btn-group" style={{float: isUpdating ? "right": "none"}}>
                     <IconButton  disabled={isUpdating} onClick={handleEdit}>
                         <EditNoteIcon/>
                     </IconButton>
@@ -31,7 +35,8 @@ const CategoryComponent = ({category, handleDelete}: Props) => {
                         <DeleteOutlineIcon/>
                     </IconButton>
                 </div>  
-            {isUpdating && <UpdateCategoryForm category={category}/>}   
+            </div>
+            {isUpdating && <UpdateCategoryForm category={category} onClose={handleClose}/>}   
         </div> 
     )
 }
