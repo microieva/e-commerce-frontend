@@ -102,7 +102,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
             name: valuesRef.current.name,
             password:  valuesRef.current.password,
             email: valuesRef.current.email,
-            avata: valuesRef.current.avatar,
+            avatar: valuesRef.current.avatar,
         }
         const currentValues = {
             name,
