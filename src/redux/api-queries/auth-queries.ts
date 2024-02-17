@@ -26,6 +26,7 @@ const authQueries = createApi({
     }),
     getUser: build.query<User, string>({
       query: (token) => (token && { url: '/profile', headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}}),
+      transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
       providesTags: ['User']
   })
 }) })

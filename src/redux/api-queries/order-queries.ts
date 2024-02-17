@@ -17,6 +17,7 @@ const orderQueries  = createApi({
                 headers: { 'Authorization': `Bearer ${JSON.parse(orderRequest.token)}`}
 
             }),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Orders']
         }),
         getOrdersByUserId: builder.query<Order[], {token: string, userId: string}>({
@@ -26,6 +27,7 @@ const orderQueries  = createApi({
                 headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
                 
             }),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Orders']
         }),
         getOrderItems: builder.query<CartItem[], OrderRequest>({
@@ -35,6 +37,7 @@ const orderQueries  = createApi({
                 headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
                 
             }),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Orders']
         }),
         createOrder: builder.mutation<Order, OrderRequest>({
@@ -46,6 +49,7 @@ const orderQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(orderRequest.token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Orders']
         }),
         updateOrder: builder.mutation<Order, OrderRequest>({
@@ -57,6 +61,8 @@ const orderQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(orderRequest.token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
+            invalidatesTags: ['Orders']
         }),
         deleteOrder: builder.mutation<{ msg: string }, {orderId: string, token: string}>({
             query: ({orderId, token}) =>  (
@@ -66,6 +72,7 @@ const orderQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Orders']
         }),
         deleteUserOrders: builder.mutation<{ msg: string}, { userId: string, token: string}>({
@@ -76,6 +83,7 @@ const orderQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Orders']
         }),
         deleteOrders:  builder.mutation<{ msg: string }, {token: string}>({
@@ -86,6 +94,7 @@ const orderQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Orders']
         })
     })

@@ -14,6 +14,7 @@ const userQueries  = createApi({
                 method: 'GET', 
                 headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
             }),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Users', 'User']
         }),
         updateUser: builder.mutation<User, UserRequest>({
@@ -25,6 +26,7 @@ const userQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(userRequest.token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Users']
         }),
         deleteUser: builder.mutation<{ msg: string }, UserRequest>({
@@ -33,6 +35,7 @@ const userQueries  = createApi({
                 method: 'DELETE', 
                 headers: { 'Authorization': `Bearer ${JSON.parse(userRequest.token)}`}
             }),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Users']
         })
     })

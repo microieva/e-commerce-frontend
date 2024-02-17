@@ -10,7 +10,7 @@ interface TableProps {
     searchWord: string
 }
 const Table: FC<TableProps> = ({ searchWord }: TableProps) => {
-    //const { data: filteredProducts, isLoading: isLoadingFilteredProducts } = useGetFilteredProductsByTitleQuery({title: searchWord});
+    const { data: filteredProducts, isLoading: isLoadingFilteredProducts } = useGetFilteredProductsByTitleQuery({title: searchWord});
     const { data, isLoading } = useGetProductsQuery(undefined);
 	const [ products, setProducts] = useState<Product[]>([]);
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
@@ -19,13 +19,13 @@ const Table: FC<TableProps> = ({ searchWord }: TableProps) => {
         data && setProducts(data);
 	}, [data]);
 
-    // useEffect(()=>{	
-	// 	filteredProducts && setProducts(filteredProducts);
-	// }, [searchWord, filteredProducts])
+    useEffect(()=>{	
+	    filteredProducts && setProducts(filteredProducts);
+	}, [searchWord, filteredProducts])
 
     return (
         <>
-            { isLoading ? <Loading /> : 
+            { isLoading || isLoadingFilteredProducts ? <Loading /> : 
                 <div className='view-wrapper'>
                     <MuiProductsTable data={products} />
                 </div>

@@ -24,7 +24,7 @@ const CardsView = ({ searchWord }: ViewProps) => {
 	const [ admin, setAdmin ] = useState<boolean>(false);
 
 	const { data, isLoading } = useGetProductsQuery(undefined);
-	//const { data: filteredProducts, isLoading: isLoadingFilteredProducts } = useGetFilteredProductsByTitleQuery({ title: searchWord});
+	const { data: filteredProducts, isLoading: isLoadingFilteredProducts } = useGetFilteredProductsByTitleQuery({ title: searchWord});
 	const [ products, setProducts] = useState<Product[]>([]);
 
 	const [currentPage, setCurrentPage] = useState<number>(1);
@@ -54,9 +54,9 @@ const CardsView = ({ searchWord }: ViewProps) => {
 		}
 	}, [token])
 
-	// useEffect(()=>{	
-	// 	filteredProducts && setProducts(filteredProducts);
-	// }, [searchWord, filteredProducts])
+	useEffect(()=>{	
+		filteredProducts && setProducts(filteredProducts);
+	}, [searchWord, filteredProducts])
 
 	const handlePageChange = (newPage: number, newItemsPerPage: number) => {
     	setCurrentPage(newPage);
@@ -68,7 +68,7 @@ const CardsView = ({ searchWord }: ViewProps) => {
 
 	return (
 		<>
-			{ isLoading || isLoadingUser ? <Loading /> :
+			{ isLoading || isLoadingFilteredProducts || isLoadingUser ? <Loading /> :
 				<div className="cards-container">
 					<div className="cards-view-wrapper">
 						{currentProducts.length > 0 && currentProducts.map((product: Product, i) => {

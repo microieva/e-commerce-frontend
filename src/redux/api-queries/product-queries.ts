@@ -12,14 +12,17 @@ const productQueries  = createApi({
     endpoints: builder => ({
         getProducts: builder.query<Product[], undefined>({
             query: () => `/`,
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Products']
         }),
         getProductById: builder.query<Product, string>({
             query: (productId) => `/${productId}`,
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Product']
         }), 
         getFilteredProductsByTitle: builder.query<Product[], { title: string }>({
             query: ({ title }) => ({url:`/search/?title=${title}`}),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Products']
         }),
         createProduct: builder.mutation<Product, ProductRequest>({
@@ -43,6 +46,7 @@ const productQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(productRequest.token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Products']
         }),
         deleteProduct: builder.mutation<Product, ProductRequest>({
@@ -53,6 +57,7 @@ const productQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(productRequest.token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Products']
         }),
         deleteProducts: builder.mutation<{msg: string}, string>({
@@ -63,6 +68,7 @@ const productQueries  = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Products']
         })
     })

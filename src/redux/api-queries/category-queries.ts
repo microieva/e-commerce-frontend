@@ -10,10 +10,12 @@ const categoryQueries = createApi({
     endpoints: (build) => ({
         getCategories: build.query<Category[], string>({
             query: (token) => (token && { url: '/', headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}}),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Categories']
         }),
         getCategoryById: build.query<Category, string>({
             query: (categoryId) => `/${categoryId}`,
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Category']
         }),
         createCategory: build.mutation<Category, CategoryRequest>({
@@ -25,6 +27,7 @@ const categoryQueries = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(categoryRequest.token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Categories']
         }),
         updateCategory: build.mutation<Category, CategoryRequest>({
@@ -36,6 +39,7 @@ const categoryQueries = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(categoryRequest.token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Categories']
         }),
         deleteCategory: build.mutation<{ msg: string}, CategoryRequest>({
@@ -46,6 +50,7 @@ const categoryQueries = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(categoryRequest.token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Categories']
         }),
         deleteCategories: build.mutation<{ msg: string}, string>({
@@ -56,6 +61,7 @@ const categoryQueries = createApi({
                     headers: { 'Authorization': `Bearer ${JSON.parse(token)}`}
                 }
             ),
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Categories']
         })
     }),
