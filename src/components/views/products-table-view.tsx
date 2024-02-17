@@ -1,19 +1,27 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import MuiProductsTable from '../tables/mui-products-table';
-import { useGetFilteredProductsByTitleQuery } from '../../redux/api-queries/product-queries';
+import { useGetFilteredProductsByTitleQuery, useGetProductsQuery } from '../../redux/api-queries/product-queries';
 import { Product } from '../../@types/product';
 import Loading from '../shared/loading';
+import { TypeSnackBarContext } from '../../@types/types';
+import { SnackBarContext } from '../../contexts/snackbar';
 
 interface TableProps {
     searchWord: string
 }
 const Table: FC<TableProps> = ({ searchWord }: TableProps) => {
-    const { data, isLoading } = useGetFilteredProductsByTitleQuery({title: searchWord});
+    //const { data: filteredProducts, isLoading: isLoadingFilteredProducts } = useGetFilteredProductsByTitleQuery({title: searchWord});
+    const { data, isLoading } = useGetProductsQuery(undefined);
 	const [ products, setProducts] = useState<Product[]>([]);
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
 
-    useEffect(()=>{	
-		data && setProducts(data);
-	}, [searchWord, data])
+    useEffect(()=> {
+        data && setProducts(data);
+	}, [data]);
+
+    // useEffect(()=>{	
+	// 	filteredProducts && setProducts(filteredProducts);
+	// }, [searchWord, filteredProducts])
 
     return (
         <>

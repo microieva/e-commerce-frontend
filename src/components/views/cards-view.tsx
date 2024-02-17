@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
-import { useGetFilteredProductsByTitleQuery } from '../../redux/api-queries/product-queries';
+import { useGetFilteredProductsByTitleQuery, useGetProductsQuery } from '../../redux/api-queries/product-queries';
 
 import ProductCard from './inner-components/product-card';
 import Pagination from './inner-components/pagination';
 import Loading from '../shared/loading';
 import { User } from '../../@types/user';
 import { Product } from '../../@types/product';
+import { TypeSnackBarContext } from '../../@types/types';
+import { SnackBarContext } from '../../contexts/snackbar';
 
 interface ViewProps {
   searchWord: string
@@ -21,11 +23,17 @@ const CardsView = ({ searchWord }: ViewProps) => {
 	const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
 	const [ admin, setAdmin ] = useState<boolean>(false);
 
-	const { data, isLoading } = useGetFilteredProductsByTitleQuery({ title: searchWord});
+	const { data, isLoading } = useGetProductsQuery(undefined);
+	//const { data: filteredProducts, isLoading: isLoadingFilteredProducts } = useGetFilteredProductsByTitleQuery({ title: searchWord});
 	const [ products, setProducts] = useState<Product[]>([]);
 
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [itemsPerPage, setItemsPerPage] = useState<number>(20);
+	const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
+
+	useEffect(()=> {
+        data && setProducts(data);
+	}, [data]);
 
 	useEffect(() => {
         const handleStorage = () => {
@@ -46,9 +54,9 @@ const CardsView = ({ searchWord }: ViewProps) => {
 		}
 	}, [token])
 
-	useEffect(()=>{	
-		data && setProducts(data);
-	}, [searchWord, data])
+	// useEffect(()=>{	
+	// 	filteredProducts && setProducts(filteredProducts);
+	// }, [searchWord, filteredProducts])
 
 	const handlePageChange = (newPage: number, newItemsPerPage: number) => {
     	setCurrentPage(newPage);

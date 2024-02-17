@@ -49,6 +49,10 @@ const Categories = ({ categories }: Props) => {
         setOpen(false);
         setDisabled(false);
     }
+    const onClose = () => {
+        setOpen(false);
+        setDisabled(false);
+    }
 
     const handleClose = () => {
         setIsDeleting(false);
@@ -92,7 +96,7 @@ const Categories = ({ categories }: Props) => {
                                 </div> 
                             </div>
                                 { open && 
-                                    <CreateCategoryForm handleCancel={handleCancel}/>
+                                    <CreateCategoryForm handleCancel={handleCancel} handleClose={onClose}/>
                                 }
                         </div> 
                         <div className="profile-section">

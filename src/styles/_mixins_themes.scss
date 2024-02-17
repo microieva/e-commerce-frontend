@@ -26,10 +26,11 @@
         $mid-gray: themed('mid-gray') !global;
         $darkgray: themed('darkgray') !global;
         $orange:  themed('orange') !global;
+        $ghost: themed('ghost') !global;
 
         $light-gray-border: 1px solid themed('light-font') !global;
         $dark-gray-border: 1px solid themed('dark-font') !global;
-        $dashed-border: 1px dashed themed('mid-gray') !global;
+        $dashed-border: 1px dashed themed('ghost') !global;
         $dotted-border: 1px dotted themed('darkgray') !global;
         @content;
     }
