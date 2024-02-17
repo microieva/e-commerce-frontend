@@ -55,7 +55,13 @@ const CardsView = ({ searchWord }: ViewProps) => {
 	}, [token])
 
 	useEffect(()=>{	
-		filteredProducts && setProducts(filteredProducts);
+		if (filteredProducts) {
+			filteredProducts.length> 0 ?  
+				setProducts(filteredProducts)
+				:
+				setProducts(products);
+
+		}
 	}, [searchWord, filteredProducts])
 
 	const handlePageChange = (newPage: number, newItemsPerPage: number) => {
