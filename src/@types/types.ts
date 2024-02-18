@@ -10,7 +10,7 @@ export type LoadingProps = {
 }
 
 export type SearchBarProps = {
-  onSearchInputChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>void,
+  onSearchInputChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>void
 }
 
 export type ButtonProps = {

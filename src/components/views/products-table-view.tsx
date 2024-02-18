@@ -7,9 +7,10 @@ import { TypeSnackBarContext } from '../../@types/types';
 import { SnackBarContext } from '../../contexts/snackbar';
 
 interface TableProps {
-    searchWord: string
+    searchWord: string,
+    setNumberOfProducts: (nr: number)=> void
 }
-const Table: FC<TableProps> = ({ searchWord }: TableProps) => {
+const Table: FC<TableProps> = ({ searchWord, setNumberOfProducts }: TableProps) => {
     const { data: filteredProducts, isLoading: isLoadingFilteredProducts } = useGetFilteredProductsByTitleQuery({title: searchWord});
     const { data, isLoading } = useGetProductsQuery(undefined);
 	const [ products, setProducts] = useState<Product[]>([]);
@@ -20,8 +21,16 @@ const Table: FC<TableProps> = ({ searchWord }: TableProps) => {
 	}, [data]);
 
     useEffect(()=>{	
-	    filteredProducts && setProducts(filteredProducts);
-	}, [searchWord, filteredProducts])
+		if (filteredProducts) {
+			if (searchWord && filteredProducts.length===0) {
+				data && setProducts(data);
+			} 
+			else {
+				setProducts(filteredProducts);
+			}
+			setNumberOfProducts(filteredProducts.length);
+		}
+	}, [searchWord, filteredProducts]);
 
     return (
         <>

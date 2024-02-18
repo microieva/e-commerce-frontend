@@ -13,10 +13,11 @@ import { TypeSnackBarContext } from '../../@types/types';
 import { SnackBarContext } from '../../contexts/snackbar';
 
 interface ViewProps {
-  searchWord: string
+  searchWord: string,
+  setNumberOfProducts: (nr: number)=> void
 }
 
-const CardsView = ({ searchWord }: ViewProps) => {
+const CardsView = ({ searchWord, setNumberOfProducts }: ViewProps) => {
 	const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data: user, isLoading: isLoadingUser } = useGetUserQuery(token);
 
@@ -56,13 +57,16 @@ const CardsView = ({ searchWord }: ViewProps) => {
 
 	useEffect(()=>{	
 		if (filteredProducts) {
-			filteredProducts.length> 0 ?  
-				setProducts(filteredProducts)
-				:
-				setProducts(products);
-
+			if (searchWord && filteredProducts.length===0) {
+				data && setProducts(data);
+			} 
+			else {
+				setProducts(filteredProducts);
+			}
+			setNumberOfProducts(filteredProducts.length);
 		}
-	}, [searchWord, filteredProducts])
+	}, [searchWord, filteredProducts]);
+
 
 	const handlePageChange = (newPage: number, newItemsPerPage: number) => {
     	setCurrentPage(newPage);
