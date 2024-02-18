@@ -56,7 +56,12 @@ const MuiProductsTable = ({ data }: TableProps) => {
             id: 'category',
             label: 'Category',
             align: 'right',
-            render: (row: Product) => row.category.name,
+            render: (row: Product) => {
+                if (row.category) {
+                    return row.category.name
+                }
+                return ""
+            }
         },
     ];
     
@@ -155,7 +160,12 @@ const MuiProductsTable = ({ data }: TableProps) => {
                                         return (
                                             <TableCell key={i+column.id} align={column.align}>
                                                 <Link style={{textDecoration: "none" }} to={`/products/${row._id}`}>
-                                                    {value}
+                                                    {value !=="" ? value 
+                                                        : 
+                                                        <>
+                                                            {admin ? <p><em>Deleted category</em></p>: <p>-</p>}
+                                                        </>
+                                                    } 
                                                 </Link>
                                             </TableCell>    
                                             );

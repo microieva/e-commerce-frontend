@@ -12,6 +12,7 @@ interface CardProps {
 
 const ProductCard: FC<CardProps> = ({ product, admin }: CardProps) => {
   const uiPrice =  formatUiPrice(product.price);
+
   return (
     <>
       <div className='product-price'>{uiPrice} €</div>
@@ -20,7 +21,14 @@ const ProductCard: FC<CardProps> = ({ product, admin }: CardProps) => {
           <div className="card-content">
             <div>
               <p className='product-title'>{product.title.toLowerCase()}</p>
-              <p className='product-category'>{product.category.name.toLowerCase()}</p>
+              {
+                product.category ? 
+                  <p className='product-category'>{product.category.name.toLowerCase()}</p>
+                  : 
+                  <>
+                    {admin ? <p><em>Deleted category</em></p>: <p>-</p>}
+                  </>
+              }
             </div>
               { !admin ? <CartActions product={product}/> : <AdminActions product={product}/>}
           </div>

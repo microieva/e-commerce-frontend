@@ -19,17 +19,25 @@ import { SnackBarContext } from '../../contexts/snackbar';
 
 interface Props {
     product: Product,
-    admin?: boolean
+    admin: boolean
 }
 
 const UpdateProductForm: FC<Props> = ({ product, admin }) => {
+    const getPlaceholderCategoryName = (): string => {
+        if (admin) {
+            return "Deleted category"
+        } else {
+            return "-";
+        }
+    }
+    const valuesRef = useRef<Product>(product);
 
     const [ title, setTitle ] = useState<string>(product.title);
     const [ price, setPrice ] = useState<string>(formatUiPrice(product.price));
     const [ description, setDescription ] = useState<string>(product.description);
     const [ image, setImage ] = useState<string>(product.images[0]);
-    const [ categoryName, setCategoryName ] = useState<string>(product.category.name);
-    const [ categoryId, setCategoryId ] = useState<string>(product.category._id);
+    const [ categoryName, setCategoryName ] = useState<string>(product.category ? product.category.name : getPlaceholderCategoryName());
+    const [ categoryId, setCategoryId ] = useState<string>("");
      
     const [ updates, setUpdates ] = useState<Partial<Product>>();
     const { data: ctgrs } = useGetCategoriesQuery(localStorage.getItem('token') || '');
@@ -44,7 +52,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     const [ updateProduct, {data, error, isLoading} ] = useUpdateProductMutation();
 
     const formRef = useRef<HTMLFormElement>(null);
-    const valuesRef = useRef<Product>(product);
+    
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const [ disabled, setDisabled ] = useState<boolean>(true);
     const navigate = useNavigate();
@@ -76,7 +84,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     }
 
     const handleCategoryChange = (event: SelectChangeEvent) => {
-        const prevCategoryName = valuesRef.current.category.name;
+        const prevCategoryName = valuesRef.current.category ? valuesRef.current.category.name : getPlaceholderCategoryName();
         setCategoryError(event.target.value === prevCategoryName);
         setCategoryName(event.target.value);
     }
@@ -113,7 +121,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
             price:  valuesRef.current.price,
             image: valuesRef.current.images[0],
             description: valuesRef.current.description,
-            categoryName: valuesRef.current.category.name
+            categoryName: valuesRef.current.category ? valuesRef.current.category.name : getPlaceholderCategoryName()
         }
         const currentValues = {
             title,
@@ -160,19 +168,23 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
         }
     }, [data]);
 
+    useEffect(()=> {    
+        setCategoryName(getPlaceholderCategoryName());    
+    }, [admin])
+
     const onCancel =() => {
         setTitle(product.title);
         setPrice(formatUiPrice(product.price));
         setDescription(product.description);
         setImage(product.images[0]);
-        setCategoryName(product.category.name);
+        setCategoryName(product.category ? product.category.name : getPlaceholderCategoryName());
         setDisabled(true);
     }
 
     if (isLoading) {
         return <Loading />
     }
-
+    console.log('categoryName: ', categoryName);
     return (
     <div className='form-container product-form'>
         <form onSubmit={handleSubmit} ref={formRef}>
@@ -269,6 +281,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
                             onChange={handleCategoryChange}
                             label="Category"
                             value={categoryName}
+                            //placeholder={categoryName === "Deleted category" ? categoryName: ''}
                         >
                             {ctgrs && ctgrs.map((ctgry: Category)=> {
                                 return <MenuItem key={ctgry._id} value={ctgry.name}>{ctgry.name}</MenuItem>
