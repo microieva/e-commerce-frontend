@@ -3,24 +3,34 @@ import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { IconButton } from '@mui/material';
 import { Order } from '../../@types/cart';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import OrderItems from './order-items';
 import { useUiDate } from '../../hooks/useUiDate';
 import { formatUiPrice } from '../../shared/formatUiPrice';
+import { TypeAlertContext, TypeSnackBarContext } from '../../@types/types';
+import { AlertContext } from '../../contexts/alert';
+import { SnackBarContext } from '../../contexts/snackbar';
+import { useDeleteOrderMutation } from '../../redux/api-queries/order-queries';
 
 interface Props {
     order: Order,
     children: React.JSX.Element,
+    setOrder?: (arg: undefined)=> void,
     handleCheckout?: () => void,
-    handleDeleteOrder: () => Promise<void>,
     handleOpenItems?: () => Promise<void>
 }
 
-const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: Props) => {
+const OrderComponent = ({ order, children, handleCheckout, setOrder }: Props) => {
+    const [ deleteOrder, { data: deletedOrder, error: deletingError, isLoading: isDeletingOrder }] = useDeleteOrderMutation();
     const [ open, setOpen ] = useState<boolean>(false);
+    const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
+    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
+    
     const uiPrice = formatUiPrice(order.totalPrice);
     const uiDate = useUiDate(order.createdAt);
-    
+    const token = localStorage.getItem('token') || '';
+
     const handleClick = () => {
         if (order.paid && !open) {
             setOpen(true);
@@ -29,13 +39,37 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
         }
     }
 
+    const handleDeleteOrder = () => {
+        setIsDeleting(true);
+        setAlert({text:"Cancel this order?", open: true, action: "isDeleting"});
+    }
+
     const handleClose = () => {
         setOpen(false);
     }
+
+    useEffect(()=> {
+        const onConfirmDelete = async () => {
+            if (isDeleting) {
+                try {
+                    await deleteOrder({orderId: order._id, token});
+                    setAlert({open: false, action: null});
+                    setOrder && setOrder(undefined);
+                    setSnackBar({message: "Order cancelled", open: true});   
+                } catch (error) {
+                    setSnackBar({message: error as string, open: true});
+                }
+                setIsDeleting(false);
+            }
+        }
+        if (isConfirming === "isDeleting") {   
+            onConfirmDelete();
+        }
+    }, [isConfirming]);
     
     return (
             <div className='order-container'>
-                <div className="order-wrapper" id={order.paid ? "hover" : ""} onClick={()=> handleClick()} style={{}}>
+                <div className="order-wrapper" id={order?.paid ? "hover" : ""} onClick={()=> handleClick()} style={{}}>
                     <div>
                         {children}   
                         <h2 style={{color: "darkgrey", fontSize:"18px"}}>{uiDate}</h2> 
@@ -51,11 +85,11 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
                                     <IconButton  onClick={handleCheckout}>
                                         <PaymentIcon/>
                                     </IconButton>
-                                    <IconButton  onClick={handleDeleteOrder}>
+                                    <IconButton  onClick={()=>handleDeleteOrder()}>
                                         <RemoveShoppingCartIcon/>
                                     </IconButton>
                                 </>}
-                                {order.paid && <IconButton  onClick={handleDeleteOrder}>
+                                {order.paid && <IconButton  onClick={()=>handleDeleteOrder()}>
                                     <DeleteOutlineIcon/>
                                 </IconButton>}
                             </div>
@@ -63,7 +97,7 @@ const OrderComponent = ({ order, children, handleCheckout, handleDeleteOrder }: 
                         
                     </div>
                 </div>
-                { open && <OrderItems orderId={order._id} handleClose={handleClose}/> }
+                { open && order && <OrderItems orderId={order._id} handleClose={handleClose}/> }
             </div>
     )
 }  

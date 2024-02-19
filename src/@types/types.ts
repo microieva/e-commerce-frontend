@@ -43,3 +43,18 @@ export type TypeSnackBarContext = {
   snack: Snack,
   setSnackBar: (snack: Snack) => void
 }
+
+export interface Alert {
+  text?: string,
+  open: boolean,
+  action?: string | null
+}
+
+export type TypeAlertContext = {
+  alertInfo?: Alert,
+  setAlert: (alertInfo: Alert) => void,
+  isConfirming: string | null,
+  //setIsDeleting:(bool: boolean)=> void,
+  // isCreating: boolean,
+  // setIsCreating:(bool: boolean)=> void,
+}

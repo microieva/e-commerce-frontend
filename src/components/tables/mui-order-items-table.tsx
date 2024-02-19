@@ -51,7 +51,12 @@ const MuiTable = ({ data }: Props) => {
             id: 'category',
             label: 'Category',
             align: 'right',
-            render: (row: CartItem) => row.category.name
+            render: (row: CartItem) => {
+                if (row.category) {
+                    return row.category.name
+                }
+                return "-"
+            }
         },
         {
           id: 'quantity',

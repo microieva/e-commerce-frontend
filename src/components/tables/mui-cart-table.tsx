@@ -54,7 +54,12 @@ const MuiTable = ({ data, disabled }: Props) => {
             id: 'category',
             label: 'Category',
             align: 'right',
-            render: (row: CartItem) => row.category.name
+            render: (row: CartItem) => {
+                if (row.category) {
+                    return row.category.name
+                }
+                return "-"
+            }
         },
         {
           id: 'quantity',
@@ -80,7 +85,7 @@ const MuiTable = ({ data, disabled }: Props) => {
                         <TableRow>
                             {columns.map((column: CartColumn, i) => (
                                 <TableCell
-                                    key={`${i}-${column.id}`} 
+                                    key={i} 
                                     align={column.align}
                                     style={{ minWidth: column.minWidth }} 
                                 > 
@@ -101,7 +106,7 @@ const MuiTable = ({ data, disabled }: Props) => {
                                                 hover
                                                 role="checkbox" 
                                                 tabIndex={-1} 
-                                                key={`${i}-${row._id}`} 
+                                                key={i} 
                                                 sx={{
                                                     "& td": {padding: "0 1rem"},
                                                     "& td:hover": {
@@ -112,18 +117,18 @@ const MuiTable = ({ data, disabled }: Props) => {
                                             {columns.map((column: CartColumn, i) => {
                                                 const value = column.render ? column.render(row) : row[column.id].toString();
                                                 return (
-                                                    <TableCell  key={`${i}`} align={column.align}>
+                                                    <TableCell key={i} align={column.align}>
                                                         <Link  
-                                                            key={`${i}-${column.id}`}  
+                                                            key={i}  
                                                             style={{textDecoration: "none"}} 
                                                             to={`/products/${row._id}`}
                                                         >
-                                                            { value }
+                                                            {value}
                                                         </Link>
                                                     </TableCell>      
                                                     );
                                                 })}
-                                                <TableCell>
+                                                <TableCell key={i+'1'}>
                                                     <CartActions product={row} cartDisabled={disabled}/>
                                                 </TableCell>
                                             </TableRow>

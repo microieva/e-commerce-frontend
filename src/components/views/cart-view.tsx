@@ -14,36 +14,39 @@ import {
     useDeleteOrderMutation, 
     useUpdateOrderMutation 
 } from '../../redux/api-queries/order-queries';
-import OrderComponent from '../shared/order';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
-import Loading from '../shared/loading';
 import { formatUiPrice } from '../../shared/formatUiPrice';
-import Alert from '../shared/alert';
-import { TypeForm, TypeSnackBarContext } from '../../@types/types';
+import { AlertContext } from '../../contexts/alert';
+import { SnackBarContext } from '../../contexts/snackbar';
+import OrderComponent from '../shared/order';
+import Loading from '../shared/loading';
 import FormProvider from '../../contexts/form';
 import FormSwitcher from './inner-components/form-switcher';
-import { SnackBarContext } from '../../contexts/snackbar';
+import { TypeAlertContext, TypeForm, TypeSnackBarContext } from '../../@types/types';
+import { Order } from '../../@types/cart';
 
 const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data: user, isLoading: isLoadingUser } = useGetUserQuery(token);
 
     const cart = useAppSelector(state => state.cart); 
-    const [ disabled, setDisabled ] = useState<boolean>(Boolean(cart.length === 0));
-    const [ order, setOrder ] = useState<boolean>(false);
-
+    //const [ order, setOrder ] = useState<boolean>(false);
+    
     const [ orderRequestBody, setOrderRequestBody ] = useState<{ id: string, quantity: number}[] | undefined>(undefined);
-    const [ createOrder, { data: newOrder, error: newOrderError, isLoading: isLoadingNewOrder }] = useCreateOrderMutation();
+    const [ createOrder, { data: newOrderData, error: newOrderError, isLoading: isLoadingNewOrder }] = useCreateOrderMutation();
     const [ updateOrder, { data: updatedOrder, error: updatedOrderError, isLoading: isLoadingUpdatedOrder }] = useUpdateOrderMutation();
     const [ deleteOrder, { data: deletedOrder, error: deletingError, isLoading: isDeletingOrder }] = useDeleteOrderMutation();
     const [loading, setLoading] = useState<boolean>(isLoadingUser || isLoadingNewOrder || isLoadingUpdatedOrder || isDeletingOrder);
-
-    const [ showAlert, setShowAlert ] = useState<boolean>(false);
+    const [ newOrder, setNewOrder ] = useState<Order | undefined>(newOrderData);
+    const [ disabled, setDisabled ] = useState<boolean>(Boolean(cart.length === 0) || !newOrder);
+    
     const [ openForm, setOpenForm ] = useState<boolean>(false);
     const [ form, setForm ] = useState<TypeForm>(null);
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
+    const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
     const dispatch = useAppDispatch();
+
 
     const numberOfItems = cart.reduce((total, cartItem) => {
         return total + cartItem.quantity;
@@ -56,85 +59,25 @@ const CartView = () => {
 
     const onEmptyCart = () => {
         dispatch(emptyCart());
+        setDisabled(true);
     }
 
-    const onCreateOrder = () => {
-        if (user) {
-            setOrder(true);
+    const handleCreateOrder = () => {
+        if (token) {
+            //setOrder(true);
+            const arr: { id: string, quantity: number}[] = cart
+                .map((item) => {
+                    const orderItem = {id: item._id, quantity: item.quantity}
+                    return orderItem
+                });
+            arr && setOrderRequestBody(arr);
         } else {
-            setShowAlert(true);
-        }
-    }
-
-    const handleCheckout = async () => {
-        if (newOrder) {
-            const updates = { paid: true }
-            try {
-                await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id});
-                setLoading(isLoadingNewOrder);
-                setSnackBar({message: "Thank you for shopping! ", open: true});
-                setOrder(false);
-                dispatch(emptyCart());
-            } catch (error) {
-                setSnackBar({message: error as string, open: true});
-            }
-        }
-    }
-
-    const handleDeleteOrder = async () => {
-        if (newOrder) {
-            try {
-                await deleteOrder({orderId: newOrder._id, token})
-                setOrder(false);
-                setSnackBar({message: "Order cancelled", open: true});
-                setLoading(isDeletingOrder);
-                setDisabled(false);
-            } catch (error) {
-                setSnackBar({message: error as string, open: true});
-            }
+            setAlert({text: "Please signup or login to order", open: true, action: "isCreating"});
         }
     }
 
     useEffect(() => {
-        if (updatedOrder) {
-            dispatch(emptyCart());
-        }  
-    }, [updatedOrder]);
-
-    useEffect(() => {
-        const handleStorage = () => {
-            setToken(localStorage.getItem('token') || '');
-        } 
-
-        window.addEventListener('storage', handleStorage)
-        return () => window.removeEventListener('storage', handleStorage)
-       
-    }, [token]);
-
-    useEffect(()=> {
-        setLoading(isLoadingUser);
-        cart.length === 0 && setDisabled(true);
-        if (user?.role === "ADMIN") {
-            navigate('/');
-        } 
-    }, [user])
-
-    useEffect(()=> {
-        cart.length === 0 && setDisabled(true);
-        if (order) {
-            if (cart.length !== 0) {
-                const arr: { id: string, quantity: number}[] = cart
-                    .map((item) => {
-                        const orderItem = {id: item._id, quantity: item.quantity}
-                        return orderItem
-                    })
-                arr && setOrderRequestBody(arr)
-            }
-        }
-    }, [order, cart]);
-
-    useEffect(() => {
-        const checkout = async() => {   
+        const onIsCreating = async() => {   
             if (user && orderRequestBody) {
                 try {
                     await createOrder(
@@ -146,23 +89,88 @@ const CartView = () => {
                     );
                     setDisabled(true);
                     setLoading(isLoadingNewOrder);
+                    //setOrder(true);
                 } catch (error) {
                     setSnackBar({message:error as string, open: true});
                 }
             }
         }
-        checkout();
+        onIsCreating();
     }, [orderRequestBody]);
 
-    const handleClose = () => {
-        showAlert && setShowAlert(false);
-        openForm && setOpenForm(false);
+    useEffect(()=> {
+        newOrderData && setNewOrder(newOrderData);
+    }, [newOrderData]);
 
+    const handleCheckout = async() => {
+        if (newOrder) {
+            const updates = { paid: true }
+            try {
+                await updateOrder({ token: localStorage.getItem('token') || '', body: updates, orderId: newOrder._id});
+                setLoading(isLoadingNewOrder);
+                setSnackBar({message: "Thank you for shopping! ", open: true});
+                setNewOrder(undefined);
+                dispatch(emptyCart());
+                setDisabled(true);
+            } catch (error) {
+                setSnackBar({message: error as string, open: true});
+            }
+        }
     }
-    const handleConfirm = () => {
-        setForm('login');
-        setShowAlert(false);
-        setOpenForm(true);
+
+    useEffect(()=> {  
+        const onConfirmLogin = async () => {
+            if (!token) {
+                setAlert({open: false, action:''});
+                setForm('login');
+                setOpenForm(true);
+            }
+        }
+        if (isConfirming === "isCreating") {
+            onConfirmLogin();
+        } 
+    }, [isConfirming]);
+
+    useEffect(() => {
+        if (updatedOrder) {
+            dispatch(emptyCart());
+            setDisabled(true);
+        }  
+    }, [updatedOrder]);
+
+    useEffect(() => {
+        const handleStorage = () => {
+            setToken(localStorage.getItem('token') || '');
+        } 
+        window.addEventListener('storage', handleStorage)
+        if (!token && newOrder) {
+            setNewOrder(undefined);
+        }
+        return () => window.removeEventListener('storage', handleStorage)
+    }, [token]);
+
+    useEffect(()=> {
+        setLoading(isLoadingUser);
+        cart.length === 0 && setDisabled(true);
+        if (user?.role === "ADMIN") {
+            navigate('/');
+        } 
+    }, [user]);
+
+   useEffect(()=> {
+        if (!newOrder) {
+            setDisabled(false);
+        }
+    }, [newOrder]);
+
+    useEffect(()=> {
+        if (cart.length===0) {
+            setDisabled(true);
+        }
+    }, [cart]);
+
+    const handleClose = () => {
+        openForm && setOpenForm(false);
     }
 
     if (loading) {
@@ -178,7 +186,7 @@ const CartView = () => {
                     <h2>your cart <span style={{color: "darkgrey"}}>/ {cart.length} {cart.length===1 ? ' product': 'products'}</span></h2>
                 }
                 <div className="btn-group">
-                    <IconButton disabled={disabled} onClick={()=> onCreateOrder()}>
+                    <IconButton disabled={disabled} onClick={()=>handleCreateOrder()}>
                         <ShoppingBasketOutlinedIcon />
                     </IconButton>
                     <IconButton disabled={disabled} onClick={()=> onEmptyCart()} >
@@ -193,35 +201,23 @@ const CartView = () => {
             <div className="table-view">
                 <MuiCartTable data={cart} disabled={disabled}/>
             </div>
-            {!order &&
+            {!newOrder &&
                 <h2 style={{visibility: cart.length === 0 ? "hidden" : "visible", color: "darkgrey", alignSelf: "flex-end"}}>
                     total amount: {iuTotalAmount} €
                 </h2>
-            }
-            {order && newOrder && 
-                <div style={{marginTop: "4rem"}}>
-                    <OrderComponent 
-                        order={newOrder} 
-                        handleCheckout={handleCheckout}
-                        handleDeleteOrder={handleDeleteOrder}>
-
-                        <h2>your order <span style={{color: "darkgrey"}}>/ {numberOfItems} {numberOfItems>1 ? 'items' : 'item'}</span> </h2>   
-                    </OrderComponent>
-                </div>
-            }
-            { showAlert &&
-                <>
-                    <Dialog fullWidth open={showAlert} onClose={handleClose} >
-                        <Alert 
-                            text={'signup or login to order'}
-                            handleCancel={handleClose} 
-                            handleConfirm={handleConfirm}
-                        />
-                    </Dialog>
-                    <Backdrop open={showAlert} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                    <Outlet />
-                </>
-            }
+            } 
+            <div style={{marginTop: "4rem"}}>
+                { isLoadingNewOrder && <Loading />}
+                {newOrder &&
+                        <OrderComponent 
+                            order={newOrder} 
+                            handleCheckout={handleCheckout}
+                            setOrder={setNewOrder}
+                        >
+                            <h2>your order <span style={{color: "darkgrey"}}>/ {numberOfItems} {numberOfItems>1 ? 'items' : 'item'}</span> </h2>   
+                        </OrderComponent>
+                }
+            </div>
             <>
                 <FormProvider form={form} onClose={handleClose}>
                     <Dialog fullWidth open={openForm} onClose={handleClose} >

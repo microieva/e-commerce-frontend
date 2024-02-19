@@ -3,7 +3,7 @@ import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 interface Props {
-    text: string
+    text?: string
     handleCancel: ()=> void,
     handleConfirm: ()=> void
 }

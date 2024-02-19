@@ -79,7 +79,7 @@ const AdminOrders = ({ orders }: Props) => {
                                     <OrderComponent 
                                         key={i}
                                         order={order} 
-                                        handleDeleteOrder={()=>handleDeleteOrder(order._id)}
+                                        //handleDeleteOrder={()=>handleDeleteOrder(order._id)}
                                     >
                                         <h2>user's order</h2>        
                                     </OrderComponent>
@@ -88,7 +88,7 @@ const AdminOrders = ({ orders }: Props) => {
                         })}
                     </div>    
                 </>}
-                { isDeleting &&
+                {/* { isDeleting &&
                     <>
                         <Dialog fullWidth open={isDeleting} onClose={handleClose} >
                             <Alert 
@@ -100,7 +100,7 @@ const AdminOrders = ({ orders }: Props) => {
                         <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
                         <Outlet />
                     </>
-                }
+                } */}
             </>
         )
     }  

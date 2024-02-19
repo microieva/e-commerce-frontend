@@ -11,6 +11,7 @@ export const getThemePalette = (mode: PaletteMode) => ({
         styleOverrides: {
           root: {
             height: '4rem',
+            maxHeight: 'max-content',
             width: '25rem',
             fontWeight: 900,
             fontSize: 'large',
@@ -124,6 +125,7 @@ export const getThemePalette = (mode: PaletteMode) => ({
         styleOverrides: {
           root: {
             height: '4rem',
+            maxHeight: 'max-content',
             width: '25rem',
             fontWeight: 900,
             fontSize: 'large',

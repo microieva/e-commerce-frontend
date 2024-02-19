@@ -12,6 +12,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { PaletteMode } from '@mui/material';
 import { getThemePalette } from './shared/getThemePallete';
 import { SnackBarProvider } from './contexts/snackbar';
+import { AlertProvider } from './contexts/alert';
 
 const App: FC = () => {
     const isBrowserDefaulDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -30,6 +31,7 @@ const App: FC = () => {
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <ThemeProvider theme={selectedTheme}>
             <CssBaseline />
+            <AlertProvider>
             <SnackBarProvider>
               <div className={`theme-${theme}`}>  
                 <div className='app-container'>
@@ -45,6 +47,7 @@ const App: FC = () => {
                 </div>
               </div> 
             </SnackBarProvider>
+            </AlertProvider>
           </ThemeProvider>
         </ThemeContext.Provider>
     )

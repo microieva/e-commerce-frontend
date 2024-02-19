@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import AdminOrders from './inner-components/admin-orders';
+//import AdminOrders from './inner-components/admin-orders';
 import Categories from './inner-components/categories';
 import { useGetOrdersQuery } from '../../redux/api-queries/order-queries';
 import { useGetCategoriesQuery } from '../../redux/api-queries/category-queries';
@@ -17,11 +17,11 @@ const AdminProfileView: FC= () => {
                     categories={categories} 
                 />
             }
-            {orders && orders.length>0 && 
+            {/* {orders && orders.length>0 && 
                 <AdminOrders 
                     orders={orders} 
                 />
-            }
+            } */}
         </>
     );
 }
