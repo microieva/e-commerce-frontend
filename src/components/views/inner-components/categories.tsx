@@ -1,16 +1,15 @@
 import { useEffect, useState, MouseEvent, useContext } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { Backdrop, Dialog, Divider, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Divider, IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import { useDeleteCategoriesMutation, useDeleteCategoryMutation } from '../../../redux/api-queries/category-queries';
-import CategoryComponent from './category';
-import { Category } from '../../../@types/product';
-import CreateCategoryForm from '../../forms/create-category-form';
-import {ThemeContext} from '../../../contexts/theme';
-import Alert from '../../shared/alert';
 import { SnackBarContext } from '../../../contexts/snackbar';
-import { TypeSnackBarContext } from '../../../@types/types';
+import { AlertContext } from '../../../contexts/alert';
+import CreateCategoryForm from '../../forms/create-category-form';
+import CategoryComponent from './category';
+import { TypeAlertContext, TypeSnackBarContext } from '../../../@types/types';
+import { Category } from '../../../@types/product';
 
 interface Props {
     categories: Category[]
@@ -18,33 +17,52 @@ interface Props {
 
 
 const Categories = ({ categories }: Props) => {
-    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
-    const [ deleteCategory, { data, error }] = useDeleteCategoryMutation();
-    const [ deleteCategories, { data: deleteAllCategoriesData, error: deleteAllCategoriesError, isLoading}] = useDeleteCategoriesMutation();
+
+    const [ deleteCategory, { data }] = useDeleteCategoryMutation();
+    const [ deleteCategories ]= useDeleteCategoriesMutation();
+    const [ categoryId, setCategoryId ] = useState<string | null>(null);
     const [ lastCategory, setLastCategory ] = useState<boolean>(false);
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
+    const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
     const navigate = useNavigate();
     const [ open, setOpen ] = useState<boolean>(false);
     const [ disabled, setDisabled ] = useState<boolean>(false);
 
-    const handleDeleteCategory = async (categoryId: string) => {
-        if (categoryId) {   
-            try {
-                await deleteCategory({categoryId, token: localStorage.getItem('token') || ''});
-                setSnackBar({message: "Successfuly deleted", open: true});
-                if (categories.length === 1) {
-                    setLastCategory(true);
-                }
-            } catch (error) {
-                setSnackBar({message: error as string, open: true})
-            }  
-        }
-    }
     const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
         event.stopPropagation();
-        setIsDeleting(true);
+        setAlert({text: "Delete all categories from the system?", open: true, action: "isDeletingAllCategories"});
     }
+    useEffect(()=> {
+        const onDeleteAllCategories = async()=> {
+            try {
+                await deleteCategories(localStorage.getItem('token') || '');
+                setAlert({open: false, action: null});
+                setSnackBar({message: "Categories deleted", open: true});
+            } catch (error) {
+                setSnackBar({message: error as string, open: true});
+            }
+        }
+        const onDeleteCategory = async()=> {
+            if (categoryId) {   
+                try {
+                    await deleteCategory({categoryId, token: localStorage.getItem('token') || ''});
+                    setSnackBar({message: "Successfuly deleted", open: true});
+                    setAlert({open: false, action: null});
+                    if (categories.length === 1) {
+                        setLastCategory(true);
+                    }
+                } catch (error) {
+                    setSnackBar({message: error as string, open: true})
+                }  
+            }
+        }
+        if (isConfirming === "isDeletingAllCategories") {
+            onDeleteAllCategories();
+        } else if (isConfirming === "isDeletingCategory") {
+            onDeleteCategory();
+        }
+    }, [isConfirming])
     const handleCancel = () => {
         setOpen(false);
         setDisabled(false);
@@ -52,18 +70,6 @@ const Categories = ({ categories }: Props) => {
     const onClose = () => {
         setOpen(false);
         setDisabled(false);
-    }
-
-    const handleClose = () => {
-        setIsDeleting(false);
-    }
-    const handleDelete = async () => {
-        try {
-            await deleteCategories(localStorage.getItem('token') || '');
-            setSnackBar({message: "Categories deleted", open: true})
-        } catch (error) {
-            setSnackBar({message: error as string, open: true})
-        }
     }
 
     useEffect(()=> {
@@ -104,23 +110,10 @@ const Categories = ({ categories }: Props) => {
                                 return <CategoryComponent 
                                     key={i}
                                     category={category} 
-                                    handleDelete={handleDeleteCategory}
+                                    setCategoryId={setCategoryId}
                                 />                  
                             })}
                         </div>    
-                    </>
-                }
-                { isDeleting &&
-                    <>
-                        <Dialog fullWidth open={isDeleting} onClose={handleClose} >
-                            <Alert 
-                                text={`are you sure you want to delete all categories from the system permanently?`}
-                                handleCancel={handleClose} 
-                                handleConfirm={handleDelete}
-                            />
-                        </Dialog>
-                        <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                        <Outlet />
                     </>
                 }
             </>

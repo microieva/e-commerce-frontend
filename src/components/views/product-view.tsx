@@ -1,21 +1,18 @@
 import { FC, useEffect, useState, MouseEvent, useContext } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-
-import { Backdrop, Dialog, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDeleteProductMutation } from '../../redux/api-queries/product-queries';
-
+import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import UpdateProductForm from '../forms/update-product-form';
 import CartActions from '../shared/cart-actions';
-
-import { Product } from '../../@types/product';
-import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
-import Alert from '../shared/alert';
 import Loading from '../shared/loading';
 import { SnackBarContext } from '../../contexts/snackbar';
-import { TypeSnackBarContext } from '../../@types/types';
+import { AlertContext } from '../../contexts/alert';
+import { TypeAlertContext, TypeSnackBarContext } from '../../@types/types';
+import { Product } from '../../@types/product';
 
 
 interface Props {
@@ -24,22 +21,18 @@ interface Props {
 
 const ProductView: FC<Props> = ({ product }) => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
-    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const { data: user } = useGetUserQuery(token);
     
     const [ admin, setAdmin ] = useState<boolean>(false);
     const [ deleteProduct, { data, error, isLoading } ] = useDeleteProductMutation();
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
+    const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
     const navigate = useNavigate();
-
-    const handleClose = () => {
-        setIsDeleting(false);
-    }
 
     const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
         event.stopPropagation();
-        setIsDeleting(true);
+        setAlert({text: `Delete "${product.title}" from the database?`, open: true, action: "isDeletingProduct"});
     }
 
     useEffect(()=> {
@@ -59,16 +52,20 @@ const ProductView: FC<Props> = ({ product }) => {
 	}, [token]);
 
     useEffect(()=> {
-        if (data && !error && !isLoading) {
-            setSnackBar({message: `${product.title} deleted successfuly`, open: true})
-            navigate('/');
+        const onDeleteProduct = async()=> {
+            if (isConfirming === "isDeletingProduct") {
+                try {
+                    await deleteProduct({token: localStorage.getItem('token') || '', productId: product._id});
+                    setSnackBar({message: `${product.title} deleted successfuly`, open: true});
+                    setAlert({open: false, action: null});
+                    navigate('/');
+                } catch (error) {
+                    setSnackBar({message: error as string, open: true});
+                }
+            }
         }
-    }, [data]);
-
-    const handleDelete = async () => {
-        await deleteProduct({token: localStorage.getItem('token') || '', productId: product._id});
-        navigate('/');
-    }
+        onDeleteProduct()
+    }, [isConfirming]);
 
     if (isLoading) {
         return <Loading />
@@ -112,19 +109,6 @@ const ProductView: FC<Props> = ({ product }) => {
                     </div>
                 </div>
             </div>
-            { isDeleting &&
-                <>
-                    <Dialog fullWidth open={isDeleting} onClose={handleClose} >
-                        <Alert 
-                            text={`delete product "${product.title}" permanently?`}
-                            handleCancel={handleClose} 
-                            handleConfirm={handleDelete}
-                        />
-                    </Dialog>
-                    <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                    <Outlet />
-                </>
-            }
         </>
     )
 }

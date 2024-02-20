@@ -1,17 +1,16 @@
-import { FC, useState, MouseEvent, useContext } from 'react';
+import { FC, useState, MouseEvent, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
-import { Product } from '../../@types/product';
-import { Outlet, useNavigate } from 'react-router-dom';
 import { useDeleteProductMutation } from '../../redux/api-queries/product-queries';
-import { Backdrop, Dialog } from '@mui/material';
-import Alert from './alert';
-import Loading from './loading';
 import { SnackBarContext } from '../../contexts/snackbar';
-import { TypeSnackBarContext } from '../../@types/types';
+import { AlertContext } from '../../contexts/alert';
+import Loading from './loading';
+import { TypeAlertContext, TypeSnackBarContext } from '../../@types/types';
+import { Product } from '../../@types/product';
 
 interface Props {
     product: Omit<Product, "categoryId">
@@ -21,31 +20,34 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
     const [ deleteProduct, { data, error, isLoading}] = useDeleteProductMutation();
     const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
+    const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
     const navigate = useNavigate();
 
-    const handleUpdate = () => {
+    const onUpdate = () => {
         navigate(`/products/${product._id}`)
-    }
-
-    const handleDelete = async () => {
-        try {
-            await deleteProduct({token: localStorage.getItem('token') || '', productId: product._id});
-            setSnackBar({message: `${product.title} successfuly deleted`, open: true})
-            navigate('/');
-        } catch (error) {
-            setSnackBar({message: error as string, open: true})
-        }
-    }
-
-    const handleClose = () => {
-        setIsDeleting(false);
     }
 
     const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
         event.stopPropagation();
-        setIsDeleting(true);
+        setAlert({text: `Delete "${product.title}" from the database?`, open: true, action: "isDeletingProduct"});
     }
+
+    useEffect(()=> {
+        const onDeleteProduct = async()=> {
+            if (isConfirming === "isDeletingProduct") {
+                try {
+                    await deleteProduct({token: localStorage.getItem('token') || '', productId: product._id});
+                    setAlert({open: false, action: null});
+                    setSnackBar({message: `${product.title} successfuly deleted`, open: true});
+                    navigate('/');
+                } catch (error) {
+                    setSnackBar({message: error as string, open: true})
+                }
+            }
+        }
+        onDeleteProduct();
+    }, [isConfirming])
 
     if (isLoading) {
         return <Loading />
@@ -63,7 +65,7 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
                 <IconButton 
                     aria-label="add" 
                     size="large" 
-                    onClick={handleUpdate}
+                    onClick={onUpdate}
                     sx={{
                         '&.MuiButtonBase-root.MuiIconButton-root:not(svg):hover': 
                             {
@@ -87,19 +89,6 @@ const AdminActions: FC<Props> = ({ product }: Props) => {
                     <DeleteForeverIcon />
                 </IconButton>
             </div>
-            { isDeleting &&
-                <>
-                    <Dialog fullWidth open={isDeleting} onClose={handleClose} >
-                        <Alert 
-                            text={`delete product "${product.title}" permanently?`}
-                            handleCancel={handleClose} 
-                            handleConfirm={handleDelete}
-                        />
-                    </Dialog>
-                    <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                    <Outlet />
-                </>
-            }
         </>
   )
 }

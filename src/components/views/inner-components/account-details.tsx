@@ -1,15 +1,15 @@
 
-import { Backdrop, Dialog, IconButton } from '@mui/material';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@mui/material';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
-import { User } from '../../../@types/user';
-import UpdateUserForm from '../../forms/update-user-form';
 import { useDeleteUserMutation } from '../../../redux/api-queries/user-queries';
-import { useContext, useState } from 'react';
-import Alert from '../../shared/alert';
-import { TypeSnackBarContext } from '../../../@types/types';
+import UpdateUserForm from '../../forms/update-user-form';
 import { SnackBarContext } from '../../../contexts/snackbar';
+import { AlertContext } from '../../../contexts/alert';
+import { TypeAlertContext, TypeSnackBarContext } from '../../../@types/types';
+import { User } from '../../../@types/user';
 
 interface Props {
     user: User
@@ -17,30 +17,37 @@ interface Props {
 
 const AccountDetails = ({ user }: Props) => {
     const [ deleteUser ] = useDeleteUserMutation();
-    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
+    const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
     const navigate = useNavigate();
 
-    const handleDeleteUser = async () => {
-        try {
-            await deleteUser({ token: localStorage.getItem('token') || '', _id: user._id})
-            localStorage.removeItem('token');
-            setSnackBar({message: "Account deleted", open: true});
-            navigate('/');
-        } catch (error) {
-            setSnackBar({message: error as string, open: true});
+    const onDelete = () => {
+        setAlert({text: "Delete account?", open: true, action: "isDeletingUser"});
+    }
+
+    useEffect(()=> {
+        const onDeleteUser = async()=> {
+            if (isConfirming === "isDeletingUser") {
+                try {
+                    await deleteUser({ token: localStorage.getItem('token') || '', _id: user._id})
+                    localStorage.removeItem('token');
+                    setSnackBar({message: "Account deleted", open: true});
+                    setAlert({open: false, action: null});
+                    navigate('/');
+                } catch (error) {
+                    setSnackBar({message: error as string, open: true});
+                }
+            }
         }
-    }
-    const handleClose = () => {
-        setIsDeleting(false);
-    }
+        onDeleteUser();
+    }, [isConfirming]);
 
         return (
             <>
                 <div className='view-header'>
                     <h2>account details</h2>
                     <div className='btn-group'>
-                        <IconButton onClick={()=> setIsDeleting(true)}>
+                        <IconButton onClick={onDelete}>
                             <PersonOffIcon/>
                         </IconButton>
                         <IconButton onClick={()=> navigate('/')}>
@@ -54,19 +61,6 @@ const AccountDetails = ({ user }: Props) => {
                         <img className="circle-img" src={`${user.avatar}`} alt="profile picture" />
                     </div>
                 </div>
-                { isDeleting &&
-                    <>
-                        <Dialog fullWidth open={isDeleting} onClose={handleClose} >
-                            <Alert 
-                                text={'are you sure you want to delete your account?'}
-                                handleCancel={handleClose} 
-                                handleConfirm={handleDeleteUser}
-                            />
-                        </Dialog>
-                        <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                        <Outlet />
-                    </>
-                }
             </>
         )
     }  

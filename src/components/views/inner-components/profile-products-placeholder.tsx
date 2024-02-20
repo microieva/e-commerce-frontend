@@ -1,13 +1,16 @@
-import { FC, useState, MouseEvent } from "react"
-import { Backdrop, Dialog, Divider, IconButton } from "@mui/material"
+import { FC, MouseEvent, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Divider, IconButton } from "@mui/material"
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Outlet, useNavigate } from "react-router-dom"
-import Alert from "../../shared/alert";
 import { useDeleteProductsMutation } from "../../../redux/api-queries/product-queries";
+import { AlertContext } from "../../../contexts/alert";
+import { SnackBarContext } from "../../../contexts/snackbar";
+import { TypeAlertContext, TypeSnackBarContext } from "../../../@types/types";
 
 export const ProfileProductsPlaceholder: FC = () => {
-    const [ isDeleting, setIsDeleting ] = useState<boolean>(false);
+    const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
+    const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const [ deleteProducts, { data, error, isLoading}] = useDeleteProductsMutation();
     
     const navigate = useNavigate();
@@ -15,17 +18,23 @@ export const ProfileProductsPlaceholder: FC = () => {
     const onDelete = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         event.preventDefault();
         event.stopPropagation();
-        setIsDeleting(true);
+        setAlert({text: "Delete all products from the system ?", open: true, action:"isDeletingAllProducts"})
     }
 
-    const handleClose = () => {
-        setIsDeleting(false);
-    }
-
-    const handleDelete = async () => {
-        await deleteProducts(localStorage.getItem('token') || '');
-        navigate('/');
-    }
+    useEffect(()=> {
+        const onDeleteAllProducts = async()=> {
+            try {
+                await deleteProducts(localStorage.getItem('token') || '');
+                setAlert({open: false, action: null});
+                setSnackBar({message: "Products deleted successfuly", open: true});
+            } catch (error) {
+                setSnackBar({message: error as string, open: true});
+            }
+        }
+        if (isConfirming === "isDeletingAllProducts") {
+            onDeleteAllProducts()
+        }
+    }, [isConfirming]);
 
     return (
         <>
@@ -41,19 +50,6 @@ export const ProfileProductsPlaceholder: FC = () => {
                     </IconButton>
                 </div> 
             </div> 
-            { isDeleting &&
-                <>
-                    <Dialog fullWidth open={isDeleting} onClose={handleClose} >
-                        <Alert 
-                            text={`are you sure you want to delete all products permanently?`}
-                            handleCancel={handleClose} 
-                            handleConfirm={handleDelete}
-                        />
-                    </Dialog>
-                    <Backdrop open={isDeleting} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-                    <Outlet />
-                </>
-            }
         </>
     )
 }
