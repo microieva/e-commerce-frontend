@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import Orders from './inner-components/orders';
-import Categories from './inner-components/categories';
 import { useGetOrdersQuery } from '../../redux/api-queries/order-queries';
 import { useGetCategoriesQuery } from '../../redux/api-queries/category-queries';
-import { ProfileProductsPlaceholder } from './inner-components/profile-products-placeholder';
+import Orders from './inner-components/orders';
+import Categories from './inner-components/categories';
+import { ProfileProducts } from './inner-components/profile-products';
 
 const AdminDashboard: FC= () => {
     const { data: orders} = useGetOrdersQuery({ token: localStorage.getItem('token') || '' });
@@ -11,7 +11,7 @@ const AdminDashboard: FC= () => {
 
     return (
         <>
-            <ProfileProductsPlaceholder />
+            <ProfileProducts />
             {categories && categories.length>0 && 
                 <Categories 
                     categories={categories} 

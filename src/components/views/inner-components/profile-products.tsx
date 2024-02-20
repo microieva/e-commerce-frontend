@@ -8,7 +8,7 @@ import { AlertContext } from "../../../contexts/alert";
 import { SnackBarContext } from "../../../contexts/snackbar";
 import { TypeAlertContext, TypeSnackBarContext } from "../../../@types/types";
 
-export const ProfileProductsPlaceholder: FC = () => {
+export const ProfileProducts: FC = () => {
     const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
     const [ deleteProducts, { data, error, isLoading}] = useDeleteProductsMutation();

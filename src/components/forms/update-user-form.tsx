@@ -1,18 +1,15 @@
 import { FC, FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { IconButton, TextField, FormControl } from '@mui/material';
-
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-
-import Loading from '../shared/loading';
-import { User } from '../../@types/user';
 import { useUpdateUserMutation } from '../../redux/api-queries/user-queries';
+import Loading from '../shared/loading';
 import Button from '../shared/button';
 import { SnackBarContext } from '../../contexts/snackbar';
 import { TypeSnackBarContext } from '../../@types/types';
+import { User } from '../../@types/user';
 
 interface Props {
     user: User
@@ -131,6 +128,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                 try {
                     await updateUser({ token: localStorage.getItem('token') || '', body: updates, _id: user?._id});
                     setSnackBar({message: "Information saved", open: true});
+                    setDisabled(true);
                     if (updates.password !== undefined) {
                         localStorage.removeItem('token');
                         navigate('/');
@@ -143,14 +141,6 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
         }
         submit();
     }, [updates]);
-
-    useEffect(()=> {
-        if (data) {
-            localStorage.removeItem('token');
-            setSnackBar({message: "Please login ..", open: true});
-            navigate('/');
-        }
-    }, [data]);
 
     useEffect(()=> {
         if (!admin) {

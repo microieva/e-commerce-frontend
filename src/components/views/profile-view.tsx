@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
+import { useGetOrdersByUserIdQuery } from '../../redux/api-queries/order-queries';
 import AccountDetails from './inner-components/account-details';
 import AdminDashboard from './admin-dashboard';
 import Loading from '../shared/loading';
 import Orders from './inner-components/orders';
-import { useGetOrdersByUserIdQuery } from '../../redux/api-queries/order-queries';
 
 
 const ProfileView: FC = () => {
