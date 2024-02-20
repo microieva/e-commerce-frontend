@@ -1,11 +1,11 @@
 import { FC } from 'react';
-//import AdminOrders from './inner-components/admin-orders';
+import Orders from './inner-components/orders';
 import Categories from './inner-components/categories';
 import { useGetOrdersQuery } from '../../redux/api-queries/order-queries';
 import { useGetCategoriesQuery } from '../../redux/api-queries/category-queries';
 import { ProfileProductsPlaceholder } from './inner-components/profile-products-placeholder';
 
-const AdminProfileView: FC= () => {
+const AdminDashboard: FC= () => {
     const { data: orders} = useGetOrdersQuery({ token: localStorage.getItem('token') || '' });
     const { data: categories } = useGetCategoriesQuery(localStorage.getItem('token') || '');
 
@@ -17,13 +17,13 @@ const AdminProfileView: FC= () => {
                     categories={categories} 
                 />
             }
-            {/* {orders && orders.length>0 && 
-                <AdminOrders 
-                    orders={orders} 
+            {orders && orders.length>0 && 
+                <Orders 
+                    orders={orders} admin={true}
                 />
-            } */}
+            } 
         </>
     );
 }
 
-export default AdminProfileView;
+export default AdminDashboard;

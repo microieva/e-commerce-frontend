@@ -1,26 +1,27 @@
+import { useContext, useEffect, useState, MouseEvent } from 'react';
 import PaymentIcon from '@mui/icons-material/Payment';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { IconButton } from '@mui/material';
-import { Order } from '../../@types/cart';
-import { useContext, useEffect, useState } from 'react';
-import OrderItems from './order-items';
+import { useDeleteOrderMutation } from '../../redux/api-queries/order-queries';
 import { useUiDate } from '../../hooks/useUiDate';
 import { formatUiPrice } from '../../shared/formatUiPrice';
-import { TypeAlertContext, TypeSnackBarContext } from '../../@types/types';
+import OrderItems from './order-items';
 import { AlertContext } from '../../contexts/alert';
 import { SnackBarContext } from '../../contexts/snackbar';
-import { useDeleteOrderMutation } from '../../redux/api-queries/order-queries';
+import { TypeAlertContext, TypeSnackBarContext } from '../../@types/types';
+import { Order } from '../../@types/cart';
 
 interface Props {
     order: Order,
     children: React.JSX.Element,
     setOrder?: (arg: undefined)=> void,
+    setOrderId?: (id: string) => void,
     handleCheckout?: () => void,
     handleOpenItems?: () => Promise<void>
 }
 
-const OrderComponent = ({ order, children, handleCheckout, setOrder }: Props) => {
+const OrderComponent = ({ order, children, handleCheckout, setOrder, setOrderId }: Props) => {
     const [ deleteOrder, { data: deletedOrder, error: deletingError, isLoading: isDeletingOrder }] = useDeleteOrderMutation();
     const [ open, setOpen ] = useState<boolean>(false);
     const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
@@ -39,9 +40,11 @@ const OrderComponent = ({ order, children, handleCheckout, setOrder }: Props) =>
         }
     }
 
-    const handleDeleteOrder = () => {
+    const handleDeleteOrder = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        e.stopPropagation();
         setIsDeleting(true);
-        setAlert({text:"Cancel this order?", open: true, action: "isDeleting"});
+        setOrderId && setOrderId(order._id);
+        setAlert({text:"Delete this order?", open: true, action: "isDeleting"});
     }
 
     const handleClose = () => {
@@ -55,7 +58,7 @@ const OrderComponent = ({ order, children, handleCheckout, setOrder }: Props) =>
                     await deleteOrder({orderId: order._id, token});
                     setAlert({open: false, action: null});
                     setOrder && setOrder(undefined);
-                    setSnackBar({message: "Order cancelled", open: true});   
+                    setSnackBar({message: "Order deleted", open: true});   
                 } catch (error) {
                     setSnackBar({message: error as string, open: true});
                 }
@@ -85,11 +88,11 @@ const OrderComponent = ({ order, children, handleCheckout, setOrder }: Props) =>
                                     <IconButton  onClick={handleCheckout}>
                                         <PaymentIcon/>
                                     </IconButton>
-                                    <IconButton  onClick={()=>handleDeleteOrder()}>
+                                    <IconButton  onClick={(e)=>handleDeleteOrder(e)}>
                                         <RemoveShoppingCartIcon/>
                                     </IconButton>
                                 </>}
-                                {order.paid && <IconButton  onClick={()=>handleDeleteOrder()}>
+                                {order.paid && <IconButton  onClick={(e)=>handleDeleteOrder(e)}>
                                     <DeleteOutlineIcon/>
                                 </IconButton>}
                             </div>

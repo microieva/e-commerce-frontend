@@ -25,9 +25,9 @@ const ProductCard: FC<CardProps> = ({ product, admin }: CardProps) => {
                 product.category ? 
                   <p className='product-category'>{product.category.name.toLowerCase()}</p>
                   : 
-                  <>
-                    {admin ? <p><em>Deleted category</em></p>: <p>-</p>}
-                  </>
+                  <p className='product-category'>
+                    {admin ? <em>Deleted category</em>: "-"}
+                  </p>
               }
             </div>
               { !admin ? <CartActions product={product}/> : <AdminActions product={product}/>}

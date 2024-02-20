@@ -29,9 +29,7 @@ import { Order } from '../../@types/cart';
 const CartView = () => {
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data: user, isLoading: isLoadingUser } = useGetUserQuery(token);
-
     const cart = useAppSelector(state => state.cart); 
-    //const [ order, setOrder ] = useState<boolean>(false);
     
     const [ orderRequestBody, setOrderRequestBody ] = useState<{ id: string, quantity: number}[] | undefined>(undefined);
     const [ createOrder, { data: newOrderData, error: newOrderError, isLoading: isLoadingNewOrder }] = useCreateOrderMutation();
@@ -39,7 +37,7 @@ const CartView = () => {
     const [ deleteOrder, { data: deletedOrder, error: deletingError, isLoading: isDeletingOrder }] = useDeleteOrderMutation();
     const [loading, setLoading] = useState<boolean>(isLoadingUser || isLoadingNewOrder || isLoadingUpdatedOrder || isDeletingOrder);
     const [ newOrder, setNewOrder ] = useState<Order | undefined>(newOrderData);
-    const [ disabled, setDisabled ] = useState<boolean>(Boolean(cart.length === 0) || !newOrder);
+    const [ disabled, setDisabled ] = useState<boolean>(Boolean(cart.length === 0));
     
     const [ openForm, setOpenForm ] = useState<boolean>(false);
     const [ form, setForm ] = useState<TypeForm>(null);
@@ -59,12 +57,10 @@ const CartView = () => {
 
     const onEmptyCart = () => {
         dispatch(emptyCart());
-        setDisabled(true);
     }
 
     const handleCreateOrder = () => {
         if (token) {
-            //setOrder(true);
             const arr: { id: string, quantity: number}[] = cart
                 .map((item) => {
                     const orderItem = {id: item._id, quantity: item.quantity}
@@ -87,9 +83,7 @@ const CartView = () => {
                             userId: user._id
                         }
                     );
-                    setDisabled(true);
                     setLoading(isLoadingNewOrder);
-                    //setOrder(true);
                 } catch (error) {
                     setSnackBar({message:error as string, open: true});
                 }
@@ -111,7 +105,6 @@ const CartView = () => {
                 setSnackBar({message: "Thank you for shopping! ", open: true});
                 setNewOrder(undefined);
                 dispatch(emptyCart());
-                setDisabled(true);
             } catch (error) {
                 setSnackBar({message: error as string, open: true});
             }
@@ -134,7 +127,6 @@ const CartView = () => {
     useEffect(() => {
         if (updatedOrder) {
             dispatch(emptyCart());
-            setDisabled(true);
         }  
     }, [updatedOrder]);
 
@@ -158,23 +150,15 @@ const CartView = () => {
     }, [user]);
 
    useEffect(()=> {
-        if (!newOrder) {
+        if (newOrder || cart.length === 0) {
+            setDisabled(true);
+        } else {
             setDisabled(false);
         }
-    }, [newOrder]);
-
-    useEffect(()=> {
-        if (cart.length===0) {
-            setDisabled(true);
-        }
-    }, [cart]);
+    }, [newOrder, cart]);
 
     const handleClose = () => {
         openForm && setOpenForm(false);
-    }
-
-    if (loading) {
-        return <Loading />
     }
 
     return (
@@ -207,7 +191,7 @@ const CartView = () => {
                 </h2>
             } 
             <div style={{marginTop: "4rem"}}>
-                { isLoadingNewOrder && <Loading />}
+                { loading && <Loading />}
                 {newOrder &&
                         <OrderComponent 
                             order={newOrder} 
