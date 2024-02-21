@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react';
-
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { IconButton, Backdrop, Dialog, Badge, Box, List, ListItem } from '@mui/material';
 import RoofingIcon from '@mui/icons-material/Roofing';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -11,18 +11,15 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import MenuIcon from '@mui/icons-material/Menu';
-
 import { useAppSelector } from '../../hooks/useAppSelector';
-import FormProvider from '../../contexts/form';
-
-import Button from './button';
-import FormSwitcher from '../views/inner-components/form-switcher';
-import { TypeForm, TypeSnackBarContext } from '../../@types/types';
-import { User } from '../../@types/user';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import {ThemeContext} from '../../contexts/theme';
+import FormProvider from '../../contexts/form';
 import { SnackBarContext } from '../../contexts/snackbar';
+import FormSwitcher from '../views/inner-components/form-switcher';
+import Button from './button';
+import { TypeForm, TypeSnackBarContext } from '../../@types/types';
+import { User } from '../../@types/user';
 
 
 const Header: FC = () => {
@@ -131,7 +128,7 @@ const Header: FC = () => {
                
                 </div>
             }
-            { loggedInUser ? <h2>hello, {loggedInUser.name}</h2> : <h2>random shop</h2>}
+            { loggedInUser ? <h1>hello, {loggedInUser.name}</h1> : <h1>random shop</h1>}
             <div className='btn-group'> 
                 {mobileView ? 
                     <>
@@ -204,8 +201,8 @@ const Header: FC = () => {
                     <>
                         { !loggedInUser ? 
                             <>
-                                <Button text="sign up" width="8rem" height="2rem" onClick={()=> handleOpen('signup')} />
-                                <Button text="log in" width="8rem" height="2rem" onClick={()=>handleOpen('login')} />
+                                <Button text="sign up" onClick={()=> handleOpen('signup')} />
+                                <Button text="log in" onClick={()=>handleOpen('login')} />
                             </>
                             :
                             <>

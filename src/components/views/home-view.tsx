@@ -1,11 +1,11 @@
 import { ChangeEvent, FC, useState } from 'react';
-import TableView from '../products-table-view';
-import SearchBar from '../../shared/search-bar';
-import HomeViewSwitcherIcons from '../../shared/home-view-switcher-icons';
-import CardsView from '../cards-view';
+import TableView from './products-table-view';
+import SearchBar from '../shared/search-bar';
+import HomeViewSwitcherIcons from '../shared/home-view-switcher-icons';
+import CardsView from './cards-view';
 
 
-const Section: FC = () => {
+const HomeView: FC = () => {
     const [activeView, setActiveView] = useState<string>('grid');
     const [searchWord, setSearchWord] = useState<string>('');
     const [numberOfProducts, setNumberOfProducts] = useState<number>();
@@ -46,4 +46,4 @@ const Section: FC = () => {
     )
 }
 
-export default Section;
+export default HomeView;

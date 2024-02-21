@@ -287,7 +287,12 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                         </FormControl> 
                     </>
                     :
-                    <Button width={"10rem"} disabled={disabled} text="Change Password" onClick={()=> setIsChangingPassword(true)}/>
+                    <Button 
+                        width="100%" 
+                        disabled={disabled} 
+                        text="Change Password" 
+                        onClick={()=> setIsChangingPassword(true)}
+                    />
                 }
                 <div className='btn-group'>  
                    
