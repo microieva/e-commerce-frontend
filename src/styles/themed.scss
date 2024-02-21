@@ -4,10 +4,10 @@
 
 @include themed {
 
-  h1, h2 {
+  h1, h2, h3, h4 {
     color: $dark-font;
   }
-  p, a, #select{
+  p, a, #select {
     color: $light-font;
   }
   span, svg, .btn {
@@ -39,7 +39,7 @@
         font-weight: 700;
       }
       svg {
-        height: $small-height;
+        height: 3rem;
         width: 3rem;
       }
     }
@@ -55,64 +55,68 @@
       background-color: rgb(61,61,61, 0.2); // header icon hover
   }
 
+  form {
+    & .MuiInputBase-input.MuiInput-input.Mui-disabled{
+      -webkit-text-fill-color: $dark-font;
+    }
+    svg {
+      color: $light-font;
+    }
+  }
+
+  .utilities-container {
     form {
-      & .MuiInputBase-input.MuiInput-input.Mui-disabled{
-        -webkit-text-fill-color: $dark-font;
-      }
-      svg {
-        color: $light-font;
+      & input::placeholder{
+        color: $dark-font;
       }
     }
-
-    .utilities-container {
-      form {
-        & input::placeholder{
-          color: $dark-font;
-        }
+    .btn-group {
+      button:not(.active-icon) {
+        border: $dark-gray-border;
       }
-      .btn-group {
-        button:not(.active-icon) {
-          border: $dark-gray-border;
-        }
-        .active-icon {
-          border: $dark-gray-border;
-        } 
+      .active-icon {
+        border: $dark-gray-border;
       } 
-    }
+    } 
+  }
 
-    .cards-container {
-      background-color: $light-gray;
+  .cards-container {
+    background-color: $light-gray;
+  }
+  .card-content {
+    p, svg{
+      color: $dark-font;
     }
-    .card-content {
-      p, svg{
-        color: $dark-font;
-      }
-    }
-    .card-wrapper:hover {
-      border: $light-gray-border;
-    }
-    .product-price {
-      background-color: $orange;
-    }
-    .item-price {
-      background: linear-gradient(to left, $orange, 50%, transparent);
-    }
+  }
+  .card-wrapper:hover {
+    border: $light-gray-border;
+  }
+  .product-price {
+    background-color: $orange;
+  }
+  .item-price {
+    background: linear-gradient(to left, $orange, 50%, transparent);
+  }
 
-    .order-container {
-      background-color: $white;
-      border: $dark-gray-border;
-    }
+  .order-container {
+    background-color: $white;
+    border: $dark-gray-border;
+  }
 
-    .category-container {
-      border: $dark-gray-border;
-      h2 {
-        color: $dark-font;
-      }
+  .category-container {
+    border: $dark-gray-border;
+    h2 {
+      color: $dark-font;
     }
+  }
 
-    footer {
-      background-color: $mid-gray;
-    }
+  .subscribe {
+    color: $dark-font;
+  }
+
+  footer {
+    background-color: $mid-gray;
+  }
 }
 
 @include responsiveness();

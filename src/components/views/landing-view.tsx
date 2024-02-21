@@ -1,19 +1,18 @@
 import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import GridViewIcon from '@mui/icons-material/GridView';
-import { useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
-import Button from '../shared/button';
 import { useGetMostRecentlyOrderedProductsQuery } from '../../redux/api-queries/product-queries';
-import ProductCard from './inner-components/product-card';
+import Button from '../shared/button';
 import RecentItems from './inner-components/recent-items';
 import { Subscribe } from './inner-components/subscribe';
 
 
 
 const LandingView: FC = () => {
-    const { data } = useGetMostRecentlyOrderedProductsQuery(undefined);
+    const { data: items } = useGetMostRecentlyOrderedProductsQuery(undefined);
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data: user } = useGetUserQuery(token);
     const [ admin, setAdmin ] = useState<boolean>(user?.role === 'ADMIN');
@@ -44,7 +43,7 @@ const LandingView: FC = () => {
                 </div>
                 :
                 <div className='landing-view-wrapper'>
-                    {data && <RecentItems items={data} />}
+                    {items && <RecentItems items={items} />}
                     <Button 
                         width="80%"
                         height="4rem"

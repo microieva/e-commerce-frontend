@@ -15,13 +15,13 @@ export const RecentItem:FC<Props> = ({item}) => {
             <div className='item-price'>{uiPrice} €</div>
             <img src={item.images[0]} alt="product image"/>
             <div className="item-wrapper">
-                <div>
-                    <h2 className='product-title'>{item.title.toLowerCase()}</h2>
+                <div className="item-text">
+                    <h1 className='product-title'>{item.title.toLowerCase()}</h1>
                     {
                         item.category ? 
-                        <p className='product-category'>{item.category.name.toLowerCase()}</p>
+                        <h4 className='product-category'>{item.category.name.toLowerCase()}</h4>
                         : 
-                        <p className='product-category'>-</p>
+                        <h4 className='product-category'>-</h4>
                     }
                 </div>
                 <div className="btn-group">

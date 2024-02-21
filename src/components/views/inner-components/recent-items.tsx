@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { CartItem } from '../../../@types/cart';
 import { RecentItem } from './recent-item';
+import { Link, Outlet } from 'react-router-dom';
 
 interface Props {
     items: CartItem[]
@@ -9,22 +10,33 @@ interface Props {
 const RecentItems:FC<Props> = ({items}) => {
 
 
-    return (
-        <div className='recent-items-wrapper'>
-            {/* {products.map(item => {
-
-            })} */}
-            <div className='item1'>
-                <RecentItem item={items[0]} />
+    return (   
+        <div style={{ display:"flex" }}>
+            <div className='items-wrapper-title'>
+                <span>Some of our customers most favorite items</span>
             </div>
-            <div className='item2'>
-                <RecentItem item={items[1]} />
-            </div>
-            <div className='item3'>
-                <RecentItem item={items[2]} />
-            </div>
-            <div className='item4'>
-                <RecentItem item={items[3]} />
+            <div className='recent-items-wrapper'>
+                <div className='item1'>
+                    <Link style={{textDecoration: "none", color: "black"}} to={`/products/${items[0]._id}`}>
+                        <RecentItem item={items[0]} />
+                    </Link>
+                </div>
+                <div className='item2'>
+                    <Link style={{textDecoration: "none", color: "black"}} to={`/products/${items[1]._id}`}>
+                        <RecentItem item={items[1]} />
+                    </Link>
+                </div>
+                <div className='item3'>
+                    <Link style={{textDecoration: "none", color: "black"}} to={`/products/${items[2]._id}`}>
+                        <RecentItem item={items[2]} />
+                    </Link>
+                </div>
+                <div className='item4'>
+                    <Link style={{textDecoration: "none", color: "black"}} to={`/products/${items[3]._id}`}>
+                        <RecentItem item={items[3]} />
+                    </Link>
+                </div>
+                <Outlet />
             </div>
         </div>
     ) 
