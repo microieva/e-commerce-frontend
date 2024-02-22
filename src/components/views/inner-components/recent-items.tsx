@@ -11,11 +11,12 @@ const RecentItems:FC<Props> = ({items}) => {
 
 
     return (   
-        <div style={{ display:"flex" }}>
-            <div className='items-wrapper-title'>
-                <span>Some of our customers most favorite items</span>
-            </div>
-            <div className='recent-items-wrapper'>
+        <div className='items-wrapper'>
+            {/* <div className='items-title'> */}
+                {/* <span>Some of our customers most favorite items</span> */}
+                <div className='items-title'>Some of our customers most favorite items</div>
+            {/* </div> */}
+            <div className='items-grid'>
                 <div className='item1'>
                     <Link style={{textDecoration: "none", color: "black"}} to={`/products/${items[0]._id}`}>
                         <RecentItem item={items[0]} />
