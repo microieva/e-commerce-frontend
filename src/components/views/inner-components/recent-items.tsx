@@ -9,14 +9,10 @@ interface Props {
 
 const RecentItems:FC<Props> = ({items}) => {
 
-
     return (   
         <div className='items-wrapper'>
-            {/* <div className='items-title'> */}
-                {/* <span>Some of our customers most favorite items</span> */}
-                <div className='items-title'>Some of our customers most favorite items</div>
-            {/* </div> */}
             <div className='items-grid'>
+                <div className='items-title'><h3>Some of our customers most favorite items</h3></div>
                 <div className='item1'>
                     <Link style={{textDecoration: "none", color: "black"}} to={`/products/${items[0]._id}`}>
                         <RecentItem item={items[0]} />

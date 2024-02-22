@@ -94,6 +94,11 @@
   .product-price {
     background-color: $orange;
   }
+  .items-grid {
+    & > div{
+      border: 1px solid $light-gray;
+    }
+  }
   .item-price {
     background: linear-gradient(to left, $orange, 50%, transparent);
   }

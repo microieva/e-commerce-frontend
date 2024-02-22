@@ -2,7 +2,7 @@
 @import '_mixins_themes';
 
 @include themed {
-    .products-container {
+    .landing-container, .products-container {
         @include btn-group(3rem);
         border-radius: $primary-radius;
         margin: auto;

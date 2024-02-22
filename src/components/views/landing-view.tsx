@@ -34,7 +34,7 @@ const LandingView: FC = () => {
 
 
     return (
-        <div className='products-container'>    
+        <div className='landing-container'>    
             {admin ? 
                 <div className='admin-shortcuts'>
                     <div  onClick={()=>navigate('/auth/profile')}><AccountCircleOutlinedIcon/><p>visit dashboard</p></div>
