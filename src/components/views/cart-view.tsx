@@ -45,7 +45,7 @@ const CartView = () => {
     const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
     const dispatch = useAppDispatch();
 
-
+    
     const numberOfItems = cart.reduce((total, cartItem) => {
         return total + cartItem.quantity;
     }, 0)
@@ -191,7 +191,6 @@ const CartView = () => {
                 </h2>
             } 
             <div style={{marginTop: "4rem"}}>
-                { loading && <Loading />}
                 {newOrder &&
                         <OrderComponent 
                             order={newOrder} 
