@@ -1,10 +1,10 @@
 @mixin responsiveness() {
 
 	@media only screen and (max-width: 1200px) {
-		body,.landing-container {
-			min-width: 1200px;
-		}
-		.landing-view-wrapper .items-wrapper .items-grid > div{ 
+		// body,.landing-container {
+		// 	min-width: 1200px;
+		// }
+		/*.landing-view-wrapper .items-wrapper .items-grid > div{ 
 			.item-price {
 			height: 3.8rem;
 			}
@@ -15,9 +15,9 @@
 		}
 		.subscribe {
 			h2 {
-				//font-size: 1.5vh;
+				font-size: 1.5vh;
 			}
-		}
+		}*/
 	}
 
 @media only screen and (max-width: 1026px) {
@@ -44,7 +44,7 @@
 		padding-left: 0;
 	}
 	}
-	.landing-view-wrapper .items-wrapper .items-grid > div{
+	/*.landing-view-wrapper .items-wrapper .items-grid > div{
 		 .item-price {
 			height: 3rem;
 			line-height: 3rem;
@@ -52,7 +52,7 @@
 		 .item-text {
 			font-size: smaller;
 		 }
-	}
+	}*/
 	.grid-table-container.table-view {
 		width: 90%;
 	}
@@ -69,12 +69,12 @@
 	}
 }
 @media only screen and (max-width: 1000px) {
-	.subscribe h1 {
-		font-size: 1.5rem;
-	}
+	// .subscribe h1 {
+	// 	font-size: 1.5rem;
+	// }
 }
 @media only screen and (max-width: 950px) {
-	.landing-view-wrapper .items-wrapper .items-grid > div{
+	/*.landing-view-wrapper .items-wrapper .items-grid > div{
 		.item-price {
 		 height: 2.8rem;
 		 line-height: 2.8rem;
@@ -82,24 +82,22 @@
 		.item-text {
 		 font-size: smaller;
 		}
- }
+ }*/
 	.order-container {
 		font-size: smaller,
 	}
-	.subscribe { 
+	/*.subscribe { 
 		h1 {
 			font-size: 1.8rem;
 		}
 		h2 {
 			font-size: 1.7rem;
 		}
-	}
+	}*/
 }
 @media only screen and (max-width: 900px) {
-	.landing-view-wrapper {
-		
-	}
-	.landing-view-wrapper {
+
+	/*.landing-view-wrapper {
 		width: 80%;
 		.items-wrapper {
 			//min-width: 890px;	
@@ -108,7 +106,7 @@
 				grid-template-rows: repeat(2, 16vh);
 			}
 		}
-	}
+	}*/
 }
 
 @media only screen and (max-width: 875px) {
@@ -145,7 +143,7 @@
 				width:95%!important;
 		}
 	}
-	.landing-view-wrapper {
+	/*.landing-view-wrapper {
 			.items-wrapper .items-grid {
 			grid-template-columns: 0.2fr 1.2fr 0.9fr 0.9fr;
 			grid-template-rows: repeat(2, 14vh);
@@ -159,17 +157,17 @@
 		h2 {
 			font-size: 1.6rem;
 		}
-	}
+	}*/
 }
 
 @media only screen and (max-width: 750px) {
-	.landing-view-wrapper .items-wrapper .items-grid {
+	/*.landing-view-wrapper .items-wrapper .items-grid {
 		grid-template-columns: 0.2fr 1.2fr 0.9fr 0.9fr;
 		grid-template-rows: repeat(2, 12vh);
 		.item-text h1{
 			font-size: 1.4rem;
 		}
-	}
+	}*/
 	
 	.card-wrapper {
 		width: 18rem;
@@ -183,16 +181,16 @@
 		font-size: smaller;
 		font-weight: 900;
 	}
-	.subscribe { 
+	/*.subscribe { 
 		h1 {
 			font-size: 1.6rem;
 		}
 		h2 {
-			//font-size: 1.2rem;
+			font-size: 1.2rem;
 		}
 		input {
 			margin: 1.5rem auto;
-		}
+		}*/
 	}
 }
 @media only screen and (max-width: 700px) {
@@ -207,7 +205,7 @@
 	.utilities-container {
 		padding: 0 2rem;
 	}
-	.landing-view-wrapper {
+	/*.landing-view-wrapper {
 		button {
 			height: 3.8rem;
 		}
@@ -223,7 +221,7 @@
 		input {
 			margin: 1.2rem auto;
 		}
-	}
+	}*/
 }
 @media only screen and (max-width: 680px) {
 	.card-wrapper {
@@ -239,7 +237,7 @@
 	}
 }
 @media only screen and (max-width: 650px) {
-	.subscribe { 
+	/*.subscribe { 
 		h1 {
 			font-size: 1.4rem;
 		}
@@ -249,7 +247,7 @@
 		input {
 			margin: 1rem auto;
 		}
-	}
+	}*/
 }
 @media only screen and (max-width: 630px) {
 	.order-container {
@@ -279,7 +277,7 @@
 				width: 90%!important;
 		}
 	}
-	.subscribe { 
+	/*.subscribe { 
 		h1 {
 			font-size: 1.3rem;
 		}
@@ -289,10 +287,10 @@
 		input {
 			margin: 0.8rem auto;
 		}
-	}
+	}*/
 	}
 	@media only screen and (max-width: 580px) {
-	@include responsive-pagination(12px, 2rem);
+		@include responsive-pagination(12px, 2rem);
 	body, .landing-container{
 		min-width: 580px;
 	}
@@ -346,93 +344,93 @@
 	}
 	}
 	@media only screen and (max-width: 550px) {
-	.order-container {
-		.order-items-wrapper {
-				width: 96%;
+		.order-container {
+			.order-items-wrapper {
+					width: 96%;
+			}
 		}
-	}
 	}
 	@media only screen and (max-width: 520px) {
-	header {
-	height:fit-content;
-	width: 100%;
-		h2 {
-				padding: 1rem 0;
+		header {
+			height:fit-content;
+			width: 100%;
+			h2 {
+					padding: 1rem 0;
+			}
 		}
-	}
-	.card-wrapper {
-		width: 14rem;
-		height: 10rem;
-	}
-	.utilities-container {
-		form {
-				margin-right: 1rem;
+		.card-wrapper {
+			width: 14rem;
+			height: 10rem;
 		}
-	}
-	.table-view {
-		&.MuiPaper-root {
-				margin: auto;
-				width: 100%;
+		.utilities-container {
+			form {
+					margin-right: 1rem;
+			}
 		}
-	}
+		.table-view {
+			&.MuiPaper-root {
+					margin: auto;
+					width: 100%;
+			}
+		}
 	}
 
 	@media only screen and (max-width: 480px) {
-	.card-wrapper {
-	width: 14rem;
-	height: 9rem;
-	.product-price {
-		width: 3.5rem!important; 
-		height: 2rem!important;
-		font-size: 12px;
-		line-height: 2rem!important;
-		margin-top: -20px!important;
-	}
-	.btn-group {
-		margin-bottom: 0;
-		@include btn-group(1rem);
-		button {
-		height: 0.8rem;
-		width: 2.8rem;
+		.card-wrapper {
+			width: 14rem;
+			height: 9rem;
+			.product-price {
+				width: 3.5rem!important; 
+				height: 2rem!important;
+				font-size: 12px;
+				line-height: 2rem!important;
+				margin-top: -20px!important;
+			}
+			.btn-group {
+				margin-bottom: 0;
+				@include btn-group(1rem);
+				button {
+					height: 0.8rem;
+					width: 2.8rem;
+				}
+			}
 		}
-	}
-	}
 	}
 
 	@media only screen and (max-width: 420px) {
-	body {
-		margin: 0;
-		font-size: smaller;
-	}
-	.view-header {
-		@include btn-group(0.5rem);
-		.btn-group {
-				margin-bottom: 0;
+		body {
+			margin: 0;
+			font-size: smaller;
 		}
-	}
-	.cart-container {
-		font-size: x-small;
-	}
+		.view-header {
+			@include btn-group(0.5rem);
+			.btn-group {
+					margin-bottom: 0;
+			}
+		}
+		.cart-container {
+			font-size: x-small;
+		}
 	}
 
 	@media only screen and (max-width: 400px) {
-	.items-per-page {
-	p {
-			display: none;
-	}
-	}
+		.items-per-page {
+			p {
+					display: none;
+			}
+		}
 	}
 
 	@media only screen and (max-width: 355px) {
-	.cart-container {
-	.view-header {
-		display: block;
-		line-height: 6rem;
+		.cart-container {
+			.view-header {
+				display: block;
+				line-height: 6rem;
+			}
+			.divider {
+				display: none!important;
+			}
+		}
 	}
-	.divider {
-		display: none!important;
-	}
-	}
-	}
-	}
+
 
