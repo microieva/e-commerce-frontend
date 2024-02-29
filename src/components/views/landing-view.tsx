@@ -8,11 +8,12 @@ import { useGetMostRecentlyOrderedProductsQuery } from '../../redux/api-queries/
 import Button from '../shared/button';
 import RecentItems from './inner-components/recent-items';
 import { Subscribe } from './inner-components/subscribe';
+import Loading from '../shared/loading';
 
 
 
 const LandingView: FC = () => {
-    const { data: items } = useGetMostRecentlyOrderedProductsQuery(undefined);
+    const { data: items, isLoading } = useGetMostRecentlyOrderedProductsQuery(undefined);
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data: user } = useGetUserQuery(token);
     const [ admin, setAdmin ] = useState<boolean>(user?.role === 'ADMIN');
@@ -43,6 +44,7 @@ const LandingView: FC = () => {
                 </div>
                 :
                 <div className='landing-view-wrapper'>
+                    {isLoading && <Loading />}
                     {items && <RecentItems items={items} />}
                     <Button 
                         width="80%"
