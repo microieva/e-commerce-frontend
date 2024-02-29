@@ -17,7 +17,7 @@ const ProductFormPage: FC = () => {
                     <ProductFormView />
                 </div>
             </main>
-            <Divider className='bottom-divider' style={{width: "30%", margin: "10% auto"}}/>
+            <Divider style={{width: "30%", margin: "10% auto"}}/>
             <Footer />
         </>
     ) 
