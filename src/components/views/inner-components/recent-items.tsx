@@ -2,9 +2,10 @@ import { FC } from 'react';
 import { CartItem } from '../../../@types/cart';
 import { RecentItem } from './recent-item';
 import { Link, Outlet } from 'react-router-dom';
+import { Product } from '../../../@types/product';
 
 interface Props {
-    items: CartItem[]
+    items: CartItem[] | Product[]
 }
 
 const RecentItems:FC<Props> = ({items}) => {

@@ -12,22 +12,16 @@
 *{
   font-family: $main-font;
 }
+#root {
+  height: 100vh;
+}
 body {
   margin:0;
-  //height: 100%
-}
-#root {
-  //height: 100%; 
 }
 
 .app-container { 
   display: flex;
   flex-direction: column;
-  //min-height: 100%; // ?
-}
-main {
-  overflow:auto;
-  padding-bottom:50%;
 }
 .landing-view-container {
   min-height: 30vh;
@@ -57,14 +51,16 @@ main {
         writing-mode: vertical-rl;
         color: rgb(35, 34, 34) !important;
         transform-origin: bottom center;
-        font-size: 1.5vw;
+        font-size: 24px;
         margin: auto;
       }
     }
     .items-grid {
+      width: 100%;
+      height: 62vh;
       display: grid;
       grid-template-columns: 0.2fr 1fr 1fr 1fr;
-      grid-template-rows: repeat(2, 16vw);
+      grid-template-rows: repeat(2, auto);
       grid-gap: 1rem;
       & > div {
         position: relative;
@@ -100,10 +96,10 @@ main {
         padding-left: 1rem;
         .item-text {
           h1 {
-            font-size: 2vw;
+            font-size: 30px;
           }
           h4 {
-            font-size: 1vw;
+            font-size: 16px;
           }
           & > *{
             margin: 0;
@@ -114,15 +110,15 @@ main {
         }
       }
       .item-price {
+        height: 3.5rem;
+        width: 8rem;
+        line-height: 3.5rem;
+        font-size: 18px;
         color: #1B1B1B;
-        font-size: 1vw;
         font-weight: 500;
         position: absolute;
-        width: 12vw;
         text-align: end;
         z-index: 1;
-        height: 4vh;
-        line-height: 4vh;
         border-top-right-radius: 20rem;
         border-bottom-right-radius: 20rem;
         padding-right: 1rem;
@@ -492,17 +488,11 @@ form {
 
 footer {
   font-family: $footer-font;
-  //height: $mid-height;
+  height: $mid-height;
   width: 100%;
   display: flex;
   justify-content: space-around;
   margin-top: auto;
-
-  //position: relative;
-  //margin-top: -200px; /* negative value of footer height */
-  height: 200px;
-  clear:both;
-  //padding-top:20px;
 }
 
 .footer-wrapper {

@@ -86,7 +86,7 @@ const orderQueries  = createApi({
             transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             invalidatesTags: ['Orders']
         }),
-        deleteOrders:  builder.mutation<{ msg: string }, {token: string}>({
+        deleteAllOrders:  builder.mutation<{ msg: string }, {token: string}>({
             query: ({token}) =>  (
                 {
                     url: `/orders`, 
@@ -108,7 +108,7 @@ export const {
     useUpdateOrderMutation,
     useDeleteOrderMutation,
     useDeleteUserOrdersMutation,
-    useDeleteOrdersMutation
+    useDeleteAllOrdersMutation
 } = orderQueries;
 export default orderQueries;
 

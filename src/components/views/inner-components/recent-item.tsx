@@ -2,9 +2,10 @@ import { FC } from "react"
 import { CartItem } from "../../../@types/cart"
 import CartActions from "../../shared/cart-actions"
 import { formatUiPrice } from "../../../shared/formatUiPrice"
+import { Product } from "../../../@types/product"
 
 interface Props {
-    item: CartItem
+    item: CartItem | Product
 }
 
 export const RecentItem:FC<Props> = ({item}) => {
