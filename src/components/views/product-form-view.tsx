@@ -27,7 +27,7 @@ const ProductFormView: FC = () => {
             <div className='view-header'>
                 <h2>new product</h2>
                 <div className="btn-group">
-                    <IconButton onClick={()=> navigate('/')} style={{padding: "0.8rem"}}>
+                    <IconButton onClick={()=> navigate(-1)} style={{padding: "0.8rem"}}>
                         <DoorBackOutlinedIcon/>
                     </IconButton>
                 </div>

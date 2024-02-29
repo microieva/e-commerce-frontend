@@ -17,7 +17,7 @@ const CartPage: FC = () => {
                 <div className="cart-container">
                     <CartView /> 
                 </div>
-            <Divider className='bottom-divider' style={{width: "30%", margin: "10% auto"}}/>
+            <Divider className='bottom-divider' /> 
             </main>
             <Footer />
         </>

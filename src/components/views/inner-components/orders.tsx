@@ -3,7 +3,7 @@ import { useEffect, useState, MouseEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Divider, IconButton } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useDeleteOrderMutation, useDeleteUserOrdersMutation } from '../../../redux/api-queries/order-queries';
+import { useDeleteAllOrdersMutation, useDeleteOrderMutation, useDeleteUserOrdersMutation } from '../../../redux/api-queries/order-queries';
 import { useGetUserQuery } from '../../../redux/api-queries/auth-queries';
 import { SnackBarContext } from '../../../contexts/snackbar';
 import { AlertContext } from '../../../contexts/alert';
@@ -18,6 +18,7 @@ interface Props {
 
 const Orders = ({ orders, admin }: Props) => {
     const [ deleteUserOrders, { data: deleteUserOrdersData, error: deleteUserOrdersError, isLoading}] = useDeleteUserOrdersMutation();
+    const [ deleteAllOrders ] = useDeleteAllOrdersMutation();
     const { data: user } = useGetUserQuery(localStorage.getItem('token') || '');
     const [ orderId, setOrderId ] = useState<string | null>(null);
     const [ deleteOrder, { data, error }] = useDeleteOrderMutation();
@@ -27,7 +28,7 @@ const Orders = ({ orders, admin }: Props) => {
     const navigate = useNavigate();
 
     useEffect(()=> {
-        const onDeletingAllOrders = async()=> {
+        const onDeletingUserOrders = async()=> {
             if (user?._id) {
                 try {
                     await deleteUserOrders({userId: user._id, token: localStorage.getItem('token') || ''});
@@ -37,6 +38,16 @@ const Orders = ({ orders, admin }: Props) => {
                 } catch (error) {
                     setSnackBar({message: error as string, open: true});
                 }
+            }
+        }
+        const onDeletingAllOrders = async()=> {
+            try {
+                await deleteAllOrders({token: localStorage.getItem('token') || ''});
+                setSnackBar({message: "All orders deleted successfuly", open: true});
+                setAlert({open: false, action: null});
+                setLastOrder(true);
+            } catch (error) {
+                setSnackBar({message: error as string, open: true});
             }
         }
         const onDeletingOrder = async()=> {
@@ -54,7 +65,12 @@ const Orders = ({ orders, admin }: Props) => {
             }
         }
         if (isConfirming === "isDeletingAllOrders") {
-            onDeletingAllOrders();
+            if (admin) {
+                onDeletingAllOrders();
+            } else {
+                onDeletingUserOrders();
+            }
+          
         } else if (isConfirming === "isDeleting") {
             onDeletingOrder();
         }

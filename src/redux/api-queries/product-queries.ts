@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Product, ProductRequest } from '../../@types/product';
 import { url } from '../../common/common';
+import { CartItem } from '../../@types/cart';
 
 const productQueries  = createApi({
 
@@ -14,6 +15,10 @@ const productQueries  = createApi({
             query: () => `/`,
             transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]},
             providesTags: ['Products']
+        }),
+        getMostRecentlyOrderedProducts: builder.query<CartItem[], undefined>({
+            query: () => `/recent`,
+            transformErrorResponse:(error) => {return error.data && Object.values(error.data)[0]}
         }),
         getProductById: builder.query<Product, string>({
             query: (productId) => `/${productId}`,
@@ -77,6 +82,7 @@ const productQueries  = createApi({
 export const {
     useGetProductsQuery,
     useGetFilteredProductsByTitleQuery, 
+    useGetMostRecentlyOrderedProductsQuery,
     useGetProductByIdQuery,
     useCreateProductMutation,
     useUpdateProductMutation,

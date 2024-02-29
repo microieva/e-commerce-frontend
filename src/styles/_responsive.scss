@@ -1,299 +1,305 @@
 @mixin responsiveness() {
 
-	@media only screen and (max-width: 1026px) {
-			body {
-			margin: 0;
-			min-height: 100%;
+	@media only screen and (max-width: 1200px) {
+		body {
+			min-width: 1200px;
+		}
+		.landing-container button {
+			height: 3.4rem;
+			width: 40rem;
+			font-size: smaller;
+		}
+		.landing-view-wrapper {
+			width: 85%;
+		}
+		.subscribe {
+			h1 {
+				font-size: 30px;
 			}
-			.main-container {
-			justify-content: flex-start;
-			}
-			.view-container {
-					width: 90%;
-			}
-			.view-details {
-			flex-direction: column-reverse;
-			& > * {
-					width: 100%;
-					margin-bottom: 2rem;
-			}
+		}
+	}
+
+@media only screen and (max-width: 1026px) {
+	body {
+		margin: 0;
+		min-height: 100%;
+	}
+	.main-container {
+		justify-content: flex-start;
+	}
+	.view-container {
+		width: 90%;
+	}
+	.view-details {
+		flex-direction: column-reverse;
+		& > * {
+		width: 100%;
+		margin-bottom: 2rem;
+		}
 			.circle-img { 
-					margin: auto;
-			}
-			.img-wrapper {
-					padding-left: 0;
-			}
-			}
-			.grid-table-container.table-view {
-					width: 90%;
-			}
-			.cart-container {
-			width: 90%;
-			}
-			.order-items-wrapper {
-			width: 100%;
-			}
-			footer {
-			margin:0;
-			padding:0;
-			}
-	}
-	@media only screen and (max-width: 950px) {
-			.order-container {
-					font-size: smaller,
-			}
-	}
-	
-	@media only screen and (max-width: 875px) {
-			.card-wrapper {
-			width: 20rem;
-			height: 12rem;
-			.btn-group {
-					margin-bottom: -2rem;
-			}
-			}
-			.utilities-container {
-			padding: 0 1rem;
-			}
-			
-	}
-	
-	@media only screen and (max-width: 820px) {
-			.footer-wrapper {
-			width: 90%;
-			& > * {
-					width: 50%;
-			}
-			& > p {
-					text-align: right;
-			}
-			}
-	}
-	@media only screen and (max-width: 800px) {
-			.cart-container, 
-			.profile-container, 
-			.products-container,
-			.product-form-container,
-			.product-container {
-				.view-wrapper {
-						width:95%!important;
-				}
-			}
+				margin: auto;
 		}
-	
-	@media only screen and (max-width: 750px) {
-			.card-wrapper {
-			width: 18rem;
-			height: 10rem;
-			.btn-group {
-					margin-bottom: -1rem;
-			}
-			}
-			.product-price {
-			width: 6rem!important; 
-			font-size: smaller;
-			font-weight: 900;
-			}
-	}
-	@media only screen and (max-width: 700px) {
-			main {
-					width: 100%;
-			}
-			header {
-					margin: 0;
-					padding: 0 1rem;
-					border-radius: 0;
-			}
-			.utilities-container {
-					padding: 0 2rem;
-			}
-	}
-	
-	@media only screen and (max-width: 680px) {
-			.card-wrapper {
-			width: 16rem;
-			height: 10rem;
-			}
-			.product-price {
-			width: 4.5rem!important; 
-			font-size: 12px;
-			height: 2.5rem;
-			top: 18px;
-			line-height: 2.5rem;
-			}
-	}
-	@media only screen and (max-width: 630px) {
-		.order-container {
-			h2 {
-					padding: 0 1rem;
-			}
-			.btn-group {
-					padding: 0;
-			}
-		}
-		.category-container{
-			padding: 0;
-			font-size: smaller;
+		.img-wrapper {
+			padding-left: 0;
 		}
 	}
-	@media only screen and (max-width: 610px) {
-			.card-wrapper {
-			width: 15rem;
-			height: 9rem;
-			}
-			.product-price {
-			width: 4.5rem!important; 
-			font-size: smaller;
-			}
-			.grid-table-container{
+	.grid-table-container.table-view {
+		width: 90%;
+	}
+	.cart-container {
+		width: 90%;
+	}
+	.order-items-wrapper {
+		width: 100%;
+	}
 
-					.table-view {
-							width: 90%!important;
-					}
-			}
-	}
-	@media only screen and (max-width: 580px) {
-			@include responsive-pagination(12px, 2rem);
-			body {
-				min-width: 580px;
-			}
-			header {
-			font-size: smaller;
-				.btn-group {
-						width: 100%!important;
-						line-height: 4rem;
-						button {
-						height: 2rem!important;
-						width: 2rem!important;
-						margin: 0 0.5rem;
-						}
-				}
-			}
-			.card-content {
-				padding: 1rem 0 0 1rem;
-			}
-			.product-price {
-				width: 4.5rem!important; 
-				font-size: smaller;
-			}
-			.circle-img {
-			height: 20rem!important;
-			width: 20rem!important;
-			margin:auto;
-			}
-			.view-header {
-			width: 100%;
-			}
-			.view-container {
-					width: 100%;
-			}
-			.grid-table-container{
-
-			.table-view {
-					width: 100%!important;
-			}
-			}
-			.cart-container {
-			font-size: smaller;
-			width: 100%;
-					.btn-group {
-							@include btn-group(2rem);
-							button {
-							margin: 0 0.5rem;
-							padding: 0 0.5rem;
-							}
-			
-					}
-			}
-	}
-	@media only screen and (max-width: 550px) {
-			.order-container {
-					.order-items-wrapper {
-							width: 96%;
-					}
-			}
-	}
-	@media only screen and (max-width: 520px) {
-			header {
-			height:fit-content;
-			width: 100%;
-					h2 {
-							padding: 1rem 0;
-					}
-			}
-			.card-wrapper {
-					width: 14rem;
-					height: 10rem;
-			}
-			.utilities-container {
-					form {
-							margin-right: 1rem;
-					}
-			}
-			.table-view {
-					&.MuiPaper-root {
-							margin: auto;
-							width: 100%;
-					}
-			}
-	}
-	
-	@media only screen and (max-width: 480px) {
-			.card-wrapper {
-				width: 14rem;
-				height: 9rem;
-			.product-price {
-					width: 3.5rem!important; 
-					height: 2rem!important;
-					font-size: 12px;
-					line-height: 2rem!important;
-					margin-top: -20px!important;
-			}
-			.btn-group {
-					margin-bottom: 0;
-					@include btn-group(1rem);
-					button {
-					height: 0.8rem;
-					width: 2.8rem;
-					}
-			}
-			}
-	}
-	
-	@media only screen and (max-width: 420px) {
-			body {
-					margin: 0;
-					font-size: smaller;
-			}
-			.view-header {
-					@include btn-group(0.5rem);
-					.btn-group {
-							margin-bottom: 0;
-					}
-			}
-			.cart-container {
-					font-size: x-small;
-			}
-	}
-	
-	@media only screen and (max-width: 400px) {
-			.items-per-page {
-				p {
-						display: none;
-				}
-			}
-	}
-	
-	@media only screen and (max-width: 355px) {
-			.cart-container {
-			.view-header {
-					display: block;
-					line-height: 6rem;
-			}
-			.divider {
-					display: none!important;
-			}
-			}
+	footer {
+		margin:0;
+		padding:0;
 	}
 }
 
+@media only screen and (max-width: 950px) {
+	.order-container {
+		font-size: smaller;
+	}
+}
+
+@media only screen and (max-width: 875px) {
+	.card-wrapper {
+		width: 20rem;
+		height: 12rem;
+		.btn-group {
+			margin-bottom: -2rem;
+		}
+	}
+	.utilities-container {
+		padding: 0 1rem;
+	}
+}
+
+	@media only screen and (max-width: 820px) {
+	.footer-wrapper {
+	width: 90%;
+	& > * {
+		width: 50%;
+	}
+	& > p {
+		text-align: right;
+	}
+	}
+	}
+@media only screen and (max-width: 800px) {
+	.cart-container, 
+	.profile-container, 
+	.products-container,
+	.product-form-container,
+	.product-container {
+		.view-wrapper{
+				width:95%!important;	
+		}
+	}
+}
+
+@media only screen and (max-width: 750px) {
+	
+	.card-wrapper {
+		width: 18rem;
+		height: 10rem;
+		.btn-group {
+			margin-bottom: -1rem;
+		}
+	}
+	.product-price {
+		width: 6rem!important; 
+		font-size: smaller;
+		font-weight: 900;
+	}
+	}
+}
+@media only screen and (max-width: 700px) {
+	main {
+		width: 100%;
+	}
+	header {
+		margin: 0;
+		padding: 0 1rem;
+		border-radius: 0;
+	}
+
+	.utilities-container {
+		padding: 0 2rem;
+	}
+}
+@media only screen and (max-width: 680px) {
+	.card-wrapper {
+		width: 16rem;
+		height: 10rem;
+	}
+	.product-price {
+		width: 4.5rem!important; 
+		font-size: 12px;
+		height: 2.5rem;
+		top: 18px;
+		line-height: 2.5rem;
+	}
+}
+
+@media only screen and (max-width: 630px) {
+	.order-container {
+	h2 {
+		padding: 0 1rem;
+	}
+	.btn-group {
+		padding: 0;
+	}
+	}
+	.category-container{
+	padding: 0;
+	font-size: smaller;
+	}
+}
+	@media only screen and (max-width: 610px) {
+	.card-wrapper {
+	width: 15rem;
+	height: 9rem;
+	}
+	.product-price {
+	width: 4.5rem!important; 
+	font-size: smaller;
+	}
+	.grid-table-container{
+		.table-view {
+				width: 90%!important;
+		}
+	}
+	}
+	@media only screen and (max-width: 580px) {
+		@include responsive-pagination(12px, 2rem);
+
+	.card-content {
+	padding: 1rem 0 0 1rem;
+	}
+	.product-price {
+	width: 4.5rem!important; 
+	font-size: smaller;
+	}
+	.circle-img {
+	height: 20rem!important;
+	width: 20rem!important;
+	margin:auto;
+	}
+	.view-header {
+	width: 100%;
+	}
+	.view-container {
+		width: 100%;
+	}
+	.grid-table-container{
+
+	.table-view {
+		width: 100%!important;
+	}
+	}
+	.cart-container {
+		font-size: smaller;
+		width: 100%;
+		.btn-group {
+			@include btn-group(2rem);
+			button {
+				margin: 0 0.5rem;
+				padding: 0 0.5rem;
+			}
+
+		}
+	}
+	}
+	@media only screen and (max-width: 550px) {
+		.order-container {
+			.order-items-wrapper {
+					width: 96%;
+			}
+		}
+	}
+	@media only screen and (max-width: 520px) {
+		// header {
+		// 	height:fit-content;
+		// 	width: 100%;
+		// 	h2 {
+		// 			padding: 1rem 0;
+		// 	}
+		// }
+		.card-wrapper {
+			width: 14rem;
+			height: 10rem;
+		}
+		.utilities-container {
+			form {
+					margin-right: 1rem;
+			}
+		}
+		.table-view {
+			&.MuiPaper-root {
+					margin: auto;
+					width: 100%;
+			}
+		}
+	}
+
+	@media only screen and (max-width: 480px) {
+		.card-wrapper {
+			width: 14rem;
+			height: 9rem;
+			.product-price {
+				width: 3.5rem!important; 
+				height: 2rem!important;
+				font-size: 12px;
+				line-height: 2rem!important;
+				margin-top: -20px!important;
+			}
+			.btn-group {
+				margin-bottom: 0;
+				@include btn-group(1rem);
+				button {
+					height: 0.8rem;
+					width: 2.8rem;
+				}
+			}
+		}
+	}
+
+	@media only screen and (max-width: 420px) {
+		body {
+			margin: 0;
+			font-size: smaller;
+		}
+		.view-header {
+			@include btn-group(0.5rem);
+			.btn-group {
+					margin-bottom: 0;
+			}
+		}
+		.cart-container {
+			font-size: x-small;
+		}
+	}
+
+	@media only screen and (max-width: 400px) {
+		.items-per-page {
+			p {
+					display: none;
+			}
+		}
+	}
+
+	@media only screen and (max-width: 355px) {
+		.cart-container {
+			.view-header {
+				display: block;
+				line-height: 6rem;
+			}
+			.divider {
+				display: none!important;
+			}
+		}
+	}

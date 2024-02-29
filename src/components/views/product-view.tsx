@@ -92,7 +92,7 @@ const ProductView: FC<Props> = ({ product }) => {
                         :
                             <>
                                 <CartActions product={product}>
-                                    <IconButton onClick={()=> navigate('/')}>
+                                    <IconButton onClick={()=> navigate(-1)}>
                                         <DoorBackOutlinedIcon/>
                                     </IconButton>
                                 </CartActions>

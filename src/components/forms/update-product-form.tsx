@@ -184,7 +184,7 @@ const UpdateProductForm: FC<Props> = ({ product, admin }) => {
     if (isLoading) {
         return <Loading />
     }
-    console.log('categoryName: ', categoryName);
+
     return (
     <div className='form-container product-form'>
         <form onSubmit={handleSubmit} ref={formRef}>

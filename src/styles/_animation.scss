@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro');
+
+.typewriter{
+    animation: typewriter 5s steps(22, end) 1s infinite normal both,
+                blinkTextCursor 500ms steps(22) infinite normal;
+}
+
+@keyframes typewriter {
+    0% {
+      width: 0;
+    }
+    80% {
+      width: 23rem;
+    }
+    84% {
+      width: 23rem;
+      animation-play-state: paused; 
+    }
+    100% {
+      width: 23rem;
+      animation-play-state: running; 
+    }
+  }
+  
+@keyframes blinkTextCursor{
+    from {
+        border-right-color: $light-font;
+    }
+    to {
+        border-right-color: transparent;
+    }
+}
+
+  

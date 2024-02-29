@@ -2,15 +2,18 @@ import { FC } from 'react';
 import { Divider } from "@mui/material"
 import Footer from '../components/shared/footer';
 import Header from '../components/shared/header';
-import HomeView from '../components/views/home-view';
+import LandingView from '../components/views/landing-view';
 
-const HomePage: FC = () => {
+const LandingPage: FC = () => {
 
     return (
         <>
             <main className="main-container">
                 <Header/>
-                <HomeView />
+                <div className='divider'>
+                    <Divider />
+                </div>
+                <LandingView/>
             </main>
             <Divider className='bottom-divider' style={{width: "30%", margin: "10% auto"}}/>
             <Footer />
@@ -18,4 +21,4 @@ const HomePage: FC = () => {
     ) 
 }
 
-export default HomePage;
+export default LandingPage;
