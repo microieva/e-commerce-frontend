@@ -1,130 +1,58 @@
 @import 'variables';
-@import '_mixins_themes';
-@import 'responsive';
+@import '_mixins-themed';
 
 @include themed {
 
-  h1, h2, h3, h4 {
-    color: $dark-font;
+  h2, span, a, p, svg, form {
+    color: $low-contrast-color;
   }
-  p, a, #select {
-    color: $light-font;
+  body, .app-container{
+    background-color: $page-background!important;
   }
-  span, svg, .btn {
-    color: $light-font;
-    &:not(:disabled):hover {
-      cursor: pointer;
-      color: inherit;
-    }
-  }
-  img {
-    border: $dashed-border;
-  }
-  body {
-    background-color: $white;
-  }
-  .app-container {
-    background-color: $white;
-  }
-
   header {
-    background-color: $darkgray;
+    background-color: $header-background;
     .btn {
-      color: $dark-font;
+      color: $high-contrast-color;
     }
     .btn-group {
       span.MuiBadge-badge {
-        background-color: $orange;
-        color: $light-gray;
+        background-color: $detail-color;
+        color: $view-background;
         font-weight: 700;
       }
-      svg {
-        height: 3rem;
-        width: 3rem;
-      }
-    }
-    
+    } 
   }
-
+  footer {
+    background-color: $footer-background;
+  }
+  .view-container {
+    background-color: $view-background;
+  }
+  .view-wrapper.with-border {
+    border: $dark-gray-border;
+    background-color: $page-background;
+  }
+  .img-wrapper {
+    border: 1px dashed $ghost-color;
+  }
+  .subscribe {
+    input {
+      border-bottom: 3px solid $low-contrast-color;
+      color: $low-contrast-color;
+    }
+    &::placeholder {
+      color: $high-contrast-color;
+    }
+  }
   .btn {
     background-color: rgb(61,61,61, 0.2);
     border: none;
-    color: $light-font;
+    color: $low-contrast-color;
   }
   .btn:not(#btn-disabled):hover{
       background-color: rgb(61,61,61, 0.2); // header icon hover
   }
-
-  form {
-    & .MuiInputBase-input.MuiInput-input.Mui-disabled{
-      -webkit-text-fill-color: $dark-font;
-    }
-    svg {
-      color: $light-font;
-    }
-  }
-
-  .utilities-container {
-    form {
-      & input::placeholder{
-        color: $dark-font;
-      }
-    }
-    .btn-group {
-      button:not(.active-icon) {
-        border: $dark-gray-border;
-      }
-      .active-icon {
-        border: $dark-gray-border;
-      } 
-    } 
-  }
-
-  .cards-container {
-    background-color: $light-gray;
-  }
-  .card-content {
-    p, svg{
-      color: $dark-font;
-    }
-  }
-  .card-wrapper:hover {
-    border: $light-gray-border;
-  }
-  .product-price {
-    background-color: $orange;
-  }
-  .items-grid {
-    & > div{
-      border: 1px solid $light-gray;
-    }
-  }
-  .item-price {
-    background: linear-gradient(to left, $orange, 50%, transparent);
-  }
-  .items-title {
-    background-color: $orange;
-  }
-
-  .order-container {
-    background-color: $white;
-    border: $dark-gray-border;
-  }
-
-  .category-container {
-    border: $dark-gray-border;
-    h2 {
-      color: $dark-font;
-    }
-  }
-
-  .subscribe {
-    color: $dark-font;
-  }
-
-  footer {
-    background-color: $mid-gray;
-  }
 }
 
-@include responsiveness();
+// TO DO:
+// font colors: h1 + h2 (high contrast) the rest should be low contrast

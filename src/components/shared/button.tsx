@@ -7,7 +7,7 @@ const Button: FC<ButtonProps> = ({text, width, height, onClick, disabled}) => {
         disabled={disabled}
         className="btn" 
         id={disabled ? "btn-disabled" : ""}
-        style={{width: `${width}`, height: `${height}`}} 
+        style={{width: width ? `${width}`: "100%", height: height ? `${height}`: "4rem"}} 
         onClick={()=>onClick()}
     >
         {text}

@@ -5,20 +5,21 @@ import CartView from '../components/views/cart-view';
 import Footer from '../components/shared/footer';
 import { Divider } from '@mui/material';
 
+
 const CartPage: FC = () => { 
 
     return (
         <>
-            <main className="main-container">
+            <main>
                 <Header/>
                 <div className='divider'>
                     <Divider />
                 </div>
-                <div className="cart-container">
+                <div className="view-container">
                     <CartView /> 
                 </div>
             </main>
-            <Divider style={{width: "30%", margin: "10% auto"}}/> 
+            <Divider style={{width: "30%", margin: "auto"}}/>
             <Footer />
         </>
     ) 

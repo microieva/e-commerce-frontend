@@ -8,14 +8,16 @@ const LandingPage: FC = () => {
 
     return (
         <>
-            <main className="main-container">
+            <main>
                 <Header/>
                 <div className='divider'>
                     <Divider />
                 </div>
-                <LandingView/>
+                <div className="view-container">
+                    <LandingView/>
+                </div>
             </main>
-            <Divider style={{width: "30%", margin: "10% auto"}}/>
+            <Divider style={{width: "30%", margin: "auto"}}/>
             <Footer />
         </>
     ) 

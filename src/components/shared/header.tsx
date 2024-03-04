@@ -201,8 +201,8 @@ const Header: FC = () => {
                     <>
                         { !loggedInUser ? 
                             <>
-                                <Button text="sign up" onClick={()=> handleOpen('signup')} />
-                                <Button text="log in" onClick={()=>handleOpen('login')} />
+                                <Button text="sign up" onClick={()=> handleOpen('signup')} width="4rem"/>
+                                <Button text="log in" onClick={()=>handleOpen('login')} width="4rem"/>
                             </>
                             :
                             <>

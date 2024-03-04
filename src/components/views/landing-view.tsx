@@ -35,12 +35,12 @@ const LandingView: FC = () => {
 
 
     return (
-        <div className='landing-container'>    
+        <>    
             {admin ? 
-                <div className='admin-shortcuts'>
-                    <div  onClick={()=>navigate('/auth/profile')}><AccountCircleOutlinedIcon/><p>visit dashboard</p></div>
-                    <div onClick={()=>navigate('/products/new')}><PlaylistAddOutlinedIcon/><p>add new product</p></div>
-                    <div onClick={()=>navigate('/products')}><GridViewIcon/><p>view products</p></div>
+                <div className='admin-shortcuts flex-row'>
+                    <div className='flex-row' onClick={()=>navigate('/auth/profile')}><AccountCircleOutlinedIcon/><p>visit dashboard</p></div>
+                    <div className='flex-row' onClick={()=>navigate('/products/new')}><PlaylistAddOutlinedIcon/><p>add new product</p></div>
+                    <div className='flex-row' onClick={()=>navigate('/products')}><GridViewIcon/><p>view products</p></div>
                 </div>
                 :
                 <div className='landing-view-wrapper'>
@@ -56,7 +56,7 @@ const LandingView: FC = () => {
                 </div>
             }
 
-        </div>
+        </>
     ) 
 }
 

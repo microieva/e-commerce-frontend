@@ -28,21 +28,21 @@ const CategoryComponent = ({category, setCategoryId}: Props) => {
     }
 
     return (
-        <div className="category-container">
-            <div className="view-header" style={{margin: isUpdating ? "1rem 0":0, justifyContent: isUpdating ? "flex-end": "inherit"}}>
-                {!isUpdating && <div style={{display: "flex", alignItems: 'center'}}>
+        <div className="flex-container">
+            {!isUpdating && 
+                <div style={{display: "flex", alignItems: 'center'}}>
                     <img src={category.image}/>
                     <h2>{category.name.toLowerCase()}</h2> 
-                </div>}
-                <div className="btn-group" style={{float: isUpdating ? "right": "none"}}>
-                    <IconButton  disabled={isUpdating} onClick={handleEdit}>
-                        <EditNoteIcon/>
-                    </IconButton>
-                    <IconButton  onClick={onDelete}>
-                        <DeleteOutlineIcon/>
-                    </IconButton>
-                </div>  
-            </div>
+                </div>    
+            }
+            <div className="btn-group" style={{float: isUpdating ? "right": "none"}}>
+                <IconButton  disabled={isUpdating} onClick={handleEdit}>
+                    <EditNoteIcon/>
+                </IconButton>
+                <IconButton  onClick={onDelete}>
+                    <DeleteOutlineIcon/>
+                </IconButton>
+            </div>  
             {isUpdating && <UpdateCategoryForm category={category} onClose={handleClose}/>}   
         </div> 
     )

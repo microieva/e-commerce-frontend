@@ -1,27 +1,57 @@
+// $main-font -> $primary-font: everwhere in <main>
+$primary-font: 'Roboto', sans-serif;
+// $footer-font -> $secondary-font: in <footer> and animation
+// @import url('https://fonts.googleapis.com/css?family=Anonymous+Pro'); <--- typewriter animation font
+$secondary-font: Arial, Helvetica, sans-serif;
 
-$main-font: 'Roboto', sans-serif;
-$footer-font: Arial, Helvetica, sans-serif;
+/*
+LIGHT:
+'white': white, -> page-background
+'light-font': rgb(121, 121, 121), -> low-contrast-color
+'dark-font': rgb(41, 41, 41), -> high-contrast-color
+'light-gray': rgb(245,245,245), -> view-background
+'mid-gray': rgb(219,219,219), -> footer-background
+'darkgray': darkgray, -> header-background
+'orange': rgb(253, 139, 51), -> detail-color
+'ghost': rgb(220 220 220) -> ghost-color
+
+DARK:
+'light-font': rgb(121, 121, 121),
+'dark-font': #84888d,
+'white': #272a2e,
+'light-gray': #232629,
+'mid-gray': #181818,
+'darkgray': #1b1b1b, 
+'orange': #429F42,
+'ghost-color':rgb(70 69 69)
+*/
 
 $themes: (
     light: (
-        'light-font': rgb(121, 121, 121),
-        'dark-font': rgb(41, 41, 41),
-        'white': white,
-        'light-gray': rgb(245,245,245),
-        'mid-gray': rgb(219,219,219),
-        'darkgray': darkgray,
-        'orange': rgb(253, 139, 51),
-        'ghost': rgb(220 220 220)
+        'page-background': white,
+
+        'low-contrast-color': rgb(121, 121, 121),
+        'high-contrast-color': rgb(41, 41, 41),
+
+        'view-background': rgb(245,245,245),
+        'footer-background': rgb(219, 219, 219),
+        'header-background': darkgray,
+
+        'detail-color': rgb(253, 139, 51),
+        'ghost-color': rgb(220 220 220)
     ),
     dark: (
-      'light-font': rgb(121, 121, 121),
-      'dark-font': #84888d,
-       'white': #272a2e,
-       'light-gray': #232629,
-       'mid-gray': #181818,
-       'darkgray': #1b1b1b,
-       'orange': #429F42,
-       'ghost':rgb(70 69 69)
+        'page-background': rgb(39, 42, 46),
+
+        'low-contrast-color': rgb(121, 121, 121),
+        'high-contrast-color': rgb(132, 136, 141),
+
+        'view-background': rgb(35, 38, 41),
+        'footer-background': rgb(24, 24, 24),
+        'header-background': rgb(27, 27, 27),
+
+        'detail-color': rgb(66, 159, 66),
+        'ghost-color':rgb(70 69 69)
     )
 );
 
@@ -32,6 +62,6 @@ $secondary-radius: 4px;
 $btn-height: 4rem;
 $btn-width: 4rem;
 $small-height: 3rem;
-$mid-height: 16rem;
+//$mid-height: 16rem;
 
-$iPad-width: 1024px;
+

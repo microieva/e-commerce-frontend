@@ -167,7 +167,7 @@ const CartView = () => {
                 {   cart.length === 0 ? 
                     <h2>your cart is empty</h2>
                     :
-                    <h2>your cart <span style={{color: "darkgrey"}}>/ {cart.length} {cart.length===1 ? ' product': 'products'}</span></h2>
+                    <h2>your cart <span>/ {cart.length} {cart.length===1 ? ' product': 'products'}</span></h2>
                 }
                 <div className="btn-group">
                     <IconButton disabled={disabled} onClick={()=>handleCreateOrder()}>

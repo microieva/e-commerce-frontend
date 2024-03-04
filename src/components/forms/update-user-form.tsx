@@ -163,7 +163,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
         return <Loading />
     }
     return (
-        <div className='form-container product-form' style={{margin: "0"}}>
+        <div className='form-container'>
             <form onSubmit={handleSubmit} ref={formRef}>
                 <FormControl fullWidth>
                     <TextField
@@ -288,7 +288,7 @@ const UpdateUserForm: FC<Props> = ({ user }) => {
                     </>
                     :
                     <Button 
-                        width="100%" 
+                        height="3rem"
                         disabled={disabled} 
                         text="Change Password" 
                         onClick={()=> setIsChangingPassword(true)}

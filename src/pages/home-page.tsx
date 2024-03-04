@@ -8,11 +8,11 @@ const HomePage: FC = () => {
 
     return (
         <>
-            <main className="main-container">
+            <main>
                 <Header/>
                 <HomeView />
             </main>
-            <Divider style={{width: "30%", margin: "10% auto"}}/>
+            <Divider style={{width: "30%", margin: "auto"}}/>
             <Footer />
         </>
     ) 

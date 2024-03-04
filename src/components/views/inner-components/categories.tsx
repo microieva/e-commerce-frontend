@@ -105,7 +105,7 @@ const Categories = ({ categories }: Props) => {
                                     <CreateCategoryForm handleCancel={handleCancel} handleClose={onClose}/>
                                 }
                         </div> 
-                        <div className="profile-section">
+                        <div className="view-details with-items">
                             {categories.map((category, i) => {
                                 return <CategoryComponent 
                                     key={i}

@@ -8,16 +8,16 @@ import { Divider } from '@mui/material';
 const ProductFormPage: FC = () => { 
     return (
         <>
-            <main className="main-container">
+            <main>
                 <Header/>
                 <div className='divider'>
                     <Divider />
                 </div>
-                <div className="product-form-container"> 
+                <div className="view-container"> 
                     <ProductFormView />
                 </div>
             </main>
-            <Divider style={{width: "30%", margin: "10% auto"}}/>
+            <Divider style={{width: "30%", margin: "auto"}}/>
             <Footer />
         </>
     ) 

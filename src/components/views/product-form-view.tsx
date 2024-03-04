@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import CreateProductForm from '../forms/create-product-form';
-import { ThemeContext } from '../../contexts/theme';
 
 const ProductFormView: FC = () => {  
     const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
@@ -23,7 +22,7 @@ const ProductFormView: FC = () => {
     }, [token]);
 
     return (
-        <div className="view-wrapper">
+        <div className="view-wrapper with-border">
             <div className='view-header'>
                 <h2>new product</h2>
                 <div className="btn-group">
@@ -34,7 +33,7 @@ const ProductFormView: FC = () => {
             </div>
             <div className='view-details'>
                 <CreateProductForm />
-                <div className="img-wrapper__empty">
+                <div className="img-wrapper empty">
                     <div className="img-placeholder"/>
                 </div>
             </div>

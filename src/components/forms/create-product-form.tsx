@@ -125,7 +125,7 @@ const CreateProductForm: FC = () => {
     }
 
     return (
-    <div className='form-container product-form'>
+    <div className='form-container'>
         <form onSubmit={handleSubmit} ref={formRef}>
             <FormControl fullWidth>
                 <TextField

@@ -1,0 +1,9 @@
+@mixin btn-group($height: $btn-height) {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    button {
+        height: $height;
+        width: $height;
+    }
+}

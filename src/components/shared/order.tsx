@@ -71,8 +71,7 @@ const OrderComponent = ({ order, children, handleCheckout, setOrder, setOrderId 
     }, [isConfirming]);
     
     return (
-            <div className='order-container'>
-                <div className="order-wrapper" id={order?.paid ? "hover" : ""} onClick={()=> handleClick()} style={{}}>
+            <div className='flex-container' id={order?.paid ? "hover" : ""} onClick={()=> handleClick()}>
                     <div>
                         {children}   
                         <h2 style={{color: "darkgrey", fontSize:"18px"}}>{uiDate}</h2> 
@@ -98,7 +97,6 @@ const OrderComponent = ({ order, children, handleCheckout, setOrder, setOrderId 
                             </div>
                         }
                         
-                    </div>
                 </div>
                 { open && order && <OrderItems orderId={order._id} handleClose={handleClose}/> }
             </div>

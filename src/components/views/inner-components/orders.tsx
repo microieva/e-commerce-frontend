@@ -98,7 +98,7 @@ const Orders = ({ orders, admin }: Props) => {
                         </IconButton>
                     </div> 
                 </div> 
-                <div className="profile-section">
+                <div className="view-details with-items">
                         {orders.map((order, i )=> {
                             if (order.paid) {
                                 return <OrderComponent 

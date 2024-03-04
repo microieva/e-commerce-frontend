@@ -34,20 +34,21 @@ const App: FC = () => {
             <CssBaseline />
             <AlertProvider>
             <SnackBarProvider>
-              <div className={`theme-${theme}`}>  
-                <div className='app-container'>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/products/new" element={<ProductFormPage />} /> 
-                            <Route path="/products/:productId" element={<ProductPage />} /> 
-                            <Route path="/products" element={<HomePage />}/>
-                            <Route path="/auth/profile" element={<ProfilePage />}/>
-                            <Route path="/cart" element={<CartPage />}/>
-                            <Route path="/" element={<LandingPage />}/>
-                        </Routes>
-                    </BrowserRouter>
+                <div className= {`theme-${theme}`}>
+                    <div className="app-container">
+                        <BrowserRouter>
+                            <Routes>
+                                <Route path="/products/new" element={<ProductFormPage />} /> 
+                                <Route path="/products/:productId" element={<ProductPage />} /> 
+                                <Route path="/products" element={<HomePage />}/>
+                                <Route path="/auth/profile" element={<ProfilePage />}/>
+                                <Route path="/cart" element={<CartPage />}/>
+                                <Route path="/" element={<LandingPage />}/>
+                            </Routes>
+                        </BrowserRouter>
+                    </div>
+
                 </div>
-              </div> 
             </SnackBarProvider>
             </AlertProvider>
           </ThemeProvider>
