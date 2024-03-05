@@ -28,8 +28,8 @@
         $detail-color:  themed('detail-color') !global;
         $ghost-color: themed('ghost-color') !global;
 
-        $light-gray-border: 1px solid themed('low-contrast-color') !global;
-        $dark-gray-border: 1px solid themed('high-contrast-color') !global;
+        $light-gray-border: 1px solid themed('high-contrast-color') !global;
+        $dark-gray-border: 1px solid themed('low-contrast-color') !global;
         $dashed-border: 1px dashed themed('ghost-color') !global;
         $dotted-border: 1px dotted themed('header-background') !global;
         @content;

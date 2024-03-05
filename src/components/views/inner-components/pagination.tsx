@@ -34,7 +34,7 @@ const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChang
 	}, [currentPage, itemsPerPage, handleItemsPerPageChange]);
 
 	return (
-		<div className="pagination">
+		<>
 			<div className="items-per-page">
 				<p>Items per page:</p>
 				<div className="pagination-select">
@@ -64,7 +64,7 @@ const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChang
 					<NavigateNextIcon className="right"/>
 				</IconButton>
 			</div>
-		</div>
+		</>
 	);
 }
 export default Pagination;

@@ -13,14 +13,14 @@ interface Props {
 }
 
 const CategoryComponent = ({category, setCategoryId}: Props) => {
-    const [ isUpdating, setIsUpdating ] = useState<boolean>(false);
+    const [ open, setOpen ] = useState<boolean>(false);
     const { setAlert } = useContext(AlertContext) as TypeAlertContext;
 
-    const handleEdit = () => {
-        setIsUpdating(true)
+    const handleOpen = () => {
+        setOpen(true)
     }
     const handleClose = ()=> {
-        setIsUpdating(false)
+        setOpen(false)
     }
     const onDelete = () => {
         setCategoryId(category._id);
@@ -28,22 +28,22 @@ const CategoryComponent = ({category, setCategoryId}: Props) => {
     }
 
     return (
-        <div className="flex-container">
-            {!isUpdating && 
-                <div style={{display: "flex", alignItems: 'center'}}>
+        <div className="flex-container" id={open ? "open" : ""}>
+            {!open && 
+                <div style={{display: "flex", alignItems: 'center', width: "auto"}}>
                     <img src={category.image}/>
-                    <h2>{category.name.toLowerCase()}</h2> 
+                    <h2 style={{textIndent: "2rem"}}>{category.name.toLowerCase()}</h2> 
                 </div>    
             }
-            <div className="btn-group" style={{float: isUpdating ? "right": "none"}}>
-                <IconButton  disabled={isUpdating} onClick={handleEdit}>
+            <div className="btn-group" style={{float: open ? "right": "none"}}>
+                <IconButton  disabled={open} onClick={handleOpen}>
                     <EditNoteIcon/>
                 </IconButton>
                 <IconButton  onClick={onDelete}>
                     <DeleteOutlineIcon/>
                 </IconButton>
             </div>  
-            {isUpdating && <UpdateCategoryForm category={category} onClose={handleClose}/>}   
+            {open && <UpdateCategoryForm category={category} onClose={handleClose}/>}   
         </div> 
     )
 }

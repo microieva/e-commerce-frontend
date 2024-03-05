@@ -2,8 +2,11 @@
 @import '_mixins-themed';
 
 @include themed {
+  h1 {
+    color: $high-contrast-color;
+  }
 
-  h2, span, a, p, svg, form {
+  h2:not(.view-header h2), h4, span, a, p, svg, form {
     color: $low-contrast-color;
   }
   body, .app-container{
@@ -50,9 +53,21 @@
     color: $low-contrast-color;
   }
   .btn:not(#btn-disabled):hover{
-      background-color: rgb(61,61,61, 0.2); // header icon hover
+      color: $high-contrast-color;
+      background-color: $low-contrast-color; 
+  }
+  .flex-container {
+    border: $dark-gray-border; // make border with $low-contrast-color
+  }
+  .items-title {
+    background-color: $detail-color;
+  }
+  .item-price {
+    background: linear-gradient(to left, $detail-color, 50%, transparent);
   }
 }
 
 // TO DO:
-// font colors: h1 + h2 (high contrast) the rest should be low contrast
+// font colors: h1 (high contrast) the rest should be low contrast
+// rework .btn-group mixin
+// product-page

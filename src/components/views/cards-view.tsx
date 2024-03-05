@@ -79,7 +79,8 @@ const CardsView = ({ searchWord, setNumberOfProducts }: ViewProps) => {
 	return (
 		<>
 			{ isLoading || isLoadingFilteredProducts || isLoadingUser ? <Loading /> :
-				<div className="cards-container">
+				// <div className="view-container">
+				<>
 					<div className="cards-view-wrapper">
 						{currentProducts.length > 0 && currentProducts.map((product: Product, i) => {
 							return (
@@ -101,7 +102,8 @@ const CardsView = ({ searchWord, setNumberOfProducts }: ViewProps) => {
 						/>
 					</div>
 					<Outlet />
-				</div>
+				</>
+				// </div>
 			}
 		</>
 	)

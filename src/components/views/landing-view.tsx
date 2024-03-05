@@ -43,7 +43,7 @@ const LandingView: FC = () => {
                     <div className='flex-row' onClick={()=>navigate('/products')}><GridViewIcon/><p>view products</p></div>
                 </div>
                 :
-                <div className='landing-view-wrapper'>
+                <div className='view-wrapper'>
                     {isLoading && <Loading />}
                     {items && <RecentItems items={items} />}
                     <Button 

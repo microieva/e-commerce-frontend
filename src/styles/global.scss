@@ -4,12 +4,16 @@
 
 *{
   font-family: $primary-font;
-  footer { // footer font = animation font
+  @include hover-transition();
+  footer { // change footer font = animation font
     font-family: $secondary-font;
   }
 }
 #root {
   height: 100%;
+}
+h2 {
+  margin: 0;
 }
 
 body {
@@ -90,9 +94,12 @@ footer {
 
 .btn {
   margin: 1rem auto;
-  &:hover {
-    cursor: pointer;
-  }
+  font-weight: 900;
+  border-radius: $primary-radius;
+}
+.btn:not(#btn-disabled):hover{
+  cursor: pointer;
+  //@include hover-transition(); // make faster
 }
 
 // views:
@@ -121,10 +128,11 @@ footer {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  &.hover:hover {
+    cursor: pointer;
+  }
   //margin-bottom: 3rem;
   h2 {
-    margin: 0;
-    padding-left: 1rem;
     width: 100%;
   }
   .btn-group {
@@ -140,16 +148,21 @@ footer {
   .form-container {
     width: 50%;
     margin: 0 1rem;
+    .btn-group {
+      @include btn-group(4rem);
+    }
   }
-  .img-wrapper {
+  .img-wrapper, img {
     width: 20rem;
     height: 20rem;
     margin: auto;
     border-radius: 50%;
+    object-fit: cover;
   }
   &.with-items {
     flex-direction: column;
     height: auto;
+    margin: 3rem 0;
   }
 }
 
@@ -176,6 +189,128 @@ footer {
     margin: 0 1rem;
   }
 }
+
+
+.items-grid {
+  width: 100%;
+  height: 62vh;
+  display: grid;
+  grid-template-columns: 0.2fr 1fr 1fr 1fr;
+  grid-template-rows: repeat(2, auto);
+  grid-gap: 1rem;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  & > div {
+    position: relative;
+    border-radius: $primary-radius;
+    overflow: hidden;
+  .item-wrapper {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 1rem;
+    .item-text {
+      h2 {
+        font-size: 30px;
+      }
+      h4 {
+        font-size: 16px;
+      }
+      & > *{
+        margin: 0;
+      }
+    }
+    .btn-group{
+      @include btn-group(4rem);
+    }
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $primary-radius;
+    opacity: 0.5;
+    z-index: -2;
+  }
+  &:not(.items-title):hover {
+    //border: 1px solid $low-contrast-color;
+    cursor: pointer;
+    img {
+      transform: scale(1.3);
+    }
+  }
+  .item-price {
+    height: 3.5rem;
+    width: 8rem;
+    line-height: 3.5rem;
+    font-size: 18px;
+    color: #1B1B1B;
+    font-weight: 500;
+    position: absolute;
+    text-align: end;
+    z-index: 1;
+    border-top-right-radius: 20rem;
+    border-bottom-right-radius: 20rem;
+    padding-right: 1rem;
+    right: 1px;
+  }
+}
+.items-title {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+.item1 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+.item2 {
+  grid-column-start: 3;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+.item3 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+.item4 {
+  grid-column-start: 4;
+  grid-column-end: 5;
+  grid-row-start: 2;
+  grid-row-end: 2;
+}
+}
+
+.items-title {
+  white-space: nowrap;
+  border-radius: $secondary-radius;
+  opacity: 0.7;
+  display: flex;
+  &:hover {
+    cursor: default;
+  }
+  h3 {
+    transform: rotate(180deg) translateY(100%);
+    writing-mode: vertical-rl;
+    color: rgb(35, 34, 34) !important;
+    transform-origin: bottom center;
+    font-size: 2.5vh;
+    margin: auto;
+  }
+}
+
 
 .subscribe {
   margin: 10rem auto;
@@ -222,6 +357,108 @@ footer {
   }
 }
 
+// home-page: 
+
+.search-container {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 8rem;
+  form {
+    width: 100%;
+    box-shadow: none;
+    height: $small-height;
+  }
+  .btn-group {
+    @include btn-group(2.85rem);
+    button {
+      margin-left: 1.1rem;
+    }
+    justify-content: space-around;
+    button:not(.active-icon) {
+      border-radius: $secondary-radius;
+      &:not(.active-icon):hover {
+        cursor: pointer;
+        border-radius: $circle-radius;
+        @include hover-transition();
+      }
+    }
+    .active-icon {
+      border-radius: $circle-radius;
+      &:hover {
+        cursor: default;
+      }
+    } 
+  } 
+}
+
+.cards-view-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+.product-price {
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  right: -10px;
+  border-radius: 25px;
+  height: $small-height;
+  width: 8rem;
+  line-height: $small-height;
+  text-align: center;
+  color: #1B1B1B; 
+}
+
+.card-wrapper {
+  position: relative;
+  height: 16rem;
+  width: 24rem;
+  margin: 2rem 0;
+  border: 1px solid transparent;
+  border-radius: $primary-radius;
+  overflow: hidden;
+  img {
+    border-radius: inherit;
+    height: 100%;
+    width: 100%;
+    //z-index: -1;
+    position: absolute;
+    opacity: 0.5;
+    object-fit: cover;
+  }
+
+  &:hover {
+    @include hover-transition();
+    border-radius: $primary-radius;
+    cursor: pointer;
+    img {
+      opacity: 0.5;
+      transform: scale(1.3);
+      object-fit: cover;
+      @include hover-transition();
+    }
+  }
+}
+.pagination-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; 
+  align-items: center;
+  margin-bottom: -3rem;
+  #left {
+    rotate: 180deg;
+  }
+}
+.items-per-page {
+  width: 12rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 // profile-page: 
 
 
@@ -231,12 +468,28 @@ footer {
   justify-content: space-between;
   align-items: center;
 
-  border: 1px solid orange;
   height: 8rem;
   border-radius: $primary-radius;
   margin-bottom: 1rem;
   padding: 0 2rem;
-  &#hover:hover {
-    cursor: pointer;
+  & > div {
+    width: 100%;
+  }
+  .btn-group {
+    @include btn-group(4rem);
+  }
+  &#open {
+    height: auto;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+    padding-bottom: 0;
+  }
+  img {
+    height: 4rem;
+    width: 4rem;
+    border: 1px solid orange;
+    border-radius: 50%;
   }
 }
+

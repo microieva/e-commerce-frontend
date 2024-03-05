@@ -1,7 +1,7 @@
 import { FC } from "react"
-import { CartItem } from "../../../@types/cart"
 import CartActions from "../../shared/cart-actions"
 import { formatUiPrice } from "../../../shared/formatUiPrice"
+import { CartItem } from "../../../@types/cart"
 import { Product } from "../../../@types/product"
 
 interface Props {
@@ -17,7 +17,7 @@ export const RecentItem:FC<Props> = ({item}) => {
             <img src={item.images[0]} alt="product image"/>
             <div className="item-wrapper">
                 <div className="item-text">
-                    <h1 className='product-title'>{item.title.toLowerCase()}</h1>
+                    <h2 className='product-title'>{item.title.toLowerCase()}</h2>
                     {
                         item.category ? 
                         <h4 className='product-category'>{item.category.name.toLowerCase()}</h4>

@@ -32,7 +32,7 @@ const OrderComponent = ({ order, children, handleCheckout, setOrder, setOrderId 
     const uiDate = useUiDate(order.createdAt);
     const token = localStorage.getItem('token') || '';
 
-    const handleClick = () => {
+    const handleOpen = () => {
         if (order.paid && !open) {
             setOpen(true);
         } else if (order.paid && open) {
@@ -71,7 +71,12 @@ const OrderComponent = ({ order, children, handleCheckout, setOrder, setOrderId 
     }, [isConfirming]);
     
     return (
-            <div className='flex-container' id={order?.paid ? "hover" : ""} onClick={()=> handleClick()}>
+            <div 
+                className="flex-container"
+                id={open ? "open" : ""}    
+            >
+                <div className={order?.paid ? "view-header hover": "view-header"} onClick={()=> handleOpen()}>
+
                     <div>
                         {children}   
                         <h2 style={{color: "darkgrey", fontSize:"18px"}}>{uiDate}</h2> 
@@ -96,7 +101,8 @@ const OrderComponent = ({ order, children, handleCheckout, setOrder, setOrderId 
                                 </IconButton>}
                             </div>
                         }
-                        
+                            
+                    </div>
                 </div>
                 { open && order && <OrderItems orderId={order._id} handleClose={handleClose}/> }
             </div>

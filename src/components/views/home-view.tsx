@@ -19,7 +19,7 @@ const HomeView: FC = () => {
 
     return (
         <div style={{ width: "100%"}}>
-            <div className='utilities-container'> 
+            <div className='search-container'> 
                 <SearchBar onSearchInputChange={handleSearchInputChange} />
                 <HomeViewSwitcherIcons switchView={switchView}/>
                     <div style={{visibility: searchWord.toString() === "" ? 'hidden':'visible', marginLeft: "0.8rem"}}>
@@ -38,7 +38,7 @@ const HomeView: FC = () => {
                         }
                     </div>
             </div>
-            <div className='products-container'>
+            <div className='view-container'>
                 {activeView === 'grid' && <CardsView searchWord={searchWord} setNumberOfProducts={setNumberOfProducts}/>}
                 {activeView === 'table' && <TableView searchWord={searchWord} setNumberOfProducts={setNumberOfProducts}/>}
             </div>  
