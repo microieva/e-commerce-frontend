@@ -2,12 +2,22 @@
 @import '_mixins-themed';
 
 @include themed {
-  h1 {
+  h1, 
+  .item-text, 
+  .items-title h3,
+  .item-price,
+  .product-price, svg {
     color: $high-contrast-color;
+    //opacity: 0.7;
   }
 
-  h2:not(.view-header h2), h4, span, a, p, svg, form {
+  h2:not(.view-header h2, .item-text h2), 
+  h4:not(.item-text h4), 
+  span, a, p, form {
     color: $low-contrast-color;
+  }
+  button:disabled {
+    opacity: 0.5;
   }
   body, .app-container{
     background-color: $page-background!important;
@@ -58,8 +68,11 @@
   }
   .flex-container {
     border: $dark-gray-border; // make border with $low-contrast-color
+    img {
+      border: $dashed-border;
+    }
   }
-  .items-title {
+  .items-title, .product-price {
     background-color: $detail-color;
   }
   .item-price {
@@ -70,4 +83,5 @@
 // TO DO:
 // font colors: h1 (high contrast) the rest should be low contrast
 // rework .btn-group mixin
-// product-page
+// img in home-page & landing-page darkening with white font
+// transition mixin with seconds to pass as arg

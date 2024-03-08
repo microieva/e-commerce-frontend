@@ -1,5 +1,5 @@
-import { FC } from "react"
-import Button from "../../shared/button"
+import { FC } from "react";
+import Button from "../../shared/button";
 
 export const Subscribe:FC = () => {
     const onSubmit=()=> {

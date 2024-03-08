@@ -70,7 +70,7 @@ const LoginForm = () => {
     }, [request]);
 
     return (
-        <div className='form-container login-signup-form'>
+        <div className='login-signup-form'>
             <h2>log in</h2>
             <form onSubmit={handleSubmit} ref={formRef}>
                 <FormControl fullWidth>

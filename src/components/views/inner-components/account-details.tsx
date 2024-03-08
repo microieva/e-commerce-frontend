@@ -1,4 +1,3 @@
-
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@mui/material';
@@ -58,7 +57,7 @@ const AccountDetails = ({ user }: Props) => {
                 <div className='view-details'>
                         {user && <UpdateUserForm user={user}/>}
                     <div className="img-wrapper">
-                        <img className="circle-img" src={`${user.avatar}`} alt="profile picture" />
+                        <img src={`${user.avatar}`} alt="profile picture" />
                     </div>
                 </div>
             </>

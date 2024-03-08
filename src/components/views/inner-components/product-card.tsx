@@ -1,9 +1,8 @@
 import { FC } from 'react';
-
-import { Product } from '../../../@types/product';
 import CartActions from '../../shared/cart-actions';
 import AdminActions from '../../shared/admin-actions';
 import { formatUiPrice } from '../../../shared/formatUiPrice';
+import { Product } from '../../../@types/product';
 
 interface CardProps {
     product: Omit<Product, 'categoryId'>,
@@ -18,16 +17,16 @@ const ProductCard: FC<CardProps> = ({ product, admin }: CardProps) => {
       <div className='product-price'>{uiPrice} €</div>
       <div className="card-wrapper">
           <img src={product.images[0]} alt="product image"/>
-          <div className="card-content">
-            <div>
-              <p className='product-title'>{product.title.toLowerCase()}</p>
+          <div className="item-wrapper">
+            <div className='item-text'>
+              <h2 className='product-title'>{product.title.toLowerCase()}</h2>
               {
                 product.category ? 
-                  <p className='product-category'>{product.category.name.toLowerCase()}</p>
+                  <h4 className='product-category'>{product.category.name.toLowerCase()}</h4>
                   : 
-                  <p className='product-category'>
+                  <h4 className='product-category'>
                     {admin ? <em>Deleted category</em>: "-"}
-                  </p>
+                  </h4>
               }
             </div>
               { !admin ? <CartActions product={product}/> : <AdminActions product={product}/>}

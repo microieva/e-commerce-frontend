@@ -1,16 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import { useGetFilteredProductsByTitleQuery, useGetProductsQuery } from '../../redux/api-queries/product-queries';
-
 import ProductCard from './inner-components/product-card';
 import Pagination from './inner-components/pagination';
 import Loading from '../shared/loading';
-import { User } from '../../@types/user';
 import { Product } from '../../@types/product';
-import { TypeSnackBarContext } from '../../@types/types';
-import { SnackBarContext } from '../../contexts/snackbar';
 
 interface ViewProps {
   searchWord: string,
@@ -20,8 +15,6 @@ interface ViewProps {
 const CardsView = ({ searchWord, setNumberOfProducts }: ViewProps) => {
 	const [ token, setToken ] = useState<string>(localStorage.getItem('token') || '');
     const { data: user, isLoading: isLoadingUser } = useGetUserQuery(token);
-
-	const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
 	const [ admin, setAdmin ] = useState<boolean>(false);
 
 	const { data, isLoading } = useGetProductsQuery(undefined);
@@ -30,7 +23,6 @@ const CardsView = ({ searchWord, setNumberOfProducts }: ViewProps) => {
 
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [itemsPerPage, setItemsPerPage] = useState<number>(20);
-	const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
 
 	useEffect(()=> {
         data && setProducts(data);
@@ -40,7 +32,6 @@ const CardsView = ({ searchWord, setNumberOfProducts }: ViewProps) => {
         const handleStorage = () => {
             setToken(localStorage.getItem('token') || '');
         }
-        user && setLoggedInUser(user);
 		if (user && user.role === 'ADMIN') {
 			setAdmin(true);
 		}
@@ -79,31 +70,29 @@ const CardsView = ({ searchWord, setNumberOfProducts }: ViewProps) => {
 	return (
 		<>
 			{ isLoading || isLoadingFilteredProducts || isLoadingUser ? <Loading /> :
-				// <div className="view-container">
-				<>
-					<div className="cards-view-wrapper">
-						{currentProducts.length > 0 && currentProducts.map((product: Product, i) => {
-							return (
-								<div style={{position: "relative"}} key={i}>
-									<Link style={{textDecoration: "none", color: "black"}} to={`/products/${product._id}`}>
-										<ProductCard key={product._id} product={product} admin={admin}/>
-									</Link>
-								</div>
-							);
-						})}
-					</div> 
-					<div className="pagination-container">
-						<Pagination
-							itemsPerPage={[10, 20, 100]}
-							totalItems={products.length}
-							onPageChange={handlePageChange}
-							startIndex={startIndex}
-							endIndex={currentProducts.length < itemsPerPage ? products.length : endIndex}
-						/>
-					</div>
-					<Outlet />
-				</>
-				// </div>
+			<>
+				<div className="cards-view-wrapper">
+					{currentProducts.length > 0 && currentProducts.map((product: Product, i) => {
+						return (
+							<div style={{position: "relative", margin:"auto"}} key={i}>
+								<Link style={{textDecoration: "none", color: "black"}} to={`/products/${product._id}`}>
+									<ProductCard key={product._id} product={product} admin={admin}/>
+								</Link>
+							</div>
+						);
+					})}
+				</div> 
+				<div className="pagination-container">
+					<Pagination
+						itemsPerPage={[10, 20, 100]}
+						totalItems={products.length}
+						onPageChange={handlePageChange}
+						startIndex={startIndex}
+						endIndex={currentProducts.length < itemsPerPage ? products.length : endIndex}
+					/>
+				</div>
+				<Outlet />
+			</>
 			}
 		</>
 	)

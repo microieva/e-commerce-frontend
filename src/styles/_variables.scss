@@ -31,8 +31,7 @@ $themes: (
         'page-background': white,
 
         'low-contrast-color': rgb(121, 121, 121),
-        //'high-contrast-color': rgb(41, 41, 41),
-        'high-contrast-color': black,
+        'high-contrast-color': rgba(0, 0, 0, 0.605),
 
         'view-background': rgb(245,245,245),
         'footer-background': rgb(219, 219, 219),
@@ -45,8 +44,7 @@ $themes: (
         'page-background': rgb(39, 42, 46),
 
         'low-contrast-color': rgb(121, 121, 121),
-        ///'high-contrast-color': rgb(132, 136, 141),
-        'high-contrast-color': white,
+        'high-contrast-color': rgba(255, 255, 255, 0.86),
         'view-background': rgb(35, 38, 41),
         'footer-background': rgb(24, 24, 24),
         'header-background': rgb(27, 27, 27),

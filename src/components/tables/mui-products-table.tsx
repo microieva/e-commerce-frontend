@@ -1,6 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-
 import { visuallyHidden } from '@mui/utils';
 import {
     Paper,
@@ -13,16 +12,15 @@ import {
     TableSortLabel,
     Box
 } from '@mui/material';
-
-import { CustomTableHead } from './custom-table-head';
 import { getSorted } from '../../redux/selectors/getSorted';
-import CartActions from '../shared/cart-actions';
-import { Product } from '../../@types/product';
-import { TableColumn } from '../../@types/table';
 import { useGetUserQuery } from '../../redux/api-queries/auth-queries';
 import AdminActions from '../shared/admin-actions';
+import CartActions from '../shared/cart-actions';
 import Loading from '../shared/loading';
 import { formatUiPrice } from '../../shared/formatUiPrice';
+import { CustomTableHead } from './custom-table-head';
+import { Product } from '../../@types/product';
+import { TableColumn } from '../../@types/table';
 
 interface TableProps {
     data: Product[],
@@ -109,7 +107,7 @@ const MuiProductsTable = ({ data }: TableProps) => {
     }
     
     return (
-        <Paper sx={{ width: 'inherit', overflow: 'hidden', margin: "auto", boxShadow:"none", border: "1px solid darkgray", borderRadius:"7px"}}>
+        <Paper sx={{ width: "100%", overflow: 'hidden', margin: "auto", boxShadow:"none", border: "1px solid darkgray", borderRadius:"7px"}}>
             <TableContainer sx={{ maxHeight: "40rem" }}>
                 <Table stickyHeader aria-label="sticky table">
                     <CustomTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>

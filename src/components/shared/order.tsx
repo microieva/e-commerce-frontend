@@ -22,7 +22,7 @@ interface Props {
 }
 
 const OrderComponent = ({ order, children, handleCheckout, setOrder, setOrderId }: Props) => {
-    const [ deleteOrder, { data: deletedOrder, error: deletingError, isLoading: isDeletingOrder }] = useDeleteOrderMutation();
+    const [ deleteOrder ] = useDeleteOrderMutation();
     const [ open, setOpen ] = useState<boolean>(false);
     const { setAlert, isConfirming } = useContext(AlertContext) as TypeAlertContext;
     const { setSnackBar } = useContext(SnackBarContext) as TypeSnackBarContext;
@@ -58,11 +58,13 @@ const OrderComponent = ({ order, children, handleCheckout, setOrder, setOrderId 
                     await deleteOrder({orderId: order._id, token});
                     setAlert({open: false, action: null});
                     setOrder && setOrder(undefined);
-                    setSnackBar({message: "Order deleted", open: true});   
+                    setSnackBar({message: "Order deleted", open: true});  
+                    setOpen(false); 
                 } catch (error) {
                     setSnackBar({message: error as string, open: true});
                 }
                 setIsDeleting(false);
+                
             }
         }
         if (isConfirming === "isDeleting") {   

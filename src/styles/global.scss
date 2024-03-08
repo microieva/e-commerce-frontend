@@ -96,10 +96,32 @@ footer {
   margin: 1rem auto;
   font-weight: 900;
   border-radius: $primary-radius;
+  letter-spacing: 2px;
 }
 .btn:not(#btn-disabled):hover{
   cursor: pointer;
   //@include hover-transition(); // make faster
+}
+
+.loading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20rem auto;
+}
+
+.alert-container {
+  @include alert-container();
+}
+.login-signup-form {
+  @include login-signup-form();
+}
+.form-container {
+  width: 50%;
+  margin: 3rem auto;
+  .btn-group {
+    @include btn-group(4rem);
+  }
 }
 
 // views:
@@ -143,26 +165,51 @@ footer {
 .view-details {
   display: flex;
   flex-direction: row;
-  height: 40vh;
+  //min-height: 40vh;
+  height: auto;
   align-items: center;
-  .form-container {
-    width: 50%;
-    margin: 0 1rem;
-    .btn-group {
-      @include btn-group(4rem);
-    }
-  }
-  .img-wrapper, img {
-    width: 20rem;
-    height: 20rem;
-    margin: auto;
+  .img-wrapper {
+    margin: 3rem auto;
     border-radius: 50%;
+    & img {
+    border-radius: 50%;
+    width: 30rem;
+    height: 30rem;
+  
     object-fit: cover;
+     }
   }
   &.with-items {
     flex-direction: column;
     height: auto;
     margin: 3rem 0;
+  }
+}
+
+.item-wrapper {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 1rem;
+  .item-text {
+    h2 {
+      font-size: 30px;
+    }
+    h4 {
+      font-size: 16px;
+    }
+    & > *{
+      margin: 0;
+    }
+  }
+  .btn-group{
+    @include btn-group(4rem);
   }
 }
 
@@ -183,6 +230,9 @@ footer {
   width: 70%;
   justify-content: space-evenly;
   margin: auto;
+  .flex-row:hover {
+    cursor: pointer;
+  }
   svg {
     height: 3rem;
     width: 3rem;
@@ -204,32 +254,6 @@ footer {
     position: relative;
     border-radius: $primary-radius;
     overflow: hidden;
-  .item-wrapper {
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-left: 1rem;
-    .item-text {
-      h2 {
-        font-size: 30px;
-      }
-      h4 {
-        font-size: 16px;
-      }
-      & > *{
-        margin: 0;
-      }
-    }
-    .btn-group{
-      @include btn-group(4rem);
-    }
-  }
   img {
     width: 100%;
     height: 100%;
@@ -250,7 +274,7 @@ footer {
     width: 8rem;
     line-height: 3.5rem;
     font-size: 18px;
-    color: #1B1B1B;
+    //color: #1B1B1B;
     font-weight: 500;
     position: absolute;
     text-align: end;
@@ -296,7 +320,7 @@ footer {
 .items-title {
   white-space: nowrap;
   border-radius: $secondary-radius;
-  opacity: 0.7;
+  //opacity: 0.7;
   display: flex;
   &:hover {
     cursor: default;
@@ -304,7 +328,7 @@ footer {
   h3 {
     transform: rotate(180deg) translateY(100%);
     writing-mode: vertical-rl;
-    color: rgb(35, 34, 34) !important;
+    //color: rgb(35, 34, 34) !important;
     transform-origin: bottom center;
     font-size: 2.5vh;
     margin: auto;
@@ -426,10 +450,10 @@ footer {
     width: 100%;
     //z-index: -1;
     position: absolute;
-    opacity: 0.5;
+    opacity: 0.7;
     object-fit: cover;
   }
-
+  
   &:hover {
     @include hover-transition();
     border-radius: $primary-radius;
@@ -488,7 +512,6 @@ footer {
   img {
     height: 4rem;
     width: 4rem;
-    border: 1px solid orange;
     border-radius: 50%;
   }
 }
